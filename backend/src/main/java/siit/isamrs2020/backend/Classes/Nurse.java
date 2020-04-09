@@ -13,12 +13,29 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document("Nurses")
-public class Nurse {
+public class Nurse extends User{
 
-  @Id
-  private int id;
-  private String firstName;
-  private String lastName;
+  private int yearsOfExperience;
 
 
+  public Nurse(int id, String firstName, String lastName, int age, String address, int yearsOfExperience) {
+    this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.age = age;
+		this.address = address;
+    this.yearsOfExperience = yearsOfExperience;
+  }
+
+  public int getYearsOfExperience() {
+    return this.yearsOfExperience;
+  }
+
+  public void setYearsOfExperience(int yearsOfExperience) {
+    this.yearsOfExperience = yearsOfExperience;
+  }
+
+
+
+  
 }

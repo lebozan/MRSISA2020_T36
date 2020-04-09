@@ -14,12 +14,29 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document("ClinicAdmins")
-public class ClinicAdmin {
+public class ClinicAdmin extends User{
 
-  @Id
-  private int id;
-  private String firstName;
-  private String lastName;
-  private List<Clinic> clinics;
+  private Clinic clinic;
+
+
+  public ClinicAdmin(int id, String firstName, String lastName, int age, String address, Clinic clinic) {
+    this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.age = age;
+		this.address = address;
+    this.clinic = clinic;
+  }
+
+
+  public Clinic getClinic() {
+    return this.clinic;
+  }
+
+  public void setClinic(Clinic clinic) {
+    this.clinic = clinic;
+  }
+
+
   
 }

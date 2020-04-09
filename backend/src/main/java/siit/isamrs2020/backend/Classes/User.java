@@ -1,28 +1,15 @@
-package siit.isamrs2020.backend.DocumentPOJO;
+package siit.isamrs2020.backend.Classes;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("Doctors")
-public class DoctorPOJO {
+public abstract class User {
 
   @Id
-  private int id;
-  private String firstName;
-  private String lastName;
-
-
-  public DoctorPOJO() {
-
-  }
-
-
-  public DoctorPOJO(int id, String firstName, String lastName) {
-    this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-  }
-
+  protected int id;
+  protected String firstName;
+  protected String lastName;
+  protected int age;
+  protected String address;
 
   public int getId() {
     return this.id;
@@ -46,6 +33,22 @@ public class DoctorPOJO {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  public int getAge() {
+    return this.age;
+  }
+
+  public void setAge(int age) {
+    this.age = age;
+  }
+
+  public String getAddress() {
+    return this.address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
   }
 
 

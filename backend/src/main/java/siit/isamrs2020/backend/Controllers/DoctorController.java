@@ -2,10 +2,17 @@ package siit.isamrs2020.backend.Controllers;
 
 import java.util.List;
 
+import com.google.gson.Gson;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import siit.isamrs2020.backend.DocumentPOJO.DoctorPOJO;
+
+import siit.isamrs2020.backend.Classes.Doctor;
 import siit.isamrs2020.backend.Repositories.DoctorRepository;
 
 @RestController
@@ -13,14 +20,32 @@ import siit.isamrs2020.backend.Repositories.DoctorRepository;
 public class DoctorController {
 
   private DoctorRepository doctorRepository;
+  private Gson gson;
 
   public DoctorController(DoctorRepository doctorRepository) {
     this.doctorRepository = doctorRepository;
+    this.gson = new Gson();
   }
 
   @GetMapping("/all")
-  public List<DoctorPOJO> getAllDoctors() {
+  public List<Doctor> getAllDoctors() {
     return doctorRepository.findAll();
+  }
+
+  @GetMapping("/name")
+  @ResponseBody
+  public List<Doctor> getDoctorByName(@RequestParam(name = "firstName") String firstName) {
+    List<Doctor> d = doctorRepository.findByFirstName(firstName);
+
+    return d;
+  }
+
+  @PostMapping("/add")
+  @ResponseBody
+  public Doctor addNewDoctor(@RequestBody String requestData) {
+    Doctor newDoctor = gson.fromJson(requestData, Doctor.class);
+    doctorRepository.save(newDoctor);
+    return newDoctor;
   }
 
 }

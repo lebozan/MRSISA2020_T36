@@ -19,4 +19,47 @@ public class Clinic {
   private String clinicName;
   private String clinicAddress;
   private String clinicDescription;
+
+
+  public Clinic(int id, String clinicName, String clinicAddress, String clinicDescription) {
+    this.id = id;
+    this.clinicName = clinicName;
+    this.clinicAddress = clinicAddress;
+    this.clinicDescription = clinicDescription;
+  }
+
+
+  public int getId() {
+    return this.id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public String getClinicName() {
+    return this.clinicName;
+  }
+
+  public void setClinicName(String clinicName) {
+    this.clinicName = clinicName;
+  }
+
+  public String getClinicAddress() {
+    return this.clinicAddress;
+  }
+
+  public void setClinicAddress(String clinicAddress) {
+    this.clinicAddress = clinicAddress;
+  }
+
+  public String getClinicDescription() {
+    return this.clinicDescription;
+  }
+
+  public void setClinicDescription(String clinicDescription) {
+    this.clinicDescription = clinicDescription;
+  }
+
+
 }
