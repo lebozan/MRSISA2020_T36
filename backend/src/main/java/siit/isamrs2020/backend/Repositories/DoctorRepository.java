@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import siit.isamrs2020.backend.Classes.Doctor;
 
 @Repository
-public interface DoctorRepository extends MongoRepository<Doctor, Integer>{
+public interface DoctorRepository extends MongoRepository<Doctor, String>{
 
   List<Doctor> findByFirstName(String firstName);
 
