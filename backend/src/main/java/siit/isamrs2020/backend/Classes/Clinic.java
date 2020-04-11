@@ -1,5 +1,7 @@
 package siit.isamrs2020.backend.Classes;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,13 +20,15 @@ public class Clinic {
   private String clinicName;
   private String clinicAddress;
   private String clinicDescription;
+  private List<String> appointmentTypes;
 
 
-  public Clinic(int id, String clinicName, String clinicAddress, String clinicDescription) {
+  public Clinic(int id, String clinicName, String clinicAddress, String clinicDescription, List<String> appointmentTypes) {
     this.id = id;
     this.clinicName = clinicName;
     this.clinicAddress = clinicAddress;
     this.clinicDescription = clinicDescription;
+    this.appointmentTypes = appointmentTypes;
   }
 
 
@@ -60,5 +64,13 @@ public class Clinic {
     this.clinicDescription = clinicDescription;
   }
 
+
+  public List<String> getAppointmentTypes() {
+    return this.appointmentTypes;
+  }
+
+  public void setAppointmentTypes(List<String> appointmentTypes) {
+    this.appointmentTypes = appointmentTypes;
+  }
 
 }

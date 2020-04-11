@@ -23,6 +23,7 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import ClinicStaffList from './ClinicStaffList';
+import AppointmentTypesComponent from './AppointmentTypesComponent';
 
 const drawerWidth = 240;
 
@@ -201,7 +202,7 @@ export default function ClippedDrawer() {
             <ClinicStaffList />
           </Route>
           <Route path="/appointmentTypes">
-            app types
+            <AppointmentTypesComponent />
           </Route>
           <Route path="/calendar">
             Calendar
