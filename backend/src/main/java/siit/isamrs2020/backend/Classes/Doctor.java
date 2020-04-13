@@ -18,7 +18,7 @@ public class Doctor extends User {
 	private int yearsOfExperience;
 
 
-	public Doctor(int id, String firstName, String lastName, int age, String address, int yearsOfExperience, MedicalSpecialty specialty) {
+	public Doctor(String id, String firstName, String lastName, int age, String address, int yearsOfExperience, MedicalSpecialty specialty) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;

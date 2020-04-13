@@ -5,17 +5,17 @@ import org.springframework.data.annotation.Id;
 public abstract class User {
 
   @Id
-  protected int id;
+  protected String id;
   protected String firstName;
   protected String lastName;
   protected int age;
   protected String address;
 
-  public int getId() {
+  public String getId() {
     return this.id;
   }
 
-  public void setId(int id) {
+  public void setId(String id) {
     this.id = id;
   }
 

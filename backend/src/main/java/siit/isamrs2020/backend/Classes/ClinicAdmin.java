@@ -19,7 +19,7 @@ public class ClinicAdmin extends User{
   private Clinic clinic;
 
 
-  public ClinicAdmin(int id, String firstName, String lastName, int age, String address, Clinic clinic) {
+  public ClinicAdmin(String id, String firstName, String lastName, int age, String address, Clinic clinic) {
     this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
