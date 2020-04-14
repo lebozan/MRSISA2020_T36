@@ -20,57 +20,8 @@ public class Clinic {
   private String clinicName;
   private String clinicAddress;
   private String clinicDescription;
+  private List<Doctor> doctors;
   private List<String> appointmentTypes;
-
-
-  public Clinic(int id, String clinicName, String clinicAddress, String clinicDescription, List<String> appointmentTypes) {
-    this.id = id;
-    this.clinicName = clinicName;
-    this.clinicAddress = clinicAddress;
-    this.clinicDescription = clinicDescription;
-    this.appointmentTypes = appointmentTypes;
-  }
-
-
-  public int getId() {
-    return this.id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public String getClinicName() {
-    return this.clinicName;
-  }
-
-  public void setClinicName(String clinicName) {
-    this.clinicName = clinicName;
-  }
-
-  public String getClinicAddress() {
-    return this.clinicAddress;
-  }
-
-  public void setClinicAddress(String clinicAddress) {
-    this.clinicAddress = clinicAddress;
-  }
-
-  public String getClinicDescription() {
-    return this.clinicDescription;
-  }
-
-  public void setClinicDescription(String clinicDescription) {
-    this.clinicDescription = clinicDescription;
-  }
-
-
-  public List<String> getAppointmentTypes() {
-    return this.appointmentTypes;
-  }
-
-  public void setAppointmentTypes(List<String> appointmentTypes) {
-    this.appointmentTypes = appointmentTypes;
-  }
+  private List<OneClickAppointment> oneClickAppointments;
 
 }

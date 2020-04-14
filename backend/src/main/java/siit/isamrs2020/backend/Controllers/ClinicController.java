@@ -1,5 +1,6 @@
 package siit.isamrs2020.backend.Controllers;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import siit.isamrs2020.backend.Repositories.ClinicRepository;
 import siit.isamrs2020.backend.Classes.Clinic;
+import siit.isamrs2020.backend.Classes.Doctor;
+import siit.isamrs2020.backend.Classes.OneClickAppointment;
 
 @RestController
 @RequestMapping("/api/clinics")
@@ -46,10 +49,21 @@ public class ClinicController {
     return null;
   }
 
+  @GetMapping("/doctors")
+  @ResponseBody
+  public List<Doctor> getClinicDoctors(@RequestParam int clinicId) {
+    Optional<Clinic> cOptional = clinicRepository.findById(clinicId);
+    if (cOptional.isPresent()) {
+      Clinic c = cOptional.get();
+      return c.getDoctors();
+    }
+    return null;
+  }
+
   @PostMapping("/addAppType")
   @ResponseBody
-  public boolean addAppointmentType(@RequestBody String requestData) {
-    JsonObject json = gson.fromJson(requestData, JsonObject.class);
+  public boolean addAppointmentType(@RequestBody String requestString) {
+    JsonObject json = gson.fromJson(requestString, JsonObject.class);
     Optional<Clinic> findClinic = clinicRepository.findById(json.get("clinicId").getAsInt());
     if (findClinic.isPresent()) {
       Clinic c = findClinic.get();
@@ -75,5 +89,27 @@ public class ClinicController {
       }
     }
     return false;
+  }
+
+  @PostMapping("/addFastApt")
+  @ResponseBody
+  public OneClickAppointment addOneClickAppointment(@RequestBody String requestString) {
+    JsonObject json = gson.fromJson(requestString, JsonObject.class);
+    Optional<Clinic> cOptional = clinicRepository.findById(json.get("clinicId").getAsInt());
+    if (cOptional.isPresent()) {
+      Clinic c = cOptional.get();
+      for (Doctor d : c.getDoctors()) {
+        if (d.getId().equals(json.get("doctorId").getAsString())) {
+          OneClickAppointment newAppointment = new OneClickAppointment(new Date(json.get("startTime").getAsInt()),
+            json.get("duration").getAsInt(), json.get("type").getAsString(),
+            json.get("room").getAsString(), d,json.get("price").getAsInt());
+            c.getOneClickAppointments().add(newAppointment);
+            clinicRepository.save(c);
+            return newAppointment;
+        }
+      }
+    }
+    return null;
+    
   }
 }

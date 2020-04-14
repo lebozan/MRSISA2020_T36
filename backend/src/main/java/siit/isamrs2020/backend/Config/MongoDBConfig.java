@@ -1,5 +1,7 @@
 package siit.isamrs2020.backend.Config;
 
+import java.util.ArrayList;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,10 +32,13 @@ public class MongoDBConfig {
       
       // nurseRepository.deleteAll();
       // nurseRepository.save(new Nurse("n1", "Marija", "Maric", 39, "adresa10", 12));
-      // nurseRepository.save(new Nurse("n2", "Ana", "Nikolic", 25, "adresa123", 2));
-
-      // Clinic c1 = new Clinic(1, "clinic 1", "clinic address 1", "clinic 1 description");
-      // Clinic c2 = new Clinic(2, "clinic 2", "clinic address 2", "clinic 2 description");
+      // nurseRepository.save(new Nurse(a"n2", "Ana", "Nikolic", 25, "adresa123", 2));
+      // ArrayList<Doctor> c1Doctors = new ArrayList<Doctor>();
+      // c1Doctors.add(new Doctor("d1", "Bojan", "Cakic", 40, "adresa1", MedicalSpecialty.Gynecology, 10));
+      // c1Doctors.add(new Doctor("d2", "Milan", "Milic", 35, "adresa2", MedicalSpecialty.Radiology, 5));
+      
+      // Clinic c1 = new Clinic(1, "clinic 1", "clinic address 1", "clinic 1 description", c1Doctors, new ArrayList<>(), new ArrayList<>());
+      // Clinic c2 = new Clinic(2, "clinic 2", "clinic address 2", "clinic 2 description", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
       // clinicRepository.save(c1);
       // clinicRepository.save(c2);

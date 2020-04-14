@@ -24,6 +24,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import ClinicStaffList from './ClinicStaffList';
 import AppointmentTypesComponent from './AppointmentTypesComponent';
+import OneClickAppointmentComponent from './OneClickAppointmentComponent';
 
 const drawerWidth = 240;
 
@@ -190,6 +191,9 @@ export default function ClippedDrawer() {
                 <ListItem button className={classes.nested} onClick={() => {goTo('/appointmentTypes')}}>
                   <ListItemText primary="Appointment types" />
                 </ListItem>
+                <ListItem button className={classes.nested} onClick={() => {goTo('/newOneClick')}}>
+                  <ListItemText primary="Add one-click appointment" />
+                </ListItem>
               </List>
             </Collapse>
           </List>
@@ -213,6 +217,9 @@ export default function ClippedDrawer() {
           <Route path="/users">
             <Users />
           </Route>
+          <Route path="/newOneClick">
+            <OneClickAppointmentComponent />
+          </Route>
           <Route path="/home">
             <Home />
           </Route>
@@ -220,7 +227,7 @@ export default function ClippedDrawer() {
             <ListComponent />
           </Route>
           <Route>
-            *404 NOT FOUND *
+            * 404 NOT FOUND *
           </Route>
         </Switch>
 
