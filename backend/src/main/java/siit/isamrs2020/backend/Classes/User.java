@@ -13,6 +13,7 @@ public abstract class User {
   protected String lastName;
   protected int age;
   protected String address;
+  protected String email;
 
 
 }

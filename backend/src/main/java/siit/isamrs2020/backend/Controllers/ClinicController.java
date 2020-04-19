@@ -60,6 +60,17 @@ public class ClinicController {
     return null;
   }
 
+  @GetMapping("/rooms")
+  @ResponseBody
+  public List<String> getClinicRooms(@RequestParam int clinicId) {
+    Optional<Clinic> cOptional = clinicRepository.findById(clinicId);
+    if (cOptional.isPresent()) {
+      Clinic c = cOptional.get();
+      return c.getRooms();
+    }
+    return null;
+  }
+
   @PostMapping("/addAppType")
   @ResponseBody
   public boolean addAppointmentType(@RequestBody String requestString) {
@@ -100,16 +111,45 @@ public class ClinicController {
       Clinic c = cOptional.get();
       for (Doctor d : c.getDoctors()) {
         if (d.getId().equals(json.get("doctorId").getAsString())) {
-          OneClickAppointment newAppointment = new OneClickAppointment(new Date(json.get("startTime").getAsInt()),
+          OneClickAppointment newAppointment = new OneClickAppointment(new Date(json.get("startTime").getAsLong()),
             json.get("duration").getAsInt(), json.get("type").getAsString(),
-            json.get("room").getAsString(), d,json.get("price").getAsInt());
-            c.getOneClickAppointments().add(newAppointment);
-            clinicRepository.save(c);
-            return newAppointment;
+            json.get("room").getAsString(), d, -1, json.get("price").getAsInt(), true);
+          c.getOneClickAppointments().add(newAppointment);
+          clinicRepository.save(c);
+          return newAppointment;
         }
       }
     }
     return null;
     
   }
+
+  @PostMapping("/confirmUA")
+  @ResponseBody
+  public boolean confirmUnconfirmedAppointment(@RequestBody String requestString) {
+    JsonObject json = gson.fromJson(requestString, JsonObject.class);
+
+    Optional<Clinic> optional = clinicRepository.findById(json.get("clinicId").getAsInt());
+    if (optional.isPresent()) {
+      Clinic c = optional.get();
+      for (Doctor d : c.getDoctors()) {
+        if (d.getId().equals(json.get("doctorId").getAsString())) {
+          // kad bude cenovnik cena se izvlaci iz njega
+          OneClickAppointment newAppointment = new OneClickAppointment(new Date(json.get("startTime").getAsLong()),
+          json.get("duration").getAsInt(), json.get("type").getAsString(),
+          json.get("room").getAsString(), d, json.get("patientId").getAsInt(),
+          json.get("price").getAsInt(), false);
+
+          c.getOneClickAppointments().add(newAppointment);
+          clinicRepository.save(c);
+          return true;
+        }
+      }
+
+
+    }
+    return false;
+  }
+
+
 }

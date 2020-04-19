@@ -21,15 +21,14 @@ export default function OneClickAppointmentComponent() {
     axios.get('http://localhost:8080/api/clinics/doctors?clinicId=' + clinicId)
       .then(res => {
         setDoctors(res.data);
-        axios.get('http://localhost:8080/api/clinics/appTypes?clinicId=' + clinicId)
-        .then(res => {
-          setTypes(res.data);
-        })
       })
       .catch(error => console.log(error));
-    
+    axios.get('http://localhost:8080/api/clinics/appTypes?clinicId=' + clinicId)
+      .then(res => {
+        setTypes(res.data);
+      })
 
-  });
+  }, []);
 
   const closeAndSendData = () => {
     var duration = parseInt(document.getElementById('Duration').value);
@@ -71,6 +70,7 @@ export default function OneClickAppointmentComponent() {
             id="date-picker"
             label="Date picker dialog"
             format="dd/MM/yyyy"
+            minDate={new Date(Date.now()+3600000)}
             value={selectedDate}
             onChange={handleDateChange}
             KeyboardButtonProps={{
@@ -107,7 +107,7 @@ export default function OneClickAppointmentComponent() {
           SelectProps={{
             native: true,
           }}
-          helperText="Select doctor"
+          helperText="Select type"
         >
           <option selected disabled key={"disabled"} value="">
               Select type

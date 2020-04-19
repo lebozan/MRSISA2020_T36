@@ -37,13 +37,17 @@ public class MongoDBConfig {
       // c1Doctors.add(new Doctor("d1", "Bojan", "Cakic", 40, "adresa1", MedicalSpecialty.Gynecology, 10));
       // c1Doctors.add(new Doctor("d2", "Milan", "Milic", 35, "adresa2", MedicalSpecialty.Radiology, 5));
       
-      // Clinic c1 = new Clinic(1, "clinic 1", "clinic address 1", "clinic 1 description", c1Doctors, new ArrayList<>(), new ArrayList<>());
+      // Clinic c1 = new Clinic(1, "clinic 1", "clinic address 1", "clinic 1 description", c1Doctors, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+      // c1.getRooms().add("Sala 1");
+      // c1.getRooms().add("Sala 2");
+      // c1.getRooms().add("Sala 3");
+      // c1.getRooms().add("Sala 4");
       // Clinic c2 = new Clinic(2, "clinic 2", "clinic address 2", "clinic 2 description", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
       // clinicRepository.save(c1);
       // clinicRepository.save(c2);
 
-      // clinicAdminRepository.save(new ClinicAdmin(1, "Zoran", "Zoric", 50, "zoranova kuca", c1));
+      // clinicAdminRepository.save(new ClinicAdmin("ca1", "Zoran", "Zoric", 50, "zoranova kuca", c1));
       
     };
 

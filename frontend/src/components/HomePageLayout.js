@@ -25,6 +25,9 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import ClinicStaffList from './ClinicStaffList';
 import AppointmentTypesComponent from './AppointmentTypesComponent';
 import OneClickAppointmentComponent from './OneClickAppointmentComponent';
+import MakeAppointmentDoctorComponent from './MakeAppointmentDoctorComponent';
+import RequestedAppointmentsComponent from './RequestedAppointmentsComponent';
+import UserProfileComponent from './UserProfileComponent';
 
 const drawerWidth = 240;
 
@@ -174,7 +177,7 @@ export default function ClippedDrawer() {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {['Home', 'Calendar', 'Patient List', 'Vacation', 'Appointments'].map((text, index) => (
+            {['Home', 'Calendar', 'Patient List', 'Vacation', 'New Appointment'].map((text, index) => (
               <ListItem button key={text} onClick={() => {goTo('/' +  text.toString().replace(/\s/g,'').toLowerCase())}}>
                 <ListItemText primary={text} />
               </ListItem>
@@ -193,6 +196,9 @@ export default function ClippedDrawer() {
                 </ListItem>
                 <ListItem button className={classes.nested} onClick={() => {goTo('/newOneClick')}}>
                   <ListItemText primary="Add one-click appointment" />
+                </ListItem>
+                <ListItem button className={classes.nested} onClick={() => {goTo('/requestedAppointments')}}>
+                  <ListItemText primary="Requested appointments" />
                 </ListItem>
               </List>
             </Collapse>
@@ -220,8 +226,17 @@ export default function ClippedDrawer() {
           <Route path="/newOneClick">
             <OneClickAppointmentComponent />
           </Route>
+          <Route path="/newAppointment">
+            <MakeAppointmentDoctorComponent />
+          </Route>
+          <Route path="/requestedAppointments">
+            <RequestedAppointmentsComponent />
+          </Route>
           <Route path="/home">
             <Home />
+          </Route>
+          <Route path="/acc">
+            <UserProfileComponent />
           </Route>
           <Route exact path="/">
             <ListComponent />

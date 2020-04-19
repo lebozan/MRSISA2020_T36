@@ -16,6 +16,8 @@ public class OneClickAppointment {
   private String type;
   private String room;
   private Doctor doctor;
+  private int patientId;
   private int price;
+  private boolean oneClick;
 
 }
