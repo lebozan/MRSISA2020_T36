@@ -1,24 +1,26 @@
 package siit.isamrs2020.backend.Classes;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@SuppressWarnings("unused")
+
 @Data
+@EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
 @Document("Doctors")
 public class Doctor extends User {
 
+
 	private MedicalSpecialty specialty;
 	private int yearsOfExperience;
 
 
-	public Doctor(String id, String firstName, String lastName, int age, String address, int yearsOfExperience, MedicalSpecialty specialty) {
+	public Doctor(String id, String firstName, String lastName, int age, String address, MedicalSpecialty specialty, int yearsOfExperience) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -28,22 +30,4 @@ public class Doctor extends User {
 		this.yearsOfExperience = yearsOfExperience;
 	}
 
-
-	public MedicalSpecialty getSpecialty() {
-		return this.specialty;
-	}
-
-	public void setSpecialty(MedicalSpecialty specialty) {
-		this.specialty = specialty;
-	}
-
-	public int getYearsOfExperience() {
-		return this.yearsOfExperience;
-	}
-
-	public void setYearsOfExperience(int yearsOfExperience) {
-		this.yearsOfExperience = yearsOfExperience;
-	}
-
-	
 }
