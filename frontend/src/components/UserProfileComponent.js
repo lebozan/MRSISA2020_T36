@@ -31,7 +31,7 @@ export default function UserProfileComponent() {
   const submitChanges = () => {
     var firstName = document.getElementById('editFirstName').value;
     var lastName = document.getElementById('editLastName').value;
-    var age = document.getElementById('editAge').value;
+    var age = parseInt(document.getElementById('editAge').value);
     var address = document.getElementById('editAddress').value;
     var email = document.getElementById('editEmail').value;
 
@@ -45,7 +45,7 @@ export default function UserProfileComponent() {
       changes['lastName'] = lastName;
     }
 
-    if (age !== '') {
+    if (!isNaN(age)) {
       changes['age'] = age;
     }
 
@@ -62,6 +62,7 @@ export default function UserProfileComponent() {
     axios.put('http://localhost:8080/api/' + role + 's/updateInfo', changes)
       .then((res) => {
         setUser(res.data);
+        setShowEditFields(false);
       })
       .catch(error => console.log(error));
   }
@@ -106,13 +107,23 @@ export default function UserProfileComponent() {
             
           )) : null }
           {showEditFields ? 
+            <React.Fragment>
               <Button 
                 variant="contained"
                 color="primary"
                 onClick={submitChanges}
                 >
                 Submit
-              </Button> : null}
+              </Button>
+              <Button 
+              variant="contained"
+              color="primary"
+              onClick={() => {setShowEditFields(false);}}
+              >
+              Cancel
+            </Button>
+            </React.Fragment>
+               : null}
         </Grid>
     </div>
   )
