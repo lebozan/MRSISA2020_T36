@@ -71,6 +71,37 @@ public class ClinicController {
     return null;
   }
 
+  @PostMapping("/newRoom")
+  @ResponseBody
+  public String addNewRoom(@RequestBody String requestString) {
+    JsonObject json = gson.fromJson(requestString, JsonObject.class);
+    Optional<Clinic> findClinic = clinicRepository.findById(json.get("clinicId").getAsInt());
+    if (findClinic.isPresent()) {
+      Clinic c = findClinic.get();
+      if (!c.getRooms().contains(json.get("room").getAsString())) {
+        c.getRooms().add(json.get("room").getAsString());
+        clinicRepository.save(c);
+        return json.get("room").getAsString();
+      }
+    }
+    return null;
+  }
+
+  @DeleteMapping("/deleteRoom")
+  @ResponseBody
+  public boolean deleteRoom(@RequestParam int clinicId, @RequestParam String room) {
+    Optional<Clinic> findClinic = clinicRepository.findById(clinicId);
+    if (findClinic.isPresent()) {
+      Clinic c = findClinic.get();
+      if (c.getRooms().contains(room)) {
+        c.getRooms().remove(room);
+        clinicRepository.save(c);
+        return true;
+      }
+    }
+    return false;
+  }
+
   @PostMapping("/addAppType")
   @ResponseBody
   public boolean addAppointmentType(@RequestBody String requestString) {

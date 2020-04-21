@@ -18,7 +18,6 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 // import MenuItem from '@material-ui/core/MenuItem';
 // import Menu from '@material-ui/core/Menu';
 import { useHistory } from 'react-router-dom';
-import ListComponent from "./ListComponent";
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -28,6 +27,7 @@ import OneClickAppointmentComponent from './OneClickAppointmentComponent';
 import MakeAppointmentDoctorComponent from './MakeAppointmentDoctorComponent';
 import RequestedAppointmentsComponent from './RequestedAppointmentsComponent';
 import UserProfileComponent from './UserProfileComponent';
+import ClinicRoomComponent from './ClinicRoomComponent';
 
 const drawerWidth = 240;
 
@@ -200,6 +200,9 @@ export default function ClippedDrawer() {
                 <ListItem button className={classes.nested} onClick={() => {goTo('/requestedAppointments')}}>
                   <ListItemText primary="Requested appointments" />
                 </ListItem>
+                <ListItem button className={classes.nested} onClick={() => {goTo('/clinicRooms')}}>
+                  <ListItemText primary="Clinic rooms" />
+                </ListItem>
               </List>
             </Collapse>
           </List>
@@ -208,6 +211,9 @@ export default function ClippedDrawer() {
       <main className={classes.content}>
         <Toolbar/>
         <Switch>
+          <Route path="/clinicRooms">
+            <ClinicRoomComponent />
+          </Route>
           <Route path="/clinicStaff">
             <ClinicStaffList />
           </Route>
@@ -239,7 +245,7 @@ export default function ClippedDrawer() {
             <UserProfileComponent />
           </Route>
           <Route exact path="/">
-            <ListComponent />
+            <Home />
           </Route>
           <Route>
             * 404 NOT FOUND *
