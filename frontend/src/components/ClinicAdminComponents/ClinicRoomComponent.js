@@ -70,7 +70,7 @@ export default function ClinicRoomComponent() {
     axios.delete('http://localhost:8080/api/clinics/deleteRoom?clinicId=' + cookies.get('clinicId') + "&room=" + name)
       .then(res => {
         if(res.data) {
-          let types = rooms.filter(room => room !== name);
+          let types = rooms.filter(room => room.roomName !== name);
           setRooms(types);
           alert('Room ' + name + ' successfully deleted!');
         }
@@ -86,10 +86,10 @@ export default function ClinicRoomComponent() {
           {rooms.map((room, index) => 
               <ListItem key={index}>
                 <ListItemText
-                  primary={room}
+                  primary={room.roomName}
                 />
                 <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="delete" onClick={() => {deleteRoom(room)}}>
+                  <IconButton edge="end" aria-label="delete" onClick={() => {deleteRoom(room.roomName)}}>
                     <DeleteIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
