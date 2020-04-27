@@ -54,6 +54,7 @@ function About() {
     <div>
       <h2>About</h2>
       <Link to="/">Home</Link>
+
     </div>
   );
 }
@@ -141,11 +142,10 @@ export default function ClippedDrawer() {
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                onClick={() => {goTo('/acc')}}
+                onClick={handleMenu}
                 color="inherit"
               >
                 <AccountCircle />
-                My account
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -162,7 +162,13 @@ export default function ClippedDrawer() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={() => {goTo('/acc')}}>Profile</MenuItem>
+                <MenuItem onClick={() => {
+                  goTo('/acc');
+                  handleClose();}}
+                  >
+                    Profile
+                </MenuItem>
+                <MenuItem onClick={() => {handleClose()}}>Log out</MenuItem>
               </Menu>
             </div>
         </Toolbar>

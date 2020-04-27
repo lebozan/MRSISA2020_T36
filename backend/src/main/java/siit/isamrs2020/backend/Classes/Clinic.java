@@ -21,7 +21,7 @@ public class Clinic {
   private String clinicAddress;
   private String clinicDescription;
   private List<Doctor> doctors;
-  private List<String> rooms;
+  private List<Room> rooms;
   private List<String> appointmentTypes;
   private List<OneClickAppointment> oneClickAppointments;
 

@@ -1,5 +1,6 @@
 package siit.isamrs2020.backend.Controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,7 @@ import siit.isamrs2020.backend.Repositories.ClinicRepository;
 import siit.isamrs2020.backend.Classes.Clinic;
 import siit.isamrs2020.backend.Classes.Doctor;
 import siit.isamrs2020.backend.Classes.OneClickAppointment;
+import siit.isamrs2020.backend.Classes.Room;
 
 @RestController
 @RequestMapping("/api/clinics")
@@ -62,7 +64,7 @@ public class ClinicController {
 
   @GetMapping("/rooms")
   @ResponseBody
-  public List<String> getClinicRooms(@RequestParam int clinicId) {
+  public List<Room> getClinicRooms(@RequestParam int clinicId) {
     Optional<Clinic> cOptional = clinicRepository.findById(clinicId);
     if (cOptional.isPresent()) {
       Clinic c = cOptional.get();
@@ -73,15 +75,16 @@ public class ClinicController {
 
   @PostMapping("/newRoom")
   @ResponseBody
-  public String addNewRoom(@RequestBody String requestString) {
+  public Room addNewRoom(@RequestBody String requestString) {
     JsonObject json = gson.fromJson(requestString, JsonObject.class);
     Optional<Clinic> findClinic = clinicRepository.findById(json.get("clinicId").getAsInt());
     if (findClinic.isPresent()) {
       Clinic c = findClinic.get();
-      if (!c.getRooms().contains(json.get("room").getAsString())) {
-        c.getRooms().add(json.get("room").getAsString());
+      Room newRoom = new Room(json.get("room").getAsString(), new ArrayList<Date>());
+      if (!c.getRooms().contains(newRoom)) {
+        c.getRooms().add(newRoom);
         clinicRepository.save(c);
-        return json.get("room").getAsString();
+        return newRoom;
       }
     }
     return null;
@@ -93,11 +96,14 @@ public class ClinicController {
     Optional<Clinic> findClinic = clinicRepository.findById(clinicId);
     if (findClinic.isPresent()) {
       Clinic c = findClinic.get();
-      if (c.getRooms().contains(room)) {
-        c.getRooms().remove(room);
-        clinicRepository.save(c);
-        return true;
+      for (Room r : c.getRooms()) {
+        if (r.getRoomName().equals(room) && r.getReservations().isEmpty()) {
+          c.getRooms().remove(r);
+          clinicRepository.save(c);
+          return true;
+        }
       }
+      
     }
     return false;
   }
@@ -166,13 +172,19 @@ public class ClinicController {
       for (Doctor d : c.getDoctors()) {
         if (d.getId().equals(json.get("doctorId").getAsString())) {
           // kad bude cenovnik cena se izvlaci iz njega
-          OneClickAppointment newAppointment = new OneClickAppointment(new Date(json.get("startTime").getAsLong()),
+          Date appointmentDate = new Date(json.get("startTime").getAsLong());
+          OneClickAppointment newAppointment = new OneClickAppointment(appointmentDate,
           json.get("duration").getAsInt(), json.get("type").getAsString(),
           json.get("room").getAsString(), d, json.get("patientId").getAsInt(),
           json.get("price").getAsInt(), false);
 
+          for (Room r : c.getRooms()) {
+            if (r.getRoomName().equals(json.get("room").getAsString())) {
+              r.getReservations().add(appointmentDate);
+            }
+          }
           c.getOneClickAppointments().add(newAppointment);
-          clinicRepository.save(c);
+          clinicRepository.save(c); 
           return true;
         }
       }

@@ -9,19 +9,37 @@ import matchSorter from 'match-sorter';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import FilterIcon from '@material-ui/icons/FilterList'
-import Popover from '@material-ui/core/Popover';
+import Scheduler from '../test/Scheduler';
+import { makeStyles } from '@material-ui/core/styles';
+import ScrollContainer from 'react-indiana-drag-scroll'
+
+
+
+const useStyles = makeStyles({
+  dialogPaper: {
+    minHeight: '80vh',
+    maxHeight: '80vh',
+    minWidth: '80vw',
+    maxWidth: '80vw'
+},
+root: {
+  width: '200px',
+}
+});
 
 
 export default function RoomDialog(props) {
-
+  const classes = useStyles();
   const { onClose, selectedRoom, open, rooms, appointmentDate, index } = props;
   const [shownRooms, setShownRooms] = React.useState([]);
+  const [showRoomRes, setShowRoomRes] = React.useState('');
 
 
   React.useEffect(() => {
     var rs = checkRoomAvailability(rooms);
     // console.log(rs);
     setShownRooms(rs);
+      // eslint-disable-next-line
   }, [rooms]);
 
 
@@ -71,42 +89,66 @@ export default function RoomDialog(props) {
 
   }
 
+  const returnRoomReservations = (room, index) => {
+    if (showRoomRes === room.roomName) {
+      return <Scheduler key={index} roomName={room.roomName} reservations={room.reservations}/>
+    }
+    
+  }
+
+  const roomReservations = (room) => {
+    setShowRoomRes(room);
+  };
 
   return (
     <div>
-      <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
+      <ScrollContainer>
+        
+      </ScrollContainer>
+      <Dialog classes={{paper:classes.dialogPaper}} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
         <DialogTitle id="simple-dialog-title">Choose a room for appointment</DialogTitle>
-        <Grid container direction='row' justify='space-around'>
-          <TextField 
-            key='search' 
-            id='search'
-            defaultValue='' 
-            label='Search'
-            autoComplete='off'
-            onChange={roomSearch}
-          >
-          </TextField>
-          <Button>
-            <FilterIcon />
-            Filter
-          </Button>
-        </Grid>
-        <List>
-          {shownRooms.map((room) => (
+        <ScrollContainer className="scroll-container" hideScrollbars={false}>
+          <Grid container direction='row' justify='space-around'>
+            <TextField 
+              style={{width:'70%'}}
+              key='search' 
+              id='search'
+              defaultValue='' 
+              label='Search'
+              autoComplete='off'
+              onChange={roomSearch}
+            >
+            </TextField>
+            <Button>
+              <FilterIcon />
+              Filter
+            </Button>
+          </Grid>
+            <List>
+              {shownRooms.map((room) => (
 
 
-            <Grid key={index + room.roomName} container direction='row' justify='space-around'>
-              <ListItem button onClick={() => {handleListItemClick(room.roomName)}} key={room.roomName} >
-                <ListItemText primary={room.roomName} />
-                {/* <Button>
-                  dugme
-                </Button> */}
-              </ListItem>
-              </Grid>
-            
-          ))}
+                <Grid key={index + room.roomName} container direction='row' justify='space-around'>
+                  <ListItem button onClick={() => {handleListItemClick(room.roomName)}} key={room.roomName} >
+                    <ListItemText primary={room.roomName} />
+                  </ListItem>
+                  <ListItem button onClick={() => {roomReservations(room.roomName)}}>
+                    {room.roomName} reservations
+                  </ListItem>
+                  
+                </Grid>
+                
+              ))}
 
-        </List>
+            </List>
+            {shownRooms.map((room, index) => (
+              returnRoomReservations(room, index)
+              
+            ))}
+        </ScrollContainer>
+        
+        
+        
         
       </Dialog>
     </div>

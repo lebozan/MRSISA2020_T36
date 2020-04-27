@@ -12,6 +12,7 @@ import siit.isamrs2020.backend.Classes.ClinicAdmin;
 import siit.isamrs2020.backend.Classes.Doctor;
 import siit.isamrs2020.backend.Classes.MedicalSpecialty;
 import siit.isamrs2020.backend.Classes.Nurse;
+import siit.isamrs2020.backend.Classes.Room;
 import siit.isamrs2020.backend.Repositories.DoctorRepository;
 import siit.isamrs2020.backend.Repositories.NurseRepository;
 import siit.isamrs2020.backend.Repositories.ClinicAdminRepository;
@@ -34,14 +35,14 @@ public class MongoDBConfig {
       // nurseRepository.save(new Nurse("n1", "Marija", "Maric", 39, "adresa10", 12));
       // nurseRepository.save(new Nurse(a"n2", "Ana", "Nikolic", 25, "adresa123", 2));
       // ArrayList<Doctor> c1Doctors = new ArrayList<Doctor>();
-      // c1Doctors.add(new Doctor("d1", "Bojan", "Cakic", 40, "adresa1", MedicalSpecialty.Gynecology, 10));
-      // c1Doctors.add(new Doctor("d2", "Milan", "Milic", 35, "adresa2", MedicalSpecialty.Radiology, 5));
+      // c1Doctors.add(new Doctor("d1", "Bojan", "Cakic", 40, "adresa1", "7-15", MedicalSpecialty.Gynecology, 10));
+      // c1Doctors.add(new Doctor("d2", "Milan", "Milic", 35, "adresa2", "14-21", MedicalSpecialty.Radiology, 5));
       
       // Clinic c1 = new Clinic(1, "clinic 1", "clinic address 1", "clinic 1 description", c1Doctors, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-      // c1.getRooms().add("Sala 1");
-      // c1.getRooms().add("Sala 2");
-      // c1.getRooms().add("Sala 3");
-      // c1.getRooms().add("Sala 4");
+      // c1.getRooms().add(new Room("Sala 1", new ArrayList<>()));
+      // c1.getRooms().add(new Room("Sala 2", new ArrayList<>()));
+      // c1.getRooms().add(new Room("Sala 3", new ArrayList<>()));
+      // c1.getRooms().add(new Room("Sala 4", new ArrayList<>()));
       // Clinic c2 = new Clinic(2, "clinic 2", "clinic address 2", "clinic 2 description", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
       // clinicRepository.save(c1);

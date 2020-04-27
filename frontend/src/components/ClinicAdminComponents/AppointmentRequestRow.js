@@ -57,6 +57,11 @@ export default function AppointmentRequestRow(props) {
       }
     }
 
+    if (selectedRoom==='') {
+      alert('Room must be selected!');
+      return;
+    }
+
 
     axios.post('http://localhost:8080/api/clinics/confirmUA', newAppointment)
       .then((res) => {
@@ -76,10 +81,10 @@ export default function AppointmentRequestRow(props) {
           removeRequest();
           if (submited) {
             alert('Appointment successfully created');
-            // window.location.reload(false);
+            window.location.reload(false);
           } else {
             alert('Appointment canceled');
-            // window.location.reload(false);
+            window.location.reload(false);
           }
         }
       })
