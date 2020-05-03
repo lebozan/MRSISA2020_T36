@@ -16,7 +16,6 @@ public class Room implements Comparable<Room>{
 
   @Override
   public int compareTo(Room o) {
-    // TODO Auto-generated method stub
     return getRoomName().compareTo(o.getRoomName());
   }
 

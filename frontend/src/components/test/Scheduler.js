@@ -135,8 +135,8 @@ export class Scheduler extends Component {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-            {dates.map((date) => (
-              <TableCell>
+            {dates.map((date, index) => (
+              <TableCell key={index + ' day'}>
                 {weekday[date.getDay()]}
                 <br/>
                 {date.getDate()}

@@ -19,6 +19,8 @@ export default function AppointmentTypesComponent() {
  
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [appTypes, setAppTypes] = React.useState([]);
+  const [appTypeName, setAppTypeName] = React.useState('');
+  const [appTypePrice, setAppTypePrice] = React.useState(0);
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   
@@ -41,11 +43,14 @@ export default function AppointmentTypesComponent() {
   
   const closeAndSendData = () => {
     handleClose();
-    var appType = document.getElementById('appTypeName').value;
   
-    var newAppType = {clinicId:1,appType}
-    if (appType === "") {
+    var newAppType = {clinicId:1,appTypeName, appTypePrice}
+    if (appTypeName === "") {
       alert("Must enter name for new appointment type!");
+      return;
+    } if (appTypePrice === 0) {
+      alert('Price must be number bigger then 0!');
+      return;
     } else {
       addAppType(newAppType);
     }
@@ -70,7 +75,7 @@ export default function AppointmentTypesComponent() {
     .then(res => {
       if (res.data) {
 
-        setAppTypes(appTypes => [...appTypes, newAppType.appType]);
+        setAppTypes(appTypes => [...appTypes, newAppType.appTypeName]);
       }
     })
     .catch(res => console.log(res));
@@ -99,13 +104,13 @@ export default function AppointmentTypesComponent() {
           )}
             
           <Button
-          aria-describedby={id} 
-          variant="contained"
-          color="secondary" 
-          onClick={handleClick}
-          startIcon={<AddIcon />}
+            aria-describedby={id} 
+            variant="contained"
+            color="secondary" 
+            onClick={handleClick}
+            startIcon={<AddIcon />}
           >
-          Add appointment type
+            Add appointment type
         </Button>
         <Popover
           id={id}
@@ -132,8 +137,18 @@ export default function AppointmentTypesComponent() {
               required
               key="appType"
               id="appTypeName"
-              label="New Appointment Type"
-              defaultValue=""
+              label="New Appointment type"
+              value={appTypeName}
+              onChange={(e) => {setAppTypeName(e.target.value)}}
+              variant="filled"
+            />
+            <TextField
+              required
+              key="price"
+              id="appTypePrice"
+              label="New Appointment type price"
+              value={appTypePrice}
+              onChange={(e) => {setAppTypePrice(e.target.value)}}
               variant="filled"
             />
             <Button 

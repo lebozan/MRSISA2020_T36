@@ -28,6 +28,8 @@ import MakeAppointmentDoctorComponent from './DoctorComponents/MakeAppointmentDo
 import RequestedAppointmentsComponent from './ClinicAdminComponents/RequestedAppointmentsComponent';
 import UserProfileComponent from './UserProfileComponent';
 import ClinicRoomComponent from './ClinicAdminComponents/ClinicRoomComponent';
+import ClinicPriceListComponent from './ClinicAdminComponents/ClinicPriceListComponent';
+
 
 const drawerWidth = 240;
 
@@ -209,6 +211,9 @@ export default function ClippedDrawer() {
                 <ListItem button className={classes.nested} onClick={() => {goTo('/clinicRooms')}}>
                   <ListItemText primary="Clinic rooms" />
                 </ListItem>
+                <ListItem button className={classes.nested} onClick={() => {goTo('/managePriceLists')}}>
+                  <ListItemText primary="Manage clinic price lists" />
+                </ListItem>
               </List>
             </Collapse>
           </List>
@@ -217,6 +222,9 @@ export default function ClippedDrawer() {
       <main className={classes.content}>
         <Toolbar/>
         <Switch>
+          <Route path="/managePriceLists">
+            <ClinicPriceListComponent />
+          </Route>
           <Route path="/clinicRooms">
             <ClinicRoomComponent />
           </Route>

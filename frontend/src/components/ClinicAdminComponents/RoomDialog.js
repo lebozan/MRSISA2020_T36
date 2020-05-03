@@ -102,9 +102,6 @@ export default function RoomDialog(props) {
 
   return (
     <div>
-      <ScrollContainer>
-        
-      </ScrollContainer>
       <Dialog classes={{paper:classes.dialogPaper}} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
         <DialogTitle id="simple-dialog-title">Choose a room for appointment</DialogTitle>
         <ScrollContainer className="scroll-container" hideScrollbars={false}>
@@ -146,9 +143,6 @@ export default function RoomDialog(props) {
               
             ))}
         </ScrollContainer>
-        
-        
-        
         
       </Dialog>
     </div>

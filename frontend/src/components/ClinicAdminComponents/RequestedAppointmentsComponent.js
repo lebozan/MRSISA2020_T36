@@ -59,7 +59,7 @@ export default function RequestedAppointmentsComponent() {
     <div>
       {requests.length===0 ? <h1>No appointment requests</h1> : null}
       {requests.map((request, index) => (
-        <AppointmentRequestRow key={index} index={index} appointment={request} rooms={rooms} removeRequest={() => {removeRequest(request.id)}}/>
+        <AppointmentRequestRow key={request.id + '--' + index} index={index} appointment={request} rooms={rooms} removeRequest={() => {removeRequest(request.id)}}/>
       ))}
       
     </div>

@@ -24,5 +24,6 @@ public class Clinic {
   private List<Room> rooms;
   private List<String> appointmentTypes;
   private List<OneClickAppointment> oneClickAppointments;
+  private String activePriceList;
 
 }
