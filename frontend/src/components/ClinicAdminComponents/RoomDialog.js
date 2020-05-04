@@ -11,8 +11,8 @@ import Button from '@material-ui/core/Button';
 import FilterIcon from '@material-ui/icons/FilterList'
 import Scheduler from '../test/Scheduler';
 import { makeStyles } from '@material-ui/core/styles';
-import ScrollContainer from 'react-indiana-drag-scroll'
-
+// import ScrollContainer from 'react-indiana-drag-scroll'
+import NoAvailableRooms from './NoAvailableRooms';
 
 
 const useStyles = makeStyles({
@@ -33,11 +33,11 @@ export default function RoomDialog(props) {
   const { onClose, selectedRoom, open, rooms, appointmentDate, index } = props;
   const [shownRooms, setShownRooms] = React.useState([]);
   const [showRoomRes, setShowRoomRes] = React.useState('');
+  // const [searchFieldValue, setSearchFieldValue] = React.useState('');
 
 
   React.useEffect(() => {
     var rs = checkRoomAvailability(rooms);
-    // console.log(rs);
     setShownRooms(rs);
       // eslint-disable-next-line
   }, [rooms]);
@@ -62,7 +62,6 @@ export default function RoomDialog(props) {
     rooms.forEach(room => {
       var dateCheck = false;
       var datesOccupied = room.reservations;
-      // console.log(datesOccupied);
       datesOccupied.forEach(date => {
         let reservation = new Date(date);
         if (reservation > lesser && reservation < greater) {
@@ -76,10 +75,10 @@ export default function RoomDialog(props) {
     return roomList;
   };
 
-  const roomSearch = () => {
-    var searchValue = document.getElementById('search').value;
+  const roomSearch = (searchValue) => {
+
     if (searchValue === '') {
-      setShownRooms(rooms);
+      setShownRooms(checkRoomAvailability());
     } else {
       var newShownRooms = shownRooms;
       newShownRooms = matchSorter(newShownRooms, searchValue, {keys:['roomName']});
@@ -104,18 +103,17 @@ export default function RoomDialog(props) {
     <div>
       <Dialog classes={{paper:classes.dialogPaper}} onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
         <DialogTitle id="simple-dialog-title">Choose a room for appointment</DialogTitle>
-        <ScrollContainer className="scroll-container" hideScrollbars={false}>
           <Grid container direction='row' justify='space-around'>
             <TextField 
               style={{width:'70%'}}
-              key='search' 
-              id='search'
-              defaultValue='' 
+              key={'search ' + index } 
+              defaultValue=''
               label='Search'
               autoComplete='off'
-              onChange={roomSearch}
-            >
-            </TextField>
+              onChange={(e) => {
+                roomSearch(e.target.value);
+              }}
+            />
             <Button>
               <FilterIcon />
               Filter
@@ -123,8 +121,6 @@ export default function RoomDialog(props) {
           </Grid>
             <List>
               {shownRooms.map((room) => (
-
-
                 <Grid key={index + room.roomName} container direction='row' justify='space-around'>
                   <ListItem button onClick={() => {handleListItemClick(room.roomName)}} key={room.roomName} >
                     <ListItemText primary={room.roomName} />
@@ -132,9 +128,7 @@ export default function RoomDialog(props) {
                   <ListItem button onClick={() => {roomReservations(room.roomName)}}>
                     {room.roomName} reservations
                   </ListItem>
-                  
                 </Grid>
-                
               ))}
 
             </List>
@@ -142,8 +136,10 @@ export default function RoomDialog(props) {
               returnRoomReservations(room, index)
               
             ))}
-        </ScrollContainer>
-        
+
+            {shownRooms.length === 0 ? 
+              <NoAvailableRooms /> : null}
+
       </Dialog>
     </div>
   )

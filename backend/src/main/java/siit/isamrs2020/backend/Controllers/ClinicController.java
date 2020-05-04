@@ -1,17 +1,15 @@
 package siit.isamrs2020.backend.Controllers;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.lang.reflect.Type;
 
-import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,13 +22,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import siit.isamrs2020.backend.Repositories.ClinicRepository;
-import siit.isamrs2020.backend.Repositories.PriceListRepository;
 import siit.isamrs2020.backend.Classes.Clinic;
 import siit.isamrs2020.backend.Classes.Doctor;
 import siit.isamrs2020.backend.Classes.OneClickAppointment;
 import siit.isamrs2020.backend.Classes.PriceList;
 import siit.isamrs2020.backend.Classes.Room;
+import siit.isamrs2020.backend.Repositories.ClinicRepository;
+import siit.isamrs2020.backend.Repositories.PriceListRepository;
 
 @RestController
 @RequestMapping("/api/clinics")
@@ -301,7 +299,6 @@ public class ClinicController {
   public PriceList addNewPriceList(@RequestBody String requestString) {
     JsonObject json = gson.fromJson(requestString, JsonObject.class);
     Type type = new TypeToken<Map<String, Double>>(){}.getType();
-    Map<String, Double> m = Collections.synchronizedMap(new HashMap<String,Double>());
     Map<String, Double> prices = gson.fromJson(json.get("prices"), type);
     String plId = "pl" + priceListRepository.findAll().size() + 1;
     PriceList newPl = new PriceList(plId, json.get("priceListName").getAsString(),

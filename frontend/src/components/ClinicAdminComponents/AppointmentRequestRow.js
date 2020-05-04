@@ -81,10 +81,8 @@ export default function AppointmentRequestRow(props) {
           removeRequest();
           if (submited) {
             alert('Appointment successfully created');
-            window.location.reload(false);
           } else {
             alert('Appointment canceled');
-            window.location.reload(false);
           }
         }
       })
