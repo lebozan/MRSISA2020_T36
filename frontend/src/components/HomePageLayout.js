@@ -15,19 +15,21 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-// import MenuItem from '@material-ui/core/MenuItem';
-// import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 import { useHistory } from 'react-router-dom';
-import ListComponent from "./ListComponent";
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import ClinicStaffList from './ClinicStaffList';
-import AppointmentTypesComponent from './AppointmentTypesComponent';
-import OneClickAppointmentComponent from './OneClickAppointmentComponent';
-import MakeAppointmentDoctorComponent from './MakeAppointmentDoctorComponent';
-import RequestedAppointmentsComponent from './RequestedAppointmentsComponent';
+import ClinicStaffList from './StaffComponents/ClinicStaffList';
+import AppointmentTypesComponent from './ClinicAdminComponents/AppointmentTypesComponent';
+import OneClickAppointmentComponent from './ClinicAdminComponents/OneClickAppointmentComponent';
+import MakeAppointmentDoctorComponent from './DoctorComponents/MakeAppointmentDoctorComponent';
+import RequestedAppointmentsComponent from './ClinicAdminComponents/RequestedAppointmentsComponent';
 import UserProfileComponent from './UserProfileComponent';
+import ClinicRoomComponent from './ClinicAdminComponents/ClinicRoomComponent';
+import ClinicPriceListComponent from './ClinicAdminComponents/ClinicPriceListComponent';
+
 
 const drawerWidth = 240;
 
@@ -54,6 +56,7 @@ function About() {
     <div>
       <h2>About</h2>
       <Link to="/">Home</Link>
+
     </div>
   );
 }
@@ -106,8 +109,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ClippedDrawer() {
   const classes = useStyles();
-  // const [anchorEl, setAnchorEl] = React.useState(null);
-  // const open = Boolean(anchorEl);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
   const [openMenu, setOpen] = React.useState(false);
 
   const history = useHistory();
@@ -116,13 +119,13 @@ export default function ClippedDrawer() {
     setOpen(!openMenu);
   };
 
-  // const handleMenu = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   function goTo(url) {
     history.push(url);
@@ -141,13 +144,12 @@ export default function ClippedDrawer() {
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                onClick={() => {goTo('/acc')}}
+                onClick={handleMenu}
                 color="inherit"
               >
                 <AccountCircle />
-                My account
               </IconButton>
-              {/* <Menu
+              <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
                 anchorOrigin={{
@@ -162,8 +164,14 @@ export default function ClippedDrawer() {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={() => {goTo('/acc')}}>Profile</MenuItem>
-              </Menu> */}
+                <MenuItem onClick={() => {
+                  goTo('/acc');
+                  handleClose();}}
+                  >
+                    Profile
+                </MenuItem>
+                <MenuItem onClick={() => {handleClose()}}>Log out</MenuItem>
+              </Menu>
             </div>
         </Toolbar>
       </AppBar>
@@ -200,6 +208,12 @@ export default function ClippedDrawer() {
                 <ListItem button className={classes.nested} onClick={() => {goTo('/requestedAppointments')}}>
                   <ListItemText primary="Requested appointments" />
                 </ListItem>
+                <ListItem button className={classes.nested} onClick={() => {goTo('/clinicRooms')}}>
+                  <ListItemText primary="Clinic rooms" />
+                </ListItem>
+                <ListItem button className={classes.nested} onClick={() => {goTo('/managePriceLists')}}>
+                  <ListItemText primary="Manage clinic price lists" />
+                </ListItem>
               </List>
             </Collapse>
           </List>
@@ -208,6 +222,12 @@ export default function ClippedDrawer() {
       <main className={classes.content}>
         <Toolbar/>
         <Switch>
+          <Route path="/managePriceLists">
+            <ClinicPriceListComponent />
+          </Route>
+          <Route path="/clinicRooms">
+            <ClinicRoomComponent />
+          </Route>
           <Route path="/clinicStaff">
             <ClinicStaffList />
           </Route>
@@ -239,7 +259,7 @@ export default function ClippedDrawer() {
             <UserProfileComponent />
           </Route>
           <Route exact path="/">
-            <ListComponent />
+            <Home  />
           </Route>
           <Route>
             * 404 NOT FOUND *

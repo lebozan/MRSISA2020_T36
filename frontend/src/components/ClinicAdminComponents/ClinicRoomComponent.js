@@ -1,35 +1,34 @@
 import React from 'react'
-import List from '@material-ui/core/List';
-import axios from 'axios'
-import Popover from '@material-ui/core/Popover';
+import axios from 'axios';
+import Cookies from 'universal-cookie';
 import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import Popover from '@material-ui/core/Popover';
 import AddIcon from '@material-ui/icons/Add';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
-import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-export default function AppointmentTypesComponent() {
- 
+export default function ClinicRoomComponent() {
+  const [rooms, setRooms] = React.useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [appTypes, setAppTypes] = React.useState([]);
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
-  
+  var cookies = new Cookies();
+
   React.useEffect(() => {
     let clinicId = 1;
-    axios.get("http://localhost:8080/api/clinics/appTypes?clinicId=" + clinicId)
+    axios.get("http://localhost:8080/api/clinics/rooms?clinicId=" + clinicId)
     .then(res => {
-      setAppTypes(res.data);
+      cookies.set('clinicId', 1, {path:'/'});
+      setRooms(res.data);
     })
-    .catch(res => {console.log(res)});
-  }, []);
+    .catch(error => {console.log(error)});
+  }, [cookies]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -41,57 +40,56 @@ export default function AppointmentTypesComponent() {
   
   const closeAndSendData = () => {
     handleClose();
-    var appType = document.getElementById('appTypeName').value;
+    var room = document.getElementById('roomName').value;
   
-    var newAppType = {clinicId:1,appType}
-    if (appType === "") {
-      alert("Must enter name for new appointment type!");
+    var newRoom = {clinicId:1,room}
+    if (room === "") {
+      alert("Must enter name for new name!");
+    } else if (room.substring(0,4) !== 'Sala') {
+      alert('Room name must start with \'Sala\' and follow with a number!');
+      console.log(room);
     } else {
-      addAppType(newAppType);
+      axios.post('http://localhost:8080/api/clinics/newRoom', newRoom)
+        .then((res) => {
+          console.log(res.data);
+          if (res.data !== '') {
+            let newRooms = rooms;
+            newRooms.push(res.data);
+            setRooms(newRooms);
+          } else {
+            alert('Room with name \'' + room + '\' already exists!');
+          }
+          
+        })
+        .catch(error => console.log(error));
     }
   
   };
   
-  const deleteAppType = (name) => {
-    let clinicId = 1;
-    axios.delete('http://localhost:8080/api/clinics/deleteAppType?clinicId=' + clinicId + "&appType=" + name)
+  const deleteRoom = (name) => {
+    axios.delete('http://localhost:8080/api/clinics/deleteRoom?clinicId=' + cookies.get('clinicId') + "&room=" + name)
       .then(res => {
         if(res.data) {
-          let types = appTypes.filter(appType => appType !== name);
-          setAppTypes(types);
-          
+          let types = rooms.filter(room => room.roomName !== name);
+          setRooms(types);
+          alert('Room ' + name + ' successfully deleted!');
         }
       })
-      .catch(res => console.log(res));
-  }
-  
-  const addAppType = (newAppType) => {
-    axios.post('http://localhost:8080/api/clinics/addAppType', newAppType)
-    .then(res => {
-      if (res.data) {
-
-        setAppTypes(appTypes => [...appTypes, newAppType.appType]);
-      }
-    })
-    .catch(res => console.log(res));
+      .catch(error => console.log(error));
   }
 
   return (
+
     <div>
       <List>
-          Appointment Types:
-          {appTypes.map((appType, index) => 
+          Rooms:
+          {rooms.map((room, index) => 
               <ListItem key={index}>
-                <ListItemAvatar>
-                  <Avatar>
-                    <FolderIcon />
-                  </Avatar>
-                </ListItemAvatar>
                 <ListItemText
-                  primary={appType}
+                  primary={room.roomName}
                 />
                 <ListItemSecondaryAction>
-                  <IconButton edge="end" aria-label="delete" onClick={() => {deleteAppType(appType)}}>
+                  <IconButton edge="end" aria-label="delete" onClick={() => {deleteRoom(room.roomName)}}>
                     <DeleteIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
@@ -105,7 +103,7 @@ export default function AppointmentTypesComponent() {
           onClick={handleClick}
           startIcon={<AddIcon />}
           >
-          Add appointment type
+          Add room
         </Button>
         <Popover
           id={id}
@@ -130,9 +128,9 @@ export default function AppointmentTypesComponent() {
           >
             <TextField
               required
-              key="appType"
-              id="appTypeName"
-              label="New Appointment Type"
+              key="room"
+              id="roomName"
+              label="New clinic room"
               defaultValue=""
               variant="filled"
             />
@@ -150,4 +148,3 @@ export default function AppointmentTypesComponent() {
     </div>
   )
 }
-

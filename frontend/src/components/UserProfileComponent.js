@@ -5,6 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import ClinicInfoComponent from './ClinicAdminComponents/ClinicInfoComponent';
+
 
 export default function UserProfileComponent() {
   const [user, setUser] = React.useState({});
@@ -15,17 +17,21 @@ export default function UserProfileComponent() {
   React.useEffect(() => {
     cookies.set("role", "clinicAdmin", {path:'/'});
     cookies.set('clinicAdminId', 'ca1', {path:'/'});
+    cookies.set('clinicId', 1, {path:'/'});
     let role = cookies.get('role');
     axios.get('http://localhost:8080/api/' + role + 's/getOne?' + role + 'Id=' + cookies.get(role + 'Id'))
       .then((res) => {
         setUser(res.data);
       })
       .catch(error => console.log(error));
-  }, [cookies]);
+      // eslint-disable-next-line
+  }, []);
   
   const editInfo = () => {
     setShowEditFields(true);
   }
+
+  
 
 
   const submitChanges = () => {
@@ -62,6 +68,7 @@ export default function UserProfileComponent() {
     axios.put('http://localhost:8080/api/' + role + 's/updateInfo', changes)
       .then((res) => {
         setUser(res.data);
+        console.log(res.data);
         setShowEditFields(false);
       })
       .catch(error => console.log(error));
@@ -90,8 +97,8 @@ export default function UserProfileComponent() {
             >
             Edit user info
           </Button>
-          
         </Grid>
+        <br/>
         <Grid container justify="space-around">
           {showEditFields ? editFields.map((field) => (
             <React.Fragment>
@@ -125,6 +132,10 @@ export default function UserProfileComponent() {
             </React.Fragment>
                : null}
         </Grid>
+        <br/>
+        {cookies.get('role') === 'clinicAdmin' ?
+        <ClinicInfoComponent /> : null }
+        
     </div>
   )
 }

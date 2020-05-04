@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import List from '@material-ui/core/List';
-import ListItemCustom from './ListItemCustom';
+import ListItemCustom from '../ListItemCustom';
 import axios from 'axios'
 import AddNurseComponent from './AddNurseComponent';
 import AddDoctorComponent from './AddDoctorComponent';

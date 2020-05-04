@@ -29,7 +29,7 @@ public class ClinicAdminController {
 
   private ClinicAdminRepository clinicAdminRepository;
   private Gson gson;
-  private static UUID uuid;
+  // private static UUID uuid;
 
   public ClinicAdminController(ClinicAdminRepository clinicAdminRepository) {
     this.clinicAdminRepository = clinicAdminRepository;

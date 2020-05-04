@@ -4,7 +4,7 @@ import HomePageLayout from './components/HomePageLayout';
 export default function App() {
   return (
       <div>
-        <HomePageLayout />
+          <HomePageLayout />
       </div>
   );
 }

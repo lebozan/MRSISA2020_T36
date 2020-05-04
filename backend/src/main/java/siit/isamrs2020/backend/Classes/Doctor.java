@@ -16,16 +16,18 @@ import lombok.NoArgsConstructor;
 public class Doctor extends User {
 
 
+	private String workingHours;
 	private MedicalSpecialty specialty;
 	private int yearsOfExperience;
 
 
-	public Doctor(String id, String firstName, String lastName, int age, String address, MedicalSpecialty specialty, int yearsOfExperience) {
+	public Doctor(String id, String firstName, String lastName, int age, String address, String workingHours, MedicalSpecialty specialty, int yearsOfExperience) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
 		this.address = address;
+		this.workingHours = workingHours;
 		this.specialty = specialty;
 		this.yearsOfExperience = yearsOfExperience;
 	}
