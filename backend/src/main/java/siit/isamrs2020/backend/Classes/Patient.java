@@ -14,11 +14,11 @@ import lombok.NoArgsConstructor;
 @Document("Patients")
 public class Patient extends User {
 
-    private String password;
     private String city;
     private String country;
     private int phoneNumber;
     private int uniquePatientNumber;
+    private boolean active;
 
     public Patient(String id, String email, String password, String firstName, String lastName, int age, String address, String city, String country,int pn,int upn){
         this.id = id;
@@ -32,6 +32,7 @@ public class Patient extends User {
         this.country = country;
         this.phoneNumber = pn;
         this.uniquePatientNumber = upn;
+        this.active = false;
 
     }
 

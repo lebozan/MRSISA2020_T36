@@ -21,7 +21,7 @@ public class ClinicAdmin extends User{
   private List<UnconfirmedAppointment> unconfirmedAppointments;
 
 
-  public ClinicAdmin(String id, String firstName, String lastName, int age, String address, Clinic clinic) {
+  public ClinicAdmin(String id, String firstName, String lastName, int age, String address, Clinic clinic, String password) {
     this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -29,6 +29,7 @@ public class ClinicAdmin extends User{
 		this.address = address;
     this.clinic = clinic;
     this.unconfirmedAppointments = new ArrayList<UnconfirmedAppointment>();
+    this.password = password;
   }
 
 

@@ -14,6 +14,7 @@ public abstract class User {
   protected int age;
   protected String address;
   protected String email;
+  protected String password;
 
 
 }
