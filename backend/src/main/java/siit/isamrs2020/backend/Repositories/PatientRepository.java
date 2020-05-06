@@ -12,6 +12,6 @@ public interface PatientRepository extends MongoRepository<Patient,String>{
 
     List<Patient> findByLastName(String lastName);
 
-    List<Patient> findByUniqueNumber(int uniquePatientNumber);
+    List<Patient> findByUniquePatientNumber(int uniquePatientNumber);
 
 }

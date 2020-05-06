@@ -73,8 +73,8 @@ public class PatientController {
 
     @GetMapping("/unumber")
     @ResponseBody
-    public List<Patient> getPatientByUniqueNumber(@RequestParam(name =  "uniquePatientNumber") int uniquePatientNumber){
-        List<Patient> pats = patientRepository.findByUniqueNumber(uniquePatientNumber);
+    public List<Patient> getPatientByUniquePatientNumber(@RequestParam(name =  "uniquePatientNumber") int uniquePatientNumber){
+        List<Patient> pats = patientRepository.findByUniquePatientNumber(uniquePatientNumber);
 
         return pats;
 
