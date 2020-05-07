@@ -17,13 +17,14 @@ public class Nurse extends User{
   private int yearsOfExperience;
 
 
-  public Nurse(String id, String firstName, String lastName, int age, String address, int yearsOfExperience) {
+  public Nurse(String id, String firstName, String lastName, int age, String address, int yearsOfExperience, String password) {
     this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
 		this.address = address;
     this.yearsOfExperience = yearsOfExperience;
+    this.password = password;
   }
 
 

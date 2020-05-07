@@ -22,8 +22,11 @@ public class ClinicAdmin extends User{
   private List<LeaveRequest> clinicStaffLeaveRequests;
 
 
-  public ClinicAdmin(String id, String firstName, String lastName, int age, String address, int clinicId) {
+
+  public ClinicAdmin(String id, String email, String firstName, String lastName, int age, String address, int clinicId, String password) {
+
     this.id = id;
+    this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
@@ -31,6 +34,8 @@ public class ClinicAdmin extends User{
     this.clinicId = clinicId;
     this.unconfirmedAppointments = new ArrayList<UnconfirmedAppointment>();
     this.clinicStaffLeaveRequests = new ArrayList<LeaveRequest>();
+    this.password = password;
+
   }
 
 

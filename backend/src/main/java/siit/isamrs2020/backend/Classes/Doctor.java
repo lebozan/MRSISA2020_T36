@@ -21,7 +21,8 @@ public class Doctor extends User {
 	private int leaveDays;
 
 
-	public Doctor(String id, String email, String firstName, String lastName, int age, String address, String workingHours, MedicalSpecialty specialty, int yearsOfExperience) {
+	public Doctor(String id, String email, String firstName, String lastName, int age, String address, String workingHours, MedicalSpecialty specialty, int yearsOfExperience, String password) {
+
 		this.id = id;
 		this.email = email;
 		this.firstName = firstName;
@@ -37,7 +38,8 @@ public class Doctor extends User {
 		} else {
 			this.leaveDays = 35;
 		}
-		
+		this.password = password;
+
 	}
 
 }

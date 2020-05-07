@@ -30,7 +30,8 @@ import UserProfileComponent from './UserProfileComponent';
 import ClinicRoomComponent from './ClinicAdminComponents/ClinicRoomComponent';
 import ClinicPriceListComponent from './ClinicAdminComponents/ClinicPriceListComponent';
 import LeaveRequest from './StaffComponents/LeaveRequest';
-
+import Login from './AccountComponents/LoginComponent';
+import Register from './AccountComponents/RegisterComponent';
 
 
 const drawerWidth = 240;
@@ -47,6 +48,12 @@ function Home() {
         </li>
         <li>
           <Link to="/users">Users</Link>
+        </li>
+        <li>
+          <Link to="/login">Login</Link>
+        </li>
+        <li>
+          <Link to="/register">Register</Link>
         </li>
       </ul>
     </nav>
@@ -256,6 +263,12 @@ export default function ClippedDrawer() {
           </Route>
           <Route path="/requestedAppointments">
             <RequestedAppointmentsComponent />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/register">
+            <Register />
           </Route>
           <Route path="/home">
             <Home />
