@@ -32,9 +32,9 @@ public class MongoDBConfig {
   CommandLineRunner commandLineRunner(DoctorRepository doctorRepository, NurseRepository nurseRepository, ClinicAdminRepository clinicAdminRepository, ClinicRepository clinicRepository, PriceListRepository priceListRepository) {
     return strings -> {
       // doctorRepository.deleteAll();
-      // doctorRepository.save(new Doctor("d1", "Bojan", "Cakic", 40, "adresa1", 10, MedicalSpecialty.Gynecology));
-      // doctorRepository.save(new Doctor("d2", "Milan", "Milic", 35, "adresa2", 5, MedicalSpecialty.Radiology));
-      // doctorRepository.save(new Doctor("d3", "Nikola", "Nikolic", 41, "adresa3", 9, MedicalSpecialty.Oncology));
+      // doctorRepository.save(new Doctor("d1", "drBojanCakic@mail.com", "Bojan", "Cakic", 40, "adresa1", "7-15", MedicalSpecialty.Gynecology, 10));
+      // doctorRepository.save(new Doctor("d2", "drMilanMilic@mail.com", "Milan", "Milic", 35, "adresa2", "7-15", MedicalSpecialty.Radiology, 5));
+      // doctorRepository.save(new Doctor("d3", "drNikolaNikolic@mail.com", "Nikola", "Nikolic", 41, "adresa3", "7-15", MedicalSpecialty.Oncology, 9));
       
       // nurseRepository.deleteAll();
       // nurseRepository.save(new Nurse("n1", "Marija", "Maric", 39, "adresa10", 12));

@@ -29,6 +29,8 @@ import RequestedAppointmentsComponent from './ClinicAdminComponents/RequestedApp
 import UserProfileComponent from './UserProfileComponent';
 import ClinicRoomComponent from './ClinicAdminComponents/ClinicRoomComponent';
 import ClinicPriceListComponent from './ClinicAdminComponents/ClinicPriceListComponent';
+import LeaveRequest from './StaffComponents/LeaveRequest';
+
 
 
 const drawerWidth = 240;
@@ -185,7 +187,7 @@ export default function ClippedDrawer() {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {['Home', 'Calendar', 'Patient List', 'Vacation', 'New Appointment'].map((text, index) => (
+            {['Home', 'Calendar', 'Patient List', 'Request leave', 'New Appointment'].map((text, index) => (
               <ListItem button key={text} onClick={() => {goTo('/' +  text.toString().replace(/\s/g,'').toLowerCase())}}>
                 <ListItemText primary={text} />
               </ListItem>
@@ -249,6 +251,9 @@ export default function ClippedDrawer() {
           <Route path="/newAppointment">
             <MakeAppointmentDoctorComponent />
           </Route>
+          <Route path="/requestleave">
+            <LeaveRequest />
+          </Route>
           <Route path="/requestedAppointments">
             <RequestedAppointmentsComponent />
           </Route>
@@ -261,6 +266,7 @@ export default function ClippedDrawer() {
           <Route exact path="/">
             <Home  />
           </Route>
+          
           <Route>
             * 404 NOT FOUND *
           </Route>

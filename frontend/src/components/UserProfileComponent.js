@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import ClinicInfoComponent from './ClinicAdminComponents/ClinicInfoComponent';
-
+import ChangeUserPassword from './ChangeUserPassword';
 
 export default function UserProfileComponent() {
   const [user, setUser] = React.useState({});
@@ -135,6 +135,8 @@ export default function UserProfileComponent() {
         <br/>
         {cookies.get('role') === 'clinicAdmin' ?
         <ClinicInfoComponent /> : null }
+        <br />
+        <ChangeUserPassword />
         
     </div>
   )
