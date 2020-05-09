@@ -1,4 +1,6 @@
 import React from 'react'
+import axios from 'axios';
+import Cookies from 'universal-cookie';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,6 +15,7 @@ export default function ChangeUserPassword() {
   const [oldPassword, setOldPassword] = React.useState('');
   const [newPassword, setNewPassword] = React.useState('');
   const [newPasswordRepeat, setNewPasswordRepeat] = React.useState('');
+  const cookies = new Cookies();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -28,7 +31,20 @@ export default function ChangeUserPassword() {
       return;
     }
 
-    handleClose();
+    var data = {
+      newPassword,
+      doctorId:cookies.get('doctorId'),
+    }
+    axios.put('http://localhost:8080/api/doctors/updatePassword', data)
+      .then(res => {
+        if (res.data) {
+          handleClose();
+          alert('Your password is successfully changed!');
+        }
+      })
+      .catch(error => console.log(error));
+
+
   }
 
   return (

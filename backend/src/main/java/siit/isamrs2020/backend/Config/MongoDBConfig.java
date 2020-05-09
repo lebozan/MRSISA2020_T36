@@ -15,10 +15,12 @@ import siit.isamrs2020.backend.Classes.ClinicAdmin;
 import siit.isamrs2020.backend.Classes.Doctor;
 import siit.isamrs2020.backend.Classes.MedicalSpecialty;
 import siit.isamrs2020.backend.Classes.Nurse;
+import siit.isamrs2020.backend.Classes.Patient;
 import siit.isamrs2020.backend.Classes.PriceList;
 import siit.isamrs2020.backend.Classes.Room;
 import siit.isamrs2020.backend.Repositories.DoctorRepository;
 import siit.isamrs2020.backend.Repositories.NurseRepository;
+import siit.isamrs2020.backend.Repositories.PatientRepository;
 import siit.isamrs2020.backend.Repositories.PriceListRepository;
 import siit.isamrs2020.backend.Repositories.ClinicAdminRepository;
 import siit.isamrs2020.backend.Repositories.ClinicRepository;
@@ -29,31 +31,32 @@ import siit.isamrs2020.backend.Repositories.ClinicRepository;
 public class MongoDBConfig {
 
   @Bean
-  CommandLineRunner commandLineRunner(DoctorRepository doctorRepository, NurseRepository nurseRepository, ClinicAdminRepository clinicAdminRepository, ClinicRepository clinicRepository, PriceListRepository priceListRepository) {
+  CommandLineRunner commandLineRunner(DoctorRepository doctorRepository, NurseRepository nurseRepository, ClinicAdminRepository clinicAdminRepository, ClinicRepository clinicRepository, PriceListRepository priceListRepository, PatientRepository patientRepository) {
     return strings -> {
       // doctorRepository.deleteAll();
-      // doctorRepository.save(new Doctor("d1", "drBojanCakic@mail.com", "Bojan", "Cakic", 40, "adresa1", "7-15", MedicalSpecialty.Gynecology, 10));
-      // doctorRepository.save(new Doctor("d2", "drMilanMilic@mail.com", "Milan", "Milic", 35, "adresa2", "7-15", MedicalSpecialty.Radiology, 5));
-      // doctorRepository.save(new Doctor("d3", "drNikolaNikolic@mail.com", "Nikola", "Nikolic", 41, "adresa3", "7-15", MedicalSpecialty.Oncology, 9));
+      // doctorRepository.save(new Doctor("d1", "drBojanCakic@mail.com", "Bojan", "Cakic", 40, "adresa1", "8-15", MedicalSpecialty.Oncology, 10, "sifra111"));
+      // doctorRepository.save(new Doctor("d2", "drMilanMilic@mail.com", "Milan", "Milic", 35, "adresa2", "14-21", MedicalSpecialty.Radiology, 5, "sifra222"));
+      // doctorRepository.save(new Doctor("d3", "drNikolaNikolic@mail.com", "Nikola", "Nikolic", 41, "adresa3", "7-15", MedicalSpecialty.Dermatology, 9, "sifra333"));
       
       // nurseRepository.deleteAll();
-      // nurseRepository.save(new Nurse("n1", "Marija", "Maric", 39, "adresa10", 12));
-      // nurseRepository.save(new Nurse(a"n2", "Ana", "Nikolic", 25, "adresa123", 2));
+      // nurseRepository.save(new Nurse("n1", "nurse1@mail.com", "Marija", "Maric", 39, "adresa10", 12, "sifras1"));
+      // nurseRepository.save(new Nurse("n2", "nurse2@mail.com", "Ana", "Nikolic", 25, "adresa123", 2, "sifras2"));
+
       // ArrayList<Doctor> c1Doctors = new ArrayList<Doctor>();
-      // c1Doctors.add(new Doctor("d1", "Bojan", "Cakic", 40, "adresa1", "7-15", MedicalSpecialty.Gynecology, 10));
-      // c1Doctors.add(new Doctor("d2", "Milan", "Milic", 35, "adresa2", "14-21", MedicalSpecialty.Radiology, 5));
+      // c1Doctors.add(new Doctor("d1", "drBojanCakic@mail.com", "Bojan", "Cakic", 40, "adresa1", "8-15", MedicalSpecialty.Oncology, 10, "sifra111"));
+      // c1Doctors.add(new Doctor("d2", "drMilanMilic@mail.com", "Milan", "Milic", 35, "adresa2", "14-21", MedicalSpecialty.Radiology, 5, "sifra222"));
       
-      // Clinic c1 = new Clinic(1, "clinic 1", "clinic address 1", "clinic 1 description", c1Doctors, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+      // Clinic c1 = new Clinic(1, "clinic 1", "clinic address 1", "clinic 1 description", c1Doctors, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "pl1");
       // c1.getRooms().add(new Room("Sala 1", new ArrayList<>()));
       // c1.getRooms().add(new Room("Sala 2", new ArrayList<>()));
       // c1.getRooms().add(new Room("Sala 3", new ArrayList<>()));
       // c1.getRooms().add(new Room("Sala 4", new ArrayList<>()));
-      // Clinic c2 = new Clinic(2, "clinic 2", "clinic address 2", "clinic 2 description", new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+      // Clinic c2 = new Clinic(2, "clinic 2", "clinic address 2", "clinic 2 description", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "pl111");
 
       // clinicRepository.save(c1);
       // clinicRepository.save(c2);
 
-      // clinicAdminRepository.save(new ClinicAdmin("ca1", "Zoran", "Zoric", 50, "zoranova kuca", c1));
+      // clinicAdminRepository.save(new ClinicAdmin("ca1", "clinicAdmin1@mail.com", "Zoran", "Zoric", 50, "zoranova kuca", c1.getId(), "sifraca1"));
       // Map<String, Double> m = Collections.synchronizedMap(new HashMap<String,Double>());
       // m.put("Pregled", 499.99);
       // m.put("Operacija", 5999.99);
@@ -74,6 +77,18 @@ public class MongoDBConfig {
 
       // priceListRepository.save(pl11);
       // priceListRepository.save(pl111);
+
+      // Patient p1 = new Patient("p1", "patient1@mail.com", "sifra123", "Milan", "Darkic", 30, "adresa p1", "Pozarevac", "Srbija", 64123456, 1000001);
+      // Patient p2 = new Patient("p2", "patient2@mail.com", "sifra123", "Darko", "Stevic", 35, "adresa p2", "Beograd", "Srbija", 64123456, 1000002);
+      // Patient p3 = new Patient("p3", "patient3@mail.com", "sifra123", "Stevan", "Milic", 50, "adresa p3", "Zajecar", "Srbija", 64123456, 1000003);
+      // Patient p4 = new Patient("p4", "patient4@mail.com", "sifra123", "Igor", "Stovic", 45, "adresa p4", "Novi Sad", "Srbija", 64123456, 1000004);
+      // Patient p5 = new Patient("p5", "patient5@mail.com", "sifra123", "Stefan", "Igic", 40, "adresa p5", "Pozarevac", "Srbija", 64123456, 1000005);
+
+      // patientRepository.save(p1);
+      // patientRepository.save(p2);
+      // patientRepository.save(p3);
+      // patientRepository.save(p4);
+      // patientRepository.save(p5);
     };
 
   }

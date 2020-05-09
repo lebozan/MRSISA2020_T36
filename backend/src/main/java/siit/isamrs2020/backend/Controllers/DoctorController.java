@@ -129,11 +129,26 @@ public class DoctorController {
     Optional<Doctor> optional = doctorRepository.findById(json.get("doctorId").getAsString());
     if (optional.isPresent()) {
       Doctor d = optional.get();
-      
+      d.setPassword(json.get("newPassword").getAsString());
+      doctorRepository.save(d);
       return true;
     }
 
     return false;
+  }
+
+  @PutMapping("/updateLeaveDays")
+  @ResponseBody
+  public int updateDoctorLeaveDays(@RequestBody String requestString) {
+    JsonObject json = gson.fromJson(requestString, JsonObject.class);
+    Optional<Doctor> optional = doctorRepository.findById(json.get("doctorId").getAsString());
+    if (optional.isPresent()) {
+      Doctor d = optional.get();
+      d.setLeaveDays(d.getLeaveDays() - json.get("leaveDuration").getAsInt());
+      doctorRepository.save(d);
+      return d.getLeaveDays();
+    }
+    return -1;
   }
 
 }

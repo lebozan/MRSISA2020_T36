@@ -32,7 +32,7 @@ import ClinicPriceListComponent from './ClinicAdminComponents/ClinicPriceListCom
 import LeaveRequest from './StaffComponents/LeaveRequest';
 import Login from './AccountComponents/LoginComponent';
 import Register from './AccountComponents/RegisterComponent';
-
+import PatientSearch from './DoctorComponents/PatientSearch';
 
 const drawerWidth = 240;
 
@@ -254,6 +254,9 @@ export default function ClippedDrawer() {
           </Route>
           <Route path="/newOneClick">
             <OneClickAppointmentComponent />
+          </Route>
+          <Route path="/patientlist">
+            <PatientSearch />
           </Route>
           <Route path="/newAppointment">
             <MakeAppointmentDoctorComponent />

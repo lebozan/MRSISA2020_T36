@@ -40,6 +40,11 @@ export default function LeaveRequest() {
       return;
     }
 
+    if (requestedDays === 0) {
+      alert('Number of requested days must be higher than 0!');
+      return;
+    }
+
     if (leaveDaysLeft < requestedDays) {
       alert('Requested days (' + requestedDays + ') cannot be greated than leave days you have (' + leaveDaysLeft + ')!');
       return;
@@ -71,17 +76,28 @@ export default function LeaveRequest() {
     leaveEndDate.setSeconds(59);
     
     var data = {
-      leaveStartDate,
-      leaveEndDate,
+      leaveStartDate: leaveStartDate.getTime(),
+      leaveEndDate: leaveEndDate.getTime(),
       staffId:cookies.get('doctorId'),
-      clinicAdminId:cookies.get('clinicId')
+      clinicId:cookies.get('clinicId'),
     }
-    console.log(data);
 
-    axios.post('http://localhost:8080/api/clinicAdmins/newLeaveRequest')
+    var updateLeaveDays = {
+      leaveDuration: requestedDays,
+      doctorId:cookies.get('doctorId'),
+    }
+
+    axios.post('http://localhost:8080/api/clinicAdmins/newLeaveRequest', data)
       .then(res => {
         if (res.data) {
           alert('Leave request submited!');
+
+          axios.put('http://localhost:8080/api/doctors/updateLeaveDays', updateLeaveDays)
+            .then(res => {
+              setLeaveDaysLeft(res.data);
+              setLeaveDaysRequested(0);
+            })
+            .catch(error => console.log(error));
         } else {
           alert('Leave request not submited!');
         }

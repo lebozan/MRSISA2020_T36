@@ -148,7 +148,7 @@ public class ClinicAdminController {
     JsonObject json = gson.fromJson(requestString, JsonObject.class);
     LeaveRequest newLeaveRequest = new LeaveRequest(new Date(json.get("leaveStartDate").getAsLong()), 
       new Date(json.get("leaveEndDate").getAsLong()), json.get("staffId").getAsString());
-    Optional<ClinicAdmin> optional = clinicAdminRepository.findById(json.get("clinicAdminId").getAsString());
+    Optional<ClinicAdmin> optional = clinicAdminRepository.findByClinicId(json.get("clinicId").getAsInt());
     if (optional.isPresent()) {
       ClinicAdmin ca = optional.get();
       ca.getClinicStaffLeaveRequests().add(newLeaveRequest);

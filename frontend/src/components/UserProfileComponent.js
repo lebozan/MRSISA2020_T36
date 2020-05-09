@@ -15,8 +15,8 @@ export default function UserProfileComponent() {
   var cookies = new Cookies();
 
   React.useEffect(() => {
-    cookies.set("role", "clinicAdmin", {path:'/'});
-    cookies.set('clinicAdminId', 'ca1', {path:'/'});
+    cookies.set("role", "doctor", {path:'/'});
+    cookies.set('doctorId', 'd1', {path:'/'});
     cookies.set('clinicId', 1, {path:'/'});
     let role = cookies.get('role');
     axios.get('http://localhost:8080/api/' + role + 's/getOne?' + role + 'Id=' + cookies.get(role + 'Id'))
@@ -63,12 +63,11 @@ export default function UserProfileComponent() {
       changes['email'] = email;
     }
     
-    changes['clinicAdminId'] = cookies.get('clinicAdminId');
+    changes['doctorId'] = cookies.get('doctorId');
     var role = cookies.get('role');
     axios.put('http://localhost:8080/api/' + role + 's/updateInfo', changes)
       .then((res) => {
         setUser(res.data);
-        console.log(res.data);
         setShowEditFields(false);
       })
       .catch(error => console.log(error));
