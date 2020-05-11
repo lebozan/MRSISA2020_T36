@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import siit.isamrs2020.backend.Repositories.ClinicAdminRepository;
 import siit.isamrs2020.backend.Classes.ClinicAdmin;
+import siit.isamrs2020.backend.Classes.LeaveRequest;
 import siit.isamrs2020.backend.Classes.UnconfirmedAppointment;
 
 @RestController
@@ -77,7 +78,7 @@ public class ClinicAdminController {
       json.get("doctorId").getAsString(), json.get("type").getAsString());
     List<ClinicAdmin> clinicAdmins = clinicAdminRepository.findAll();
     for (ClinicAdmin ca : clinicAdmins) {
-      if (ca.getClinic().getId() == json.get("clinicId").getAsInt()) {
+      if (ca.getClinicId() == json.get("clinicId").getAsInt()) {
         ca.getUnconfirmedAppointments().add(ua);
         clinicAdminRepository.save(ca);
         return true;
@@ -140,5 +141,21 @@ public class ClinicAdminController {
     return null;
   }
 
+
+  @PostMapping("/newLeaveRequest")
+  @ResponseBody
+  public boolean addNewClinicStaffLeaveRequest(@RequestBody String requestString) {
+    JsonObject json = gson.fromJson(requestString, JsonObject.class);
+    LeaveRequest newLeaveRequest = new LeaveRequest(new Date(json.get("leaveStartDate").getAsLong()), 
+      new Date(json.get("leaveEndDate").getAsLong()), json.get("staffId").getAsString());
+    Optional<ClinicAdmin> optional = clinicAdminRepository.findByClinicId(json.get("clinicId").getAsInt());
+    if (optional.isPresent()) {
+      ClinicAdmin ca = optional.get();
+      ca.getClinicStaffLeaveRequests().add(newLeaveRequest);
+      clinicAdminRepository.save(ca);
+      return true;
+    }
+    return false;
+  }
 
 }

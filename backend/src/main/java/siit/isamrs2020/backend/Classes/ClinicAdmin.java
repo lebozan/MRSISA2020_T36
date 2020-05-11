@@ -17,18 +17,25 @@ import lombok.NoArgsConstructor;
 @Document("ClinicAdmins")
 public class ClinicAdmin extends User{
 
-  private Clinic clinic;
+  private int clinicId;
   private List<UnconfirmedAppointment> unconfirmedAppointments;
+  private List<LeaveRequest> clinicStaffLeaveRequests;
 
 
-  public ClinicAdmin(String id, String firstName, String lastName, int age, String address, Clinic clinic) {
+
+  public ClinicAdmin(String id, String email, String firstName, String lastName, int age, String address, int clinicId, String password) {
+
     this.id = id;
+    this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.age = age;
 		this.address = address;
-    this.clinic = clinic;
+    this.clinicId = clinicId;
     this.unconfirmedAppointments = new ArrayList<UnconfirmedAppointment>();
+    this.clinicStaffLeaveRequests = new ArrayList<LeaveRequest>();
+    this.password = password;
+
   }
 
 

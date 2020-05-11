@@ -29,7 +29,10 @@ import RequestedAppointmentsComponent from './ClinicAdminComponents/RequestedApp
 import UserProfileComponent from './UserProfileComponent';
 import ClinicRoomComponent from './ClinicAdminComponents/ClinicRoomComponent';
 import ClinicPriceListComponent from './ClinicAdminComponents/ClinicPriceListComponent';
-
+import LeaveRequest from './StaffComponents/LeaveRequest';
+import Login from './AccountComponents/LoginComponent';
+import Register from './AccountComponents/RegisterComponent';
+import PatientSearch from './DoctorComponents/PatientSearch';
 
 const drawerWidth = 240;
 
@@ -45,6 +48,12 @@ function Home() {
         </li>
         <li>
           <Link to="/users">Users</Link>
+        </li>
+        <li>
+          <Link to="/login">Login</Link>
+        </li>
+        <li>
+          <Link to="/register">Register</Link>
         </li>
       </ul>
     </nav>
@@ -185,7 +194,7 @@ export default function ClippedDrawer() {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {['Home', 'Calendar', 'Patient List', 'Vacation', 'New Appointment'].map((text, index) => (
+            {['Home', 'Calendar', 'Patient List', 'Request leave', 'New Appointment'].map((text, index) => (
               <ListItem button key={text} onClick={() => {goTo('/' +  text.toString().replace(/\s/g,'').toLowerCase())}}>
                 <ListItemText primary={text} />
               </ListItem>
@@ -246,11 +255,23 @@ export default function ClippedDrawer() {
           <Route path="/newOneClick">
             <OneClickAppointmentComponent />
           </Route>
+          <Route path="/patientlist">
+            <PatientSearch />
+          </Route>
           <Route path="/newAppointment">
             <MakeAppointmentDoctorComponent />
           </Route>
+          <Route path="/requestleave">
+            <LeaveRequest />
+          </Route>
           <Route path="/requestedAppointments">
             <RequestedAppointmentsComponent />
+          </Route>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/register">
+            <Register />
           </Route>
           <Route path="/home">
             <Home />
@@ -261,6 +282,7 @@ export default function ClippedDrawer() {
           <Route exact path="/">
             <Home  />
           </Route>
+          
           <Route>
             * 404 NOT FOUND *
           </Route>

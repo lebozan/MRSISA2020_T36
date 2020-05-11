@@ -1,6 +1,7 @@
 package siit.isamrs2020.backend.Repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -10,4 +11,5 @@ public interface DoctorRepository extends MongoRepository<Doctor, String>{
 
   List<Doctor> findByFirstName(String firstName);
 
+  // Optional<Doctor> findByIdAndLeaveDaysGreaterThen(String doctorId, int leaveDays);
 }
