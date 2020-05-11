@@ -1,6 +1,7 @@
 package siit.isamrs2020.backend.Controllers;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import siit.isamrs2020.backend.Classes.FinishedAppointment;
 import siit.isamrs2020.backend.Classes.Patient;
 import siit.isamrs2020.backend.Repositories.PatientRepository;
 
@@ -78,6 +80,24 @@ public class PatientController {
 
         return pats;
 
+    }
+
+    @GetMapping("/getAllFromClinic")
+    @ResponseBody
+    public List<Patient> getAllPatientsFromClinic(@RequestParam int clinicId) {
+        ArrayList<Patient> clinicPatients = new ArrayList<>();
+        List<Patient> allPatients = patientRepository.findAll();
+        for (Patient patient : allPatients) {
+            for (FinishedAppointment finishedAppointment : patient.getMedicalRecord().getFinishedAppointments()) {
+                if (finishedAppointment.getClinicId() == clinicId) {
+                    clinicPatients.add(patient);
+                    break;
+                }
+            }
+        }
+
+
+        return clinicPatients;
     }
 
 }

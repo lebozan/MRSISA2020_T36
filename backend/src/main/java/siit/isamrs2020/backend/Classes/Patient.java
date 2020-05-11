@@ -19,8 +19,9 @@ public class Patient extends User {
     private int phoneNumber;
     private int uniquePatientNumber;
     private boolean active;
+    private MedicalRecord medicalRecord;
 
-    public Patient(String id, String email, String password, String firstName, String lastName, int age, String address, String city, String country,int pn,int upn){
+    public Patient(String id, String email, String password, String firstName, String lastName, int age, String address, String city, String country, int pn, int upn, MedicalRecord medicalRecord){
         this.id = id;
         this.email = email;
         this.password = password;
@@ -33,6 +34,7 @@ public class Patient extends User {
         this.phoneNumber = pn;
         this.uniquePatientNumber = upn;
         this.active = false;
+        this.medicalRecord = medicalRecord;
 
     }
 
