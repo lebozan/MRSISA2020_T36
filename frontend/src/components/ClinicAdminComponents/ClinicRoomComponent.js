@@ -28,7 +28,8 @@ export default function ClinicRoomComponent() {
       setRooms(res.data);
     })
     .catch(error => {console.log(error)});
-  }, [cookies]);
+    // eslint-disable-next-line
+  }, []);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
