@@ -5,11 +5,14 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import siit.isamrs2020.backend.Classes.Clinic;
 import siit.isamrs2020.backend.Classes.ClinicAdmin;
@@ -20,22 +23,26 @@ import siit.isamrs2020.backend.Classes.Nurse;
 import siit.isamrs2020.backend.Classes.Patient;
 import siit.isamrs2020.backend.Classes.PriceList;
 import siit.isamrs2020.backend.Classes.Room;
+import siit.isamrs2020.backend.Classes.UnconfirmedAppointment;
 import siit.isamrs2020.backend.Repositories.DoctorRepository;
+import siit.isamrs2020.backend.Repositories.LeaveRepository;
 import siit.isamrs2020.backend.Repositories.NurseRepository;
 import siit.isamrs2020.backend.Repositories.PatientRepository;
 import siit.isamrs2020.backend.Repositories.PriceListRepository;
 import siit.isamrs2020.backend.Repositories.ClinicAdminRepository;
+import siit.isamrs2020.backend.Repositories.ClinicCenterAdminRepository;
 import siit.isamrs2020.backend.Repositories.ClinicRepository;
 import siit.isamrs2020.backend.Classes.FinishedAppointment;
 
 @SuppressWarnings("unused")
-@EnableMongoRepositories(basePackageClasses = {DoctorRepository.class, NurseRepository.class, ClinicAdminRepository.class, ClinicRepository.class})
+@EnableMongoRepositories(basePackageClasses = {DoctorRepository.class, NurseRepository.class, ClinicAdminRepository.class, ClinicRepository.class, PriceListRepository.class, LeaveRepository.class,  UnconfirmedAppointment.class, PatientRepository.class, ClinicCenterAdminRepository.class})
 @Configuration
 public class MongoDBConfig {
 
   @Bean
   CommandLineRunner commandLineRunner(DoctorRepository doctorRepository, NurseRepository nurseRepository, ClinicAdminRepository clinicAdminRepository, ClinicRepository clinicRepository, PriceListRepository priceListRepository, PatientRepository patientRepository) {
     return strings -> {
+
       // doctorRepository.deleteAll();
       // doctorRepository.save(new Doctor("d1", "drBojanCakic@mail.com", "Bojan", "Cakic", 40, "adresa1", "8-15", MedicalSpecialty.Oncology, 10, "sifra111"));
       // doctorRepository.save(new Doctor("d2", "drMilanMilic@mail.com", "Milan", "Milic", 35, "adresa2", "14-21", MedicalSpecialty.Radiology, 5, "sifra222"));
@@ -81,50 +88,50 @@ public class MongoDBConfig {
       // priceListRepository.save(pl11);
       // priceListRepository.save(pl111);
       
-      ArrayList<FinishedAppointment> mr1fAppointments = new ArrayList<>();
-      mr1fAppointments.add(new FinishedAppointment(1, "d1", new Date(1589090400000l)));
-      mr1fAppointments.add(new FinishedAppointment(1, "d1", new Date(1589522400000l)));
-      mr1fAppointments.add(new FinishedAppointment(1, "d1", new Date(1589954400000l)));
-      mr1fAppointments.add(new FinishedAppointment(2, "d3", new Date(1589702400000l)));
+      // ArrayList<FinishedAppointment> mr1fAppointments = new ArrayList<>();
+      // mr1fAppointments.add(new FinishedAppointment(1, "d1", new Date(1589090400000l)));
+      // mr1fAppointments.add(new FinishedAppointment(1, "d1", new Date(1589522400000l)));
+      // mr1fAppointments.add(new FinishedAppointment(1, "d1", new Date(1589954400000l)));
+      // mr1fAppointments.add(new FinishedAppointment(2, "d3", new Date(1589702400000l)));
 
-      MedicalRecord p1mr = new MedicalRecord("p1mr", mr1fAppointments);
+      // MedicalRecord p1mr = new MedicalRecord("p1mr", mr1fAppointments);
 
-      ArrayList<FinishedAppointment> mr2fAppointments = new ArrayList<>();
-      mr2fAppointments.add(new FinishedAppointment(1, "d2", new Date(1589090400000l)));
-      mr2fAppointments.add(new FinishedAppointment(1, "d2", new Date(1589522400000l)));
-      mr2fAppointments.add(new FinishedAppointment(1, "d2", new Date(1589954400000l)));
-      mr2fAppointments.add(new FinishedAppointment(2, "d3", new Date(1589702400000l)));
+      // ArrayList<FinishedAppointment> mr2fAppointments = new ArrayList<>();
+      // mr2fAppointments.add(new FinishedAppointment(1, "d2", new Date(1589090400000l)));
+      // mr2fAppointments.add(new FinishedAppointment(1, "d2", new Date(1589522400000l)));
+      // mr2fAppointments.add(new FinishedAppointment(1, "d2", new Date(1589954400000l)));
+      // mr2fAppointments.add(new FinishedAppointment(2, "d3", new Date(1589702400000l)));
 
-      MedicalRecord p2mr = new MedicalRecord("p2mr", mr2fAppointments);
+      // MedicalRecord p2mr = new MedicalRecord("p2mr", mr2fAppointments);
 
-      ArrayList<FinishedAppointment> mr3fAppointments = new ArrayList<>();
-      mr3fAppointments.add(new FinishedAppointment(1, "d1", new Date(1590134400000l)));
+      // ArrayList<FinishedAppointment> mr3fAppointments = new ArrayList<>();
+      // mr3fAppointments.add(new FinishedAppointment(1, "d1", new Date(1590134400000l)));
 
-      MedicalRecord p3mr = new MedicalRecord("p3mr", mr3fAppointments);
-
-      
-      ArrayList<FinishedAppointment> mr4fAppointments = new ArrayList<>();
-      mr4fAppointments.add(new FinishedAppointment(1, "d2", new Date(1590134400000l)));
-
-      MedicalRecord p4mr = new MedicalRecord("p4mr", mr4fAppointments);
+      // MedicalRecord p3mr = new MedicalRecord("p3mr", mr3fAppointments);
 
       
-      ArrayList<FinishedAppointment> mr5fAppointments = new ArrayList<>();
-      mr5fAppointments.add(new FinishedAppointment(2, "d3", new Date(1590134400000l)));
+      // ArrayList<FinishedAppointment> mr4fAppointments = new ArrayList<>();
+      // mr4fAppointments.add(new FinishedAppointment(1, "d2", new Date(1590134400000l)));
 
-      MedicalRecord p5mr = new MedicalRecord("p1mr", mr5fAppointments);
+      // MedicalRecord p4mr = new MedicalRecord("p4mr", mr4fAppointments);
 
-      Patient p1 = new Patient("p1", "patient1@mail.com", "sifra123", "Milan", "Darkic", 30, "adresa p1", "Pozarevac", "Srbija", 64123456, 1000001, p1mr);
-      Patient p2 = new Patient("p2", "patient2@mail.com", "sifra123", "Darko", "Stevic", 35, "adresa p2", "Beograd", "Srbija", 64123456, 1000002, p2mr);
-      Patient p3 = new Patient("p3", "patient3@mail.com", "sifra123", "Stevan", "Milic", 50, "adresa p3", "Zajecar", "Srbija", 64123456, 1000003, p3mr);
-      Patient p4 = new Patient("p4", "patient4@mail.com", "sifra123", "Igor", "Stovic", 45, "adresa p4", "Novi Sad", "Srbija", 64123456, 1000004, p4mr);
-      Patient p5 = new Patient("p5", "patient5@mail.com", "sifra123", "Stefan", "Igic", 40, "adresa p5", "Pozarevac", "Srbija", 64123456, 1000005, p5mr);
+      
+      // ArrayList<FinishedAppointment> mr5fAppointments = new ArrayList<>();
+      // mr5fAppointments.add(new FinishedAppointment(2, "d3", new Date(1590134400000l)));
 
-      patientRepository.save(p1);
-      patientRepository.save(p2);
-      patientRepository.save(p3);
-      patientRepository.save(p4);
-      patientRepository.save(p5);
+      // MedicalRecord p5mr = new MedicalRecord("p1mr", mr5fAppointments);
+
+      // Patient p1 = new Patient("p1", "patient1@mail.com", "sifra123", "Milan", "Darkic", 30, "adresa p1", "Pozarevac", "Srbija", 64123456, 1000001, p1mr);
+      // Patient p2 = new Patient("p2", "patient2@mail.com", "sifra123", "Darko", "Stevic", 35, "adresa p2", "Beograd", "Srbija", 64123456, 1000002, p2mr);
+      // Patient p3 = new Patient("p3", "patient3@mail.com", "sifra123", "Stevan", "Milic", 50, "adresa p3", "Zajecar", "Srbija", 64123456, 1000003, p3mr);
+      // Patient p4 = new Patient("p4", "patient4@mail.com", "sifra123", "Igor", "Stovic", 45, "adresa p4", "Novi Sad", "Srbija", 64123456, 1000004, p4mr);
+      // Patient p5 = new Patient("p5", "patient5@mail.com", "sifra123", "Stefan", "Igic", 40, "adresa p5", "Pozarevac", "Srbija", 64123456, 1000005, p5mr);
+
+      // patientRepository.save(p1);
+      // patientRepository.save(p2);
+      // patientRepository.save(p3);
+      // patientRepository.save(p4);
+      // patientRepository.save(p5);
     };
 
   }

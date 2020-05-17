@@ -80,6 +80,7 @@ export default function LeaveRequest() {
       leaveEndDate: leaveEndDate.getTime(),
       staffId:cookies.get('doctorId'),
       clinicId:cookies.get('clinicId'),
+      leaveDuration: requestedDays,
     }
 
     var updateLeaveDays = {

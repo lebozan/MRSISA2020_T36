@@ -1,6 +1,10 @@
 package siit.isamrs2020.backend.Controllers;
 
 import java.lang.reflect.Type;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,10 +12,13 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,12 +30,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import siit.isamrs2020.backend.Classes.Clinic;
+import siit.isamrs2020.backend.Classes.ConfirmedLeave;
 import siit.isamrs2020.backend.Classes.Doctor;
 import siit.isamrs2020.backend.Classes.OneClickAppointment;
 import siit.isamrs2020.backend.Classes.PriceList;
 import siit.isamrs2020.backend.Classes.Room;
 import siit.isamrs2020.backend.Repositories.ClinicRepository;
+import siit.isamrs2020.backend.Repositories.DoctorRepository;
+import siit.isamrs2020.backend.Repositories.LeaveRepository;
 import siit.isamrs2020.backend.Repositories.PriceListRepository;
+import siit.isamrs2020.backend.Services.EmailService;
 
 @RestController
 @RequestMapping("/api/clinics")
@@ -38,7 +49,14 @@ public class ClinicController {
   private Gson gson;
   @Autowired
   private PriceListRepository priceListRepository;
+  @Autowired
+  private LeaveRepository leaveRepository;
 
+  @Autowired
+  private EmailService emailService;
+  @Autowired
+  private DoctorRepository doctorRepository;
+  
   public ClinicController(ClinicRepository clinicRepository) {
     this.clinicRepository = clinicRepository;
     this.gson = new Gson();
@@ -360,6 +378,173 @@ public class ClinicController {
       priceListRepository.save(pl);
       return true;
     }
+
+    return false;
+  }
+
+  @GetMapping("reports")
+  @ResponseBody
+  public String getReportData(@RequestParam int clinicId, @RequestParam String report, @RequestParam @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime startDate, @RequestParam@DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime endDate) {
+    Optional<Clinic> optional = clinicRepository.findById(clinicId);
+    startDate = startDate.plusHours(2);
+    endDate = endDate.plusHours(2);
+
+    if (optional.isPresent()) {
+      Clinic c = optional.get();
+      JsonArray chartData = new JsonArray();
+      if (report.equals("daily")) {
+        
+        int numberOfAppointments = 0;
+        LocalDateTime endLocalDate = startDate.plusDays(7);
+
+        LocalDateTime checkDate = startDate;
+        while (checkDate.isBefore(endLocalDate)) {
+          JsonObject dayData = new JsonObject();
+          for (OneClickAppointment appointment : c.getOneClickAppointments()) {
+            LocalDateTime appointmentDate = LocalDateTime.ofInstant(appointment.getStartTime().toInstant(), ZoneId.systemDefault());
+  
+            if (appointmentDate.getDayOfMonth() == checkDate.getDayOfMonth() && appointmentDate.isAfter(checkDate) && appointmentDate.isBefore(endLocalDate)) {
+              numberOfAppointments++;
+            }
+          }
+
+          dayData.addProperty("appointments", numberOfAppointments);
+          dayData.addProperty("date", checkDate.toLocalDate().toString());
+          chartData.add(dayData);
+          numberOfAppointments = 0;
+          checkDate = checkDate.plusDays(1);
+        }
+
+
+      } else if (report.equals("weekly")) {
+        int numberOfAppointments = 0;
+        int weekCounter = 1;
+        LocalDateTime endMonth = startDate.plusMonths(1);
+        endMonth = endMonth.minusDays(1);
+
+        LocalDateTime weekStartDate = startDate;
+        LocalDateTime weekEndDate = endDate.plusDays(6);
+        while (weekCounter < 6) {
+          JsonObject weekData = new JsonObject();
+          for (OneClickAppointment appointment : c.getOneClickAppointments()) {
+            LocalDateTime appointmentDate = LocalDateTime.ofInstant(appointment.getStartTime().toInstant(), ZoneId.systemDefault());
+  
+            if (appointmentDate.isAfter(weekStartDate) && appointmentDate.isBefore(weekEndDate)) {
+              numberOfAppointments++;
+            }
+          }
+          weekData.addProperty("appointments", numberOfAppointments);
+          weekData.addProperty("date", weekStartDate.toLocalDate().toString() + "-" + weekEndDate.toLocalDate().toString());
+          chartData.add(weekData);
+          
+          if (weekCounter == 4) {
+            weekStartDate = weekStartDate.plusDays(7);
+            weekEndDate = endMonth;
+          } else {
+            weekStartDate = weekStartDate.plusDays(7);
+            weekEndDate = weekEndDate.plusDays(7);
+          }
+          weekCounter++;
+          numberOfAppointments = 0;
+
+        }
+        
+      } else if (report.equals("monthly")) {
+        int numberOfAppointments = 0;
+        while (startDate.isBefore(endDate)) {
+          JsonObject monthData = new JsonObject();
+          for (OneClickAppointment appointment : c.getOneClickAppointments()) {
+            LocalDateTime appointmentDate = LocalDateTime.ofInstant(appointment.getStartTime().toInstant(), ZoneId.systemDefault());
+  
+            if (appointmentDate.getYear() == startDate.getYear() && appointmentDate.getMonthValue() == startDate.getMonthValue()) {
+              numberOfAppointments++;
+            }
+          }
+          monthData.addProperty("appointments", numberOfAppointments);
+          monthData.addProperty("date", startDate.getMonth().toString() + " " + startDate.getYear());
+          chartData.add(monthData);
+          startDate = startDate.plusMonths(1);
+          numberOfAppointments = 0;
+
+        }
+
+      } else if (report.equals("earnings")) {
+        double clinicEarnings = 0;
+        JsonObject earningData = new JsonObject();
+
+        for (OneClickAppointment appointment : c.getOneClickAppointments()) {
+          LocalDateTime appointmentDate = LocalDateTime.ofInstant(appointment.getStartTime().toInstant(), ZoneId.systemDefault());
+
+          if (appointmentDate.isAfter(startDate) && appointmentDate.isBefore(endDate)) {
+            clinicEarnings = clinicEarnings + appointment.getPrice();
+          }
+        }
+        earningData.addProperty("earnings", clinicEarnings);
+        earningData.addProperty("startDate", startDate.toLocalDate().toString());
+        earningData.addProperty("endDate", endDate.toLocalDate().toString());
+        chartData.add(earningData);
+
+      } else {
+        return null;
+      }
+
+      return chartData.toString();
+
+    }
+
+    return null;
+  }
+
+  @PostMapping("/confirmLeaveRequest")
+  @ResponseBody
+  public boolean confirmLeaveRequest(@RequestBody String requestString) {
+    JsonObject json = gson.fromJson(requestString, JsonObject.class);
+    LocalDateTime leaveStart = LocalDateTime.ofInstant(Instant.ofEpochMilli(json.get("leaveStart").getAsLong()) , ZoneId.systemDefault());
+    LocalDateTime leaveEnd = LocalDateTime.ofInstant(Instant.ofEpochMilli(json.get("leaveEnd").getAsLong()) , ZoneId.systemDefault());
+
+    ConfirmedLeave newConfirmedLeave = new ConfirmedLeave(json.get("id").getAsString(), json.get("staffId").getAsString(), 
+      leaveStart, leaveEnd, json.get("clinicId").getAsInt());
+    
+    Optional<Doctor> optionalDoctor = doctorRepository.findById(json.get("staffId").getAsString());
+    if (optionalDoctor.isPresent()) {
+      Doctor d = optionalDoctor.get();
+      if (d.getId().equals(json.get("staffId").getAsString())) {
+        String mailText = "Your leave request for period from " + leaveStart.toLocalDate().toString() + " to " + leaveEnd.toLocalDate().toString() + " has been accepted.";
+        emailService.sendMail("Your_clinic_admin", d.getEmail(), "Leave request accepted", mailText);
+
+        leaveRepository.save(newConfirmedLeave);
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  @PostMapping("/rejectLeaveRequest")
+  @ResponseBody
+  public boolean rejectLeaveRequest(@RequestBody String requestString) {
+    JsonObject json = gson.fromJson(requestString, JsonObject.class);
+
+    LocalDateTime leaveStart = LocalDateTime.ofInstant(Instant.ofEpochMilli(json.get("leaveStart").getAsLong()) , ZoneId.systemDefault());
+    LocalDateTime leaveEnd = LocalDateTime.ofInstant(Instant.ofEpochMilli(json.get("leaveEnd").getAsLong()) , ZoneId.systemDefault());
+    
+    // long daysBetween = ChronoUnit.DAYS.between(leaveStart, leaveEnd);
+
+    Optional<Doctor> optionalDoctor = doctorRepository.findById(json.get("staffId").getAsString());
+    if (optionalDoctor.isPresent()) {
+      Doctor d = optionalDoctor.get();
+      if (d.getId().equals(json.get("staffId").getAsString())) {
+        String mailText = "Your leave request for period from " + leaveStart.toLocalDate().toString() + " to " + leaveEnd.toLocalDate().toString() + " has been rejected. Reason is listed below.\n\n";
+        mailText = mailText + json.get("rejectReason").getAsString();
+        d.setLeaveDays(d.getLeaveDays() + json.get("leaveDuration").getAsInt());
+        doctorRepository.save(d);
+
+        emailService.sendMail("Your_clinic_admin", d.getEmail(), "Leave request rejected", mailText);
+
+        return true;
+      }
+    }
+    // Optional<Clinic> optional = clinicRepository.findById(json.get("clinicId").getAsInt());
 
     return false;
   }

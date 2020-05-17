@@ -68,6 +68,18 @@ public class ClinicAdminController {
     return null;
   }
 
+  @GetMapping("/allLeaveRequests")
+  @ResponseBody
+  public List<LeaveRequest> getAllLeaveRequests(@RequestParam String clinicAdminId) {
+    Optional<ClinicAdmin> optional = clinicAdminRepository.findById(clinicAdminId);
+    if (optional.isPresent()) {
+      ClinicAdmin ca = optional.get();
+      return ca.getClinicStaffLeaveRequests();
+    }
+    
+    return null;
+  }
+
   @PostMapping("/submitUA")
   @ResponseBody
   public boolean addUnconfirmedAppointment(@RequestBody String requesString) {
@@ -146,14 +158,32 @@ public class ClinicAdminController {
   @ResponseBody
   public boolean addNewClinicStaffLeaveRequest(@RequestBody String requestString) {
     JsonObject json = gson.fromJson(requestString, JsonObject.class);
-    LeaveRequest newLeaveRequest = new LeaveRequest(new Date(json.get("leaveStartDate").getAsLong()), 
-      new Date(json.get("leaveEndDate").getAsLong()), json.get("staffId").getAsString());
+    String uniqueID = UUID.randomUUID().toString();
+    LeaveRequest newLeaveRequest = new LeaveRequest(uniqueID, new Date(json.get("leaveStartDate").getAsLong()), 
+      new Date(json.get("leaveEndDate").getAsLong()), json.get("staffId").getAsString(), json.get("leaveDuration").getAsInt());
     Optional<ClinicAdmin> optional = clinicAdminRepository.findByClinicId(json.get("clinicId").getAsInt());
     if (optional.isPresent()) {
       ClinicAdmin ca = optional.get();
       ca.getClinicStaffLeaveRequests().add(newLeaveRequest);
       clinicAdminRepository.save(ca);
       return true;
+    }
+    return false;
+  }
+
+  @DeleteMapping("/deleteLeaveRequest")
+  @ResponseBody
+  public boolean deleteLeaveRequest(@RequestParam String leaveId, @RequestParam String clinicAdminId) {
+    Optional<ClinicAdmin> optional = clinicAdminRepository.findById(clinicAdminId);
+    if (optional.isPresent()) {
+      ClinicAdmin ca = optional.get();
+      for (LeaveRequest leaveRequest : ca.getClinicStaffLeaveRequests()) {
+        if (leaveRequest.getId().equals(leaveId)) {
+          ca.getClinicStaffLeaveRequests().remove(leaveRequest);
+          clinicAdminRepository.save(ca);
+          return true;
+        }
+      }
     }
     return false;
   }
