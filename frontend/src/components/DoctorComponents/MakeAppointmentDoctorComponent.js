@@ -28,17 +28,18 @@ export default function MakeAppointmentDoctorComponent() {
 
 
   const handleDateChange = (date) => {
+    date.setSeconds(0);
     setSelectedDate(date);
     console.log(date);
   };
 
   const closeAndSendData = () => {
-    cookies.set("doctorId", "d1", {path:'/'});
     var patientId = parseInt(document.getElementById('patientId').value);
     var type = document.getElementById("Type").value;
     var doctorId = cookies.get("doctorId");
-
-    var newAppointment = {'clinicId':1,patientId,type,doctorId,'startTime':selectedDate.getTime()}
+    var clinicId = cookies.get('clinicId');
+    
+    var newAppointment = {clinicId,patientId,type,doctorId,'startTime':selectedDate.getTime()}
     console.log(newAppointment);
 
     if (isNaN(patientId) === "" || type === "" || isNaN(selectedDate.getTime())) {
