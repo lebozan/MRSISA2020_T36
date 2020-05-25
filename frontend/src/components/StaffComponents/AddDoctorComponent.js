@@ -1,19 +1,12 @@
 import React from 'react'
-// import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
 
-// const useStyles = makeStyles((theme) => ({
-//   typography: {
-//     padding: theme.spacing(2),
-//   },
-// }));
-
+// Component for adding new doctor to the clinic
 export default function AddDoctorComponent(props) {
-  // const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const specialties = ["Allergy And Immunology", "Anesthesiology", "Dermatology", "Radiology", "Emergency Medicine", "Internal Medicine",
     "Neurology", "Medical Genetics", "Nuclear Medicine", "Gynecology", "Ophthalmology", "Pathology", "Pediatrics", "Physical Medicine", 
@@ -44,7 +37,6 @@ export default function AddDoctorComponent(props) {
     } else {
       props.addDoctor(newDoctor);
     }
-    
     
   };
 

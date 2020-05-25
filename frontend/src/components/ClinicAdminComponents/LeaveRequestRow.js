@@ -31,7 +31,7 @@ export default function LeaveRequestRow(props) {
     if (acceptBool) {
       sendAccept(data, request.id);
     } else {
-      if (rejectionReason != '') {
+      if (rejectionReason !== '') {
         data.rejectReason = rejectionReason;
         sendReject(data, request.id);
       } else {

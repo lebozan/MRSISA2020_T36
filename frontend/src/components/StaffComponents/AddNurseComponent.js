@@ -1,19 +1,12 @@
 import React from 'react'
-// import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
 
-// const useStyles = makeStyles((theme) => ({
-//   typography: {
-//     padding: theme.spacing(2),
-//   },
-// }));
-
+// Component for adding new nurse to the clinic
 export default function AddNurseComponent(props) {
-  // const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
@@ -38,8 +31,6 @@ export default function AddNurseComponent(props) {
     } else {
       props.addNurse(newNurse);
     }
-    
-
   };
 
   const open = Boolean(anchorEl);

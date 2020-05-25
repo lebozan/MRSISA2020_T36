@@ -15,11 +15,11 @@ import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import PatientPage from './PatientPage';
 
-
 const headerData = [
   'First Name', 'Last Name', 'Unique Patient Number'
 ]
 
+// Component for searching for all patients
 export class PatientSearch extends Component {
   constructor() {
     super();
@@ -49,6 +49,7 @@ export class PatientSearch extends Component {
 
   }
 
+  // allows doctor to see medical record only for patients he has seen before 
   checkWhichMedicalRecordToShow(patients) {
     var doctorId = this.state.cookies.get('doctorId');
 
@@ -82,7 +83,8 @@ export class PatientSearch extends Component {
       }
     }
   }
-  
+
+  // filters the patient list for all patient data fields
   showSearchResults(searchQuery) {
     var shownPatients = matchSorter(this.state.patients, searchQuery, {keys:['firstName', 'lastName', 'address', 'age', 'city', 'uniquePatientNumber']});
     var row = this.state.lastRowSorted[0].toLowerCase() + this.state.lastRowSorted.slice(1,);
@@ -93,7 +95,6 @@ export class PatientSearch extends Component {
       shownPatients.sort((patientA, patientB) => {return patientA[row].localeCompare(patientB[row])})
     }
     
-    
     if (this.state.sortReverse) {
       shownPatients.reverse();
     }
@@ -101,6 +102,7 @@ export class PatientSearch extends Component {
     this.setState({shownPatients});
   }
 
+  // Sorts a table for selected row
   sortTable(rowName) {
     var row = rowName[0].toLowerCase() + rowName.slice(1,);
     row = row.replace(/\s/g,'');
@@ -161,8 +163,6 @@ export class PatientSearch extends Component {
             </Table>
           </TableContainer>
         </Paper>
-        
-        
       </div>
     )
   }

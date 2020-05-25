@@ -29,6 +29,7 @@ const useStyles = makeStyles({
 });
 
 
+// Component for creating a new price list for current clinic 
 export default function NewPriceList(props) {
   const classes = useStyles();
   const {addNewPriceList} = props;

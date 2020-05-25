@@ -13,6 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+// Component for managing clinic rooms
 export default function ClinicRoomComponent() {
   const [rooms, setRooms] = React.useState([]);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -60,7 +61,6 @@ export default function ClinicRoomComponent() {
           } else {
             alert('Room with name \'' + room + '\' already exists!');
           }
-          
         })
         .catch(error => console.log(error));
     }
@@ -144,7 +144,6 @@ export default function ClinicRoomComponent() {
             </Button>
           </Grid>
         </Popover>
-
       </List>
     </div>
   )

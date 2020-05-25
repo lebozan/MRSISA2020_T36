@@ -15,7 +15,7 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 
-
+// Component for displaying single appointment request
 export default function AppointmentRequestRow(props) {
   const {appointment, rooms, removeRequest, index} = props;
   const [open, setOpen] = React.useState(false);

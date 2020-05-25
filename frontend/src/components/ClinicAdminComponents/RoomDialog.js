@@ -27,7 +27,7 @@ root: {
 }
 });
 
-
+// Component for displaying and choosing a room for an appointment
 export default function RoomDialog(props) {
   const classes = useStyles();
   const { onClose, selectedRoom, open, rooms, appointmentDate, index } = props;
@@ -134,7 +134,6 @@ export default function RoomDialog(props) {
             </List>
             {shownRooms.map((room, index) => (
               returnRoomReservations(room, index)
-              
             ))}
 
             {shownRooms.length === 0 ? 

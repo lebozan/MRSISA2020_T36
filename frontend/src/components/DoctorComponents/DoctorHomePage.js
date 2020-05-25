@@ -1,7 +1,6 @@
 import React from 'react'
 import {
   Route,
-  Link
 } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -60,11 +59,6 @@ export default function DoctorHomePage() {
   const open = Boolean(anchorEl);
   const cookies = new Cookies();
 
-  cookies.set('doctorId', 'd1', {path:'/'});
-  cookies.set('clinicId', 1, {path:'/'});
-  cookies.set('role', 'doctor', {path:'/'});
-
-
   const history = useHistory();
 
   const handleMenu = (event) => {
@@ -74,6 +68,12 @@ export default function DoctorHomePage() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const logout = () => {
+    cookies.remove('role');
+    cookies.remove('doctorId');
+    goTo('/login');
+  }
 
   const goTo = (url) => {
     history.push(url);
@@ -114,12 +114,12 @@ export default function DoctorHomePage() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={() => {
-                  goTo('/acc');
+                  goTo('/doctor/acc');
                   handleClose();}}
                   >
                     Profile
                 </MenuItem>
-                <MenuItem onClick={() => {handleClose()}}>Log out</MenuItem>
+                <MenuItem onClick={logout}>Log out</MenuItem>
               </Menu>
             </div>
         </Toolbar>
@@ -134,7 +134,7 @@ export default function DoctorHomePage() {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            {['Home', 'Calendar', 'Patient List', 'Request leave', 'New Appointment'].map((text, index) => (
+            {['Home', 'Calendar', 'Patient List', 'Request leave', 'New Appointment'].map((text) => (
               <ListItem button key={text} onClick={() => {goTo('/doctor/' +  text.toString().replace(/\s/g,'').toLowerCase())}}>
                 <ListItemText primary={text} />
               </ListItem>
@@ -156,7 +156,7 @@ export default function DoctorHomePage() {
           <Route path="/doctor/requestleave">
             <LeaveRequest />
           </Route>
-          <Route path="/acc">
+          <Route path="/doctor/acc">
             <UserProfileComponent />
           </Route>
       </main>

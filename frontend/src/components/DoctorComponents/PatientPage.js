@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import PatientMedicalRecord from './PatientMedicalRecord';
 import Button from '@material-ui/core/Button';
 
-
+// Component for displaying current selected patient
 export default function PatientPage(props) {
   const {patient} = props;
 

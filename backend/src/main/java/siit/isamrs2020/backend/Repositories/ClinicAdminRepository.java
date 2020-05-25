@@ -10,4 +10,6 @@ public interface ClinicAdminRepository extends MongoRepository<ClinicAdmin,Strin
 
   Optional<ClinicAdmin> findByClinicId(int clinicId);
 
+  Optional<ClinicAdmin> findByEmail(String email);
+
 }

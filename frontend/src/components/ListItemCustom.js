@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
 
+// component used for displaying clinic staff in ClinicStaffList.js as row with delete function
 export class ListItemCustom extends Component {
   render() {
     const {user, deleteUser} = this.props;

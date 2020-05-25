@@ -14,19 +14,20 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import FolderIcon from '@material-ui/icons/Folder';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Cookies from 'universal-cookie';
 
+// Component for managing clinic's appointment types
 export default function AppointmentTypesComponent() {
- 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [appTypes, setAppTypes] = React.useState([]);
   const [appTypeName, setAppTypeName] = React.useState('');
   const [appTypePrice, setAppTypePrice] = React.useState(0);
+  const cookies = new Cookies();
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
   
   React.useEffect(() => {
-    let clinicId = 1;
-    axios.get("http://localhost:8080/api/clinics/appTypes?clinicId=" + clinicId)
+    axios.get("http://localhost:8080/api/clinics/appTypes?clinicId=" + cookies.get('clinicId'))
     .then(res => {
       setAppTypes(res.data);
     })
@@ -54,7 +55,6 @@ export default function AppointmentTypesComponent() {
     } else {
       addAppType(newAppType);
     }
-  
   };
   
   const deleteAppType = (name) => {
@@ -64,7 +64,6 @@ export default function AppointmentTypesComponent() {
         if(res.data) {
           let types = appTypes.filter(appType => appType !== name);
           setAppTypes(types);
-          
         }
       })
       .catch(res => console.log(res));
@@ -74,7 +73,6 @@ export default function AppointmentTypesComponent() {
     axios.post('http://localhost:8080/api/clinics/addAppType', newAppType)
     .then(res => {
       if (res.data) {
-
         setAppTypes(appTypes => [...appTypes, newAppType.appTypeName]);
       }
     })

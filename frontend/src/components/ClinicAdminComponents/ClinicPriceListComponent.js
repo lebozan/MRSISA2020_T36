@@ -17,6 +17,7 @@ import TableRow from '@material-ui/core/TableRow';
 import PricesComponent from './PricesComponent';
 import NewPriceList from './NewPriceList'; 
 
+// Component for managing clinic price lists
 export class ClinicPriceListComponent extends Component {
   constructor(props) {
     super(props);
@@ -27,14 +28,13 @@ export class ClinicPriceListComponent extends Component {
     };
   }
 
-
+  // Get all price lists for current clinic
   componentDidMount() {
     axios.get("http://localhost:8080/api/clinics/clinicPriceLists?clinicId=" + this.state.cookies.get('clinicId'))
     .then(res => {
       if (this.state.priceLists.length === 0) {
         this.setState({priceLists:res.data, cookies: this.state.cookies});
       }
-
     })
     .catch(error => console.log(error));
   }
@@ -62,6 +62,7 @@ export class ClinicPriceListComponent extends Component {
       .catch(error => console.log(error));
   }
 
+  // set a price list to be active
   makePriceListActive(plId, isActive) {
     var data = {
       clinicId: this.state.cookies.get('clinicId'),
@@ -81,8 +82,8 @@ export class ClinicPriceListComponent extends Component {
     .catch(error => console.log(error));
   };
 
+  // apply price change to selected clinic
   changeAppointmentTypePrice(priceListId, newPrices) {
-
     var priceListsChange = this.state.priceLists;
     priceListsChange.forEach(priceList => {
       if (priceList.id === priceListId) {
@@ -140,10 +141,6 @@ export class ClinicPriceListComponent extends Component {
                   />
                 </TableBody>
               </Table>
-              {/* <Grid container justify="space-around">
-
-
-              </Grid> */}
               <Button 
                   variant="contained"
                   color="primary"
