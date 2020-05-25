@@ -8,16 +8,15 @@ import TextField from '@material-ui/core/TextField';
 import ClinicInfoComponent from './ClinicAdminComponents/ClinicInfoComponent';
 import ChangeUserPassword from './ChangeUserPassword';
 
+// Component for displaying current user's basic info and clinic info for clinic admin
 export default function UserProfileComponent() {
   const [user, setUser] = React.useState({});
   const [showEditFields, setShowEditFields] = React.useState(false)
   const editFields = ['edit First Name', 'edit Last Name', 'edit Email', 'edit Age', 'edit Address'];
   var cookies = new Cookies();
 
+  // get current logged in user's data from backend
   React.useEffect(() => {
-    cookies.set("role", "doctor", {path:'/'});
-    cookies.set('doctorId', 'd1', {path:'/'});
-    cookies.set('clinicId', 1, {path:'/'});
     let role = cookies.get('role');
     axios.get('http://localhost:8080/api/' + role + 's/getOne?' + role + 'Id=' + cookies.get(role + 'Id'))
       .then((res) => {
@@ -30,9 +29,6 @@ export default function UserProfileComponent() {
   const editInfo = () => {
     setShowEditFields(true);
   }
-
-  
-
 
   const submitChanges = () => {
     var firstName = document.getElementById('editFirstName').value;
@@ -63,7 +59,12 @@ export default function UserProfileComponent() {
       changes['email'] = email;
     }
     
-    changes['doctorId'] = cookies.get('doctorId');
+    if (cookies.get('role') === 'doctor') {
+      changes['doctorId'] = cookies.get('doctorId');
+    } else if (cookies.get('role') === 'clinicAdmin') {
+      changes['clinicAdminId'] = cookies.get('clinicAdminId');
+    }
+
     var role = cookies.get('role');
     axios.put('http://localhost:8080/api/' + role + 's/updateInfo', changes)
       .then((res) => {

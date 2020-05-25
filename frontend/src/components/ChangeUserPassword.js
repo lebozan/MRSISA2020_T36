@@ -9,7 +9,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-
+// component for changing current user's password
 export default function ChangeUserPassword() {
   const [open, setOpen] = React.useState(false);
   const [oldPassword, setOldPassword] = React.useState('');
@@ -33,18 +33,25 @@ export default function ChangeUserPassword() {
 
     var data = {
       newPassword,
-      doctorId:cookies.get('doctorId'),
     }
-    axios.put('http://localhost:8080/api/doctors/updatePassword', data)
+
+    if (cookies.get('role') === 'doctor') {
+      data.doctorId = cookies.get('doctorId');
+    } else if (cookies.get('role') === 'clinicAdmin') {
+      data.clinicAdminId = cookies.get('clinicAdminId');
+    }
+
+
+    axios.put('http://localhost:8080/api/' + cookies.get('role') + 's/updatePassword', data)
       .then(res => {
         if (res.data) {
           handleClose();
           alert('Your password is successfully changed!');
+        } else {
+          alert('Old password does not match!');
         }
       })
       .catch(error => console.log(error));
-
-
   }
 
   return (

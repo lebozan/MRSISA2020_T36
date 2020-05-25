@@ -3,7 +3,7 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import LeaveRequestRow from './LeaveRequestRow';
 
-
+// Component for managing leave requests from clinic staff
 export default function ManageLeaveRequests() {
   const [leaveRequests, setLeaveRequests] = React.useState([]);
   const cookies = new Cookies();
@@ -27,7 +27,6 @@ export default function ManageLeaveRequests() {
 
   const acceptLeaveRequest = (newLeave, id) => {
     newLeave['clinicId'] = cookies.get('clinicId');
-    // console.log(newLeave);
     axios.post('http://localhost:8080/api/clinics/confirmLeaveRequest', newLeave)
       .then(res => {
         if (res.data) {
@@ -44,8 +43,6 @@ export default function ManageLeaveRequests() {
   }
 
   const rejectLeaveRequest = (data, id) => {
-    // data['clinicId'] = cookies.get('clinicId');
-    // console.log(data);
     axios.post('http://localhost:8080/api/clinics/rejectLeaveRequest', data)
       .then(res => {
         if (res.data) {

@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
+// Component for changing one appointment type price
 export default function EditPriceRow(props) {
   const classes = useStyles();
   const {appointmentType, changeItemPrice} = props;

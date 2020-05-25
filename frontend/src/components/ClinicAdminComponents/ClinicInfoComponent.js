@@ -11,16 +11,14 @@ import axios from 'axios';
 import Cookies from 'universal-cookie';
 import Typography from '@material-ui/core/Typography';
 
-
+// Component for displaying information about clinic admin's clinic
 export default function ClinicInfoComponent() {
   const [open, setOpen] = React.useState(false);
   const [clinicInfo, setClinicInfo] = React.useState({});
   var cookies = new Cookies();
 
-
   React.useEffect(() => {
-    var clinicId = cookies.get('clinicId');
-    axios.get('http://localhost:8080/api/clinics/getInfo?clinicId=' + clinicId)
+    axios.get('http://localhost:8080/api/clinics/getInfo?clinicId=' + cookies.get('clinicId'))
       .then((res) => {
         setClinicInfo(res.data);
       })
@@ -74,10 +72,8 @@ export default function ClinicInfoComponent() {
           setClinicInfo(changes);
           handleClose();
         }
-
       })
       .catch(error => console.log(error));
-
   }
 
 

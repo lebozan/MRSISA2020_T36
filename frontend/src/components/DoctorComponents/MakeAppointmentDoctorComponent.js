@@ -12,7 +12,7 @@ import {
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
-
+// Component for doctor to request an appointment for the patient
 export default function MakeAppointmentDoctorComponent() {
   const [selectedDate, setSelectedDate] = React.useState(new Date(Date.now() + 86400000));
   const [types, setTypes] = React.useState([]);
@@ -30,7 +30,6 @@ export default function MakeAppointmentDoctorComponent() {
   const handleDateChange = (date) => {
     date.setSeconds(0);
     setSelectedDate(date);
-    console.log(date);
   };
 
   const closeAndSendData = () => {
@@ -40,7 +39,6 @@ export default function MakeAppointmentDoctorComponent() {
     var clinicId = cookies.get('clinicId');
     
     var newAppointment = {clinicId,patientId,type,doctorId,'startTime':selectedDate.getTime()}
-    console.log(newAppointment);
 
     if (isNaN(patientId) === "" || type === "" || isNaN(selectedDate.getTime())) {
       alert("All fields are required!");

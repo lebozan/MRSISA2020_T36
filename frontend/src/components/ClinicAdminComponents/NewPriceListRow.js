@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 
-
+// Component for rendering one appointment type priece for new price list
 export default function NewPriceListRow(props) {
   const {appointmentType, createPrices} = props;
   // const [price, setPrice] = React.useState(0);

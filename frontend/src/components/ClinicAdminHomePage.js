@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   Route,
-  Link
+  useHistory
 } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -16,7 +16,6 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import { useHistory } from 'react-router-dom';
 import ClinicStaffList from './StaffComponents/ClinicStaffList';
 import AppointmentTypesComponent from './ClinicAdminComponents/AppointmentTypesComponent';
 import OneClickAppointmentComponent from './ClinicAdminComponents/OneClickAppointmentComponent';
@@ -66,9 +65,9 @@ export default function ClinicAdminHomePage() {
   const open = Boolean(anchorEl);
   const cookies = new Cookies();
 
-  cookies.set('clinicAdminId', 'ca1', {path:'/'});
-  cookies.set('clinicId', 1, {path:'/'});
-  cookies.set('role', 'clinicAdmin', {path:'/'});
+  // cookies.set('clinicAdminId', 'ca1', {path:'/'});
+  // cookies.set('clinicId', 1, {path:'/'});
+  // cookies.set('role', 'clinicAdmin', {path:'/'});
 
   const history = useHistory();
 
@@ -79,6 +78,13 @@ export default function ClinicAdminHomePage() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const logout = () => {
+    cookies.remove('role');
+    cookies.remove('clinicAdminId');
+    cookies.remove('clinicId');
+    goTo('/login');
+  }
 
   function goTo(url) {
     history.push(url);
@@ -118,12 +124,12 @@ export default function ClinicAdminHomePage() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={() => {
-                  goTo('/acc');
+                  goTo('/clinicAdmin/acc');
                   handleClose();}}
                   >
                     Profile
                 </MenuItem>
-                <MenuItem onClick={() => {handleClose()}}>Log out</MenuItem>
+                <MenuItem onClick={logout}>Log out</MenuItem>
               </Menu>
             </div>
         </Toolbar>
@@ -138,31 +144,31 @@ export default function ClinicAdminHomePage() {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            <ListItem button onClick={() => {goTo('/ca/home')}}>
+            <ListItem button onClick={() => {goTo('/clinicAdmin/home')}}>
               <ListItemText primary="Home" />
             </ListItem>
-            <ListItem button className={classes.nested} onClick={() => {goTo('/ca/clinicStaff')}}>
+            <ListItem button className={classes.nested} onClick={() => {goTo('/clinicAdmin/clinicStaff')}}>
               <ListItemText primary="Clinic staff" />
             </ListItem>
-            <ListItem button className={classes.nested} onClick={() => {goTo('/ca/appointmentTypes')}}>
+            <ListItem button className={classes.nested} onClick={() => {goTo('/clinicAdmin/appointmentTypes')}}>
               <ListItemText primary="Appointment types" />
             </ListItem>
-            <ListItem button className={classes.nested} onClick={() => {goTo('/ca/newOneClick')}}>
+            <ListItem button className={classes.nested} onClick={() => {goTo('/clinicAdmin/newOneClick')}}>
               <ListItemText primary="Add one-click appointment" />
             </ListItem>
-            <ListItem button className={classes.nested} onClick={() => {goTo('/ca/requestedAppointments')}}>
+            <ListItem button className={classes.nested} onClick={() => {goTo('/clinicAdmin/requestedAppointments')}}>
               <ListItemText primary="Requested appointments" />
             </ListItem>
-            <ListItem button className={classes.nested} onClick={() => {goTo('/ca/clinicRooms')}}>
+            <ListItem button className={classes.nested} onClick={() => {goTo('/clinicAdmin/clinicRooms')}}>
               <ListItemText primary="Clinic rooms" />
             </ListItem>
-            <ListItem button className={classes.nested} onClick={() => {goTo('/ca/managePriceLists')}}>
+            <ListItem button className={classes.nested} onClick={() => {goTo('/clinicAdmin/managePriceLists')}}>
               <ListItemText primary="Manage clinic price lists" />
             </ListItem>
-            <ListItem button className={classes.nested} onClick={() => {goTo('/ca/leaveRequests')}}>
+            <ListItem button className={classes.nested} onClick={() => {goTo('/clinicAdmin/leaveRequests')}}>
               <ListItemText primary="Manage leave requests" />
             </ListItem>
-            <ListItem button className={classes.nested} onClick={() => {goTo('/ca/reports')}}>
+            <ListItem button className={classes.nested} onClick={() => {goTo('/clinicAdmin/reports')}}>
               <ListItemText primary="View clinic reports" />
             </ListItem>
           </List>
@@ -170,31 +176,31 @@ export default function ClinicAdminHomePage() {
       </Drawer>
       <main className={classes.content}>
         <Toolbar/>
-          <Route path="/ca/managePriceLists">
+          <Route path="/clinicAdmin/managePriceLists">
             <ClinicPriceListComponent />
           </Route>
-          <Route path="/ca/clinicRooms">
+          <Route path="/clinicAdmin/clinicRooms">
             <ClinicRoomComponent />
           </Route>
-          <Route path="/ca/clinicStaff">
+          <Route path="/clinicAdmin/clinicStaff">
             <ClinicStaffList />
           </Route>
-          <Route path="/ca/appointmentTypes">
+          <Route path="/clinicAdmin/appointmentTypes">
             <AppointmentTypesComponent />
           </Route>
-          <Route path="/ca/newOneClick">
+          <Route path="/clinicAdmin/newOneClick">
             <OneClickAppointmentComponent />
           </Route>
-          <Route path="/ca/requestedAppointments">
+          <Route path="/clinicAdmin/requestedAppointments">
             <RequestedAppointmentsComponent />
           </Route>
-          <Route path="/ca/leaveRequests">
+          <Route path="/clinicAdmin/leaveRequests">
             <ManageLeaveRequests />
           </Route>
-          <Route path="/ca/reports">
+          <Route path="/clinicAdmin/reports">
             <Reports />
           </Route>
-          <Route path="/acc">
+          <Route path="/clinicAdmin/acc">
             <UserProfileComponent />
           </Route>
 

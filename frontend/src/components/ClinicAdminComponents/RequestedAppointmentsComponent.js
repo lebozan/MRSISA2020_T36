@@ -2,11 +2,8 @@ import React from 'react';
 import AppointmentRequestRow from './AppointmentRequestRow';
 import axios from 'axios';
 
-
-
-
+// Component for rendering all unconfirmed appointment requests for current clinic
 export default function RequestedAppointmentsComponent() {
-
   const [requests, setRequests] = React.useState([]);
   const [rooms, setRooms] = React.useState([]);
 
@@ -50,7 +47,6 @@ export default function RequestedAppointmentsComponent() {
         changes.push(i);
       }
     }
-
     return changes;
   }
 
@@ -61,7 +57,6 @@ export default function RequestedAppointmentsComponent() {
       {requests.map((request, index) => (
         <AppointmentRequestRow key={request.id + '--' + index} index={index} appointment={request} rooms={rooms} removeRequest={() => {removeRequest(request.id)}}/>
       ))}
-      
     </div>
   )
 }

@@ -5,12 +5,12 @@ import {
   Link
 } from "react-router-dom";
 import ClinicAdminHomePage from './components/ClinicAdminHomePage';
-import UserProfileComponent from './components/UserProfileComponent';
 import Login from './components/AccountComponents/LoginComponent';
 import Register from './components/AccountComponents/RegisterComponent';
 import DoctorHomePage from './components/DoctorComponents/DoctorHomePage';
+import ProtectedRoute from './components/ProtectedRoute';
 
-
+// test function
 function Home() {
   return (
     <nav>
@@ -22,7 +22,7 @@ function Home() {
           <Link to="/doctor/home">Doctor home page</Link>
         </li>
         <li>
-          <Link to="/ca/home">Clinic admin home page</Link>
+          <Link to="/clinicAdmin/home">Clinic admin home page</Link>
         </li>
         <li>
           <Link to="/login">Login</Link>
@@ -39,17 +39,16 @@ export default function App() {
 
   return (
       <div>
-
         <Switch>
 
-{/* clinic admin home page */}
-          <Route path="/ca/*">
-            <ClinicAdminHomePage />
+{/* clinic admin routes */}
+          <Route path="/clinicAdmin/*">
+            <ProtectedRoute component={<ClinicAdminHomePage />} />
           </Route>
 
-{/* doctor home page */}
+{/* doctor routes */}
           <Route path="/doctor/*">
-            <DoctorHomePage />
+            <ProtectedRoute component={<DoctorHomePage />} />
           </Route>
 
           <Route path="/login">
@@ -60,9 +59,6 @@ export default function App() {
           </Route>
           <Route path="/home">
             <Home />
-          </Route>
-          <Route path="/acc">
-            <UserProfileComponent />
           </Route>
           <Route exact path="/">
             <Home />

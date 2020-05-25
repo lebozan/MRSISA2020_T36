@@ -80,13 +80,13 @@ export class ClinicStaffList extends Component {
       <div>
         <List>
           Doctors:
-          {this.state.doctors.map((doctor, index) => 
-          <ListItemCustom key={index} user={doctor} deleteUser={this.deleteDoctor.bind(this, doctor.id)}/> )}
-          <AddDoctorComponent  fields={['First Name', 'Last Name', 'Age', 'Address', 'Years Of Experience']} addDoctor={this.addDoctor.bind(this)} />
+          {this.state.doctors.map((doctor) => 
+          <ListItemCustom key={doctor.id} user={doctor} deleteUser={this.deleteDoctor.bind(this, doctor.id)}/> )}
+          <AddDoctorComponent fields={['First Name', 'Last Name', 'Age', 'Address', 'Years Of Experience']} addDoctor={this.addDoctor.bind(this)} />
 
           Nurses:
-          {this.state.nurses.map((nurse, index) => 
-          <ListItemCustom key={index} user={nurse} deleteUser={this.deleteNurse.bind(this, nurse.id)}/> )}
+          {this.state.nurses.map((nurse) => 
+          <ListItemCustom key={nurse.id} user={nurse} deleteUser={this.deleteNurse.bind(this, nurse.id)}/> )}
           <AddNurseComponent fields={['First Name', 'Last Name', 'Age', 'Address', 'Years Of Experience']} addNurse={this.addNurse.bind(this)}/>
         </List>
       </div>

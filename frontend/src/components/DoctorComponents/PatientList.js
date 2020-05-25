@@ -2,7 +2,7 @@ import React from 'react'
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
-
+// Component for rendering each patient as a row in the table
 export default function PatientList(props) {
   const {rows, selectPatient} = props;
   const [selectedRow, setSelectedRow] = React.useState({});

@@ -10,6 +10,7 @@ import siit.isamrs2020.backend.Classes.Doctor;
 public interface DoctorRepository extends MongoRepository<Doctor, String>{
 
   List<Doctor> findByFirstName(String firstName);
+  Optional<Doctor> findByEmail(String email);
 
   // Optional<Doctor> findByIdAndLeaveDaysGreaterThen(String doctorId, int leaveDays);
 }
