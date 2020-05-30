@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 import Typography from '@material-ui/core/Typography';
+import ClinicLocation from '../MapComponents/ClinicLocation';
 
 // Component for displaying information about clinic admin's clinic
 export default function ClinicInfoComponent() {
@@ -93,6 +94,9 @@ export default function ClinicInfoComponent() {
           Change clinic info
         </Button>
       </Grid>
+
+      {clinicInfo.lat ? <ClinicLocation lat={clinicInfo.lat} lng={clinicInfo.long} clinicName={clinicInfo.name}/> : null}
+      
 
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Change clinic info</DialogTitle>

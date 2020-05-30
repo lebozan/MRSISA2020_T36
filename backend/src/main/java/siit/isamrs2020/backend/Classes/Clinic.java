@@ -20,6 +20,7 @@ public class Clinic {
   private String clinicName;
   private String clinicAddress;
   private String clinicDescription;
+  private String locationCoordinates;
   private List<Doctor> doctors;
   private List<Room> rooms;
   private List<String> appointmentTypes;
