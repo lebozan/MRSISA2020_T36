@@ -42,7 +42,7 @@ export default function ChangeUserPassword() {
     }
 
 
-    axios.put('http://localhost:8080/api/' + cookies.get('role') + 's/updatePassword', data)
+    axios.put('http://localhost:8080/api/' + cookies.get('role') + 's/updatePassword', data, {withCredentials: true})
       .then(res => {
         if (res.data) {
           handleClose();

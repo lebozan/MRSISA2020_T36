@@ -18,7 +18,7 @@ export default function UserProfileComponent() {
   // get current logged in user's data from backend
   React.useEffect(() => {
     let role = cookies.get('role');
-    axios.get('http://localhost:8080/api/' + role + 's/getOne?' + role + 'Id=' + cookies.get(role + 'Id'))
+    axios.get('http://localhost:8080/api/' + role + 's/getOne?' + role + 'Id=' + cookies.get(role + 'Id'), {withCredentials: true})
       .then((res) => {
         setUser(res.data);
       })
@@ -66,7 +66,7 @@ export default function UserProfileComponent() {
     }
 
     var role = cookies.get('role');
-    axios.put('http://localhost:8080/api/' + role + 's/updateInfo', changes)
+    axios.put('http://localhost:8080/api/' + role + 's/updateInfo', changes, {withCredentials: true})
       .then((res) => {
         setUser(res.data);
         setShowEditFields(false);

@@ -23,7 +23,7 @@ export default function ClinicRoomComponent() {
 
   React.useEffect(() => {
     let clinicId = 1;
-    axios.get("http://localhost:8080/api/clinics/rooms?clinicId=" + clinicId)
+    axios.get("http://localhost:8080/api/clinics/rooms?clinicId=" + clinicId, {withCredentials: true})
     .then(res => {
       cookies.set('clinicId', 1, {path:'/'});
       setRooms(res.data);
@@ -51,7 +51,7 @@ export default function ClinicRoomComponent() {
       alert('Room name must start with \'Sala\' and follow with a number!');
       console.log(room);
     } else {
-      axios.post('http://localhost:8080/api/clinics/newRoom', newRoom)
+      axios.post('http://localhost:8080/api/clinics/newRoom', newRoom, {withCredentials: true})
         .then((res) => {
           console.log(res.data);
           if (res.data !== '') {
@@ -68,7 +68,7 @@ export default function ClinicRoomComponent() {
   };
   
   const deleteRoom = (name) => {
-    axios.delete('http://localhost:8080/api/clinics/deleteRoom?clinicId=' + cookies.get('clinicId') + "&room=" + name)
+    axios.delete('http://localhost:8080/api/clinics/deleteRoom?clinicId=' + cookies.get('clinicId') + "&room=" + name, {withCredentials: true})
       .then(res => {
         if(res.data) {
           let types = rooms.filter(room => room.roomName !== name);

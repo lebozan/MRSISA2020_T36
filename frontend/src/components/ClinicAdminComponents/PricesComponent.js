@@ -14,7 +14,7 @@ export default function PricesComponent(props) {
       updateValue: newValue
     }
 
-    axios.put('http://localhost:8080/api/clinics/changePrice', data)
+    axios.put('http://localhost:8080/api/clinics/changePrice', data, {withCredentials: true})
       .then(res => {
         if (res.data) {
           newPrices[appointmentType] = newValue;

@@ -9,7 +9,7 @@ export default function RequestedAppointmentsComponent() {
 
   React.useEffect(()=> {
     let clinicAdminId = "ca1";
-    axios.get('http://localhost:8080/api/clinicAdmins/allUAs?clinicAdminId=' + clinicAdminId)
+    axios.get('http://localhost:8080/api/clinicAdmins/allUAs?clinicAdminId=' + clinicAdminId, {withCredentials: true})
       .then(res => {
         let r = res.data;
         r.forEach((element, index) => {
@@ -24,7 +24,7 @@ export default function RequestedAppointmentsComponent() {
       })
       .catch(error => console.log(error));
 
-    axios.get("http://localhost:8080/api/clinics/rooms?clinicId=1")
+    axios.get("http://localhost:8080/api/clinics/rooms?clinicId=1", {withCredentials: true})
       .then(res => {
         setRooms(res.data);
       })

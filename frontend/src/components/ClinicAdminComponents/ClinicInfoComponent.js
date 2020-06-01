@@ -19,7 +19,7 @@ export default function ClinicInfoComponent() {
   var cookies = new Cookies();
 
   React.useEffect(() => {
-    axios.get('http://localhost:8080/api/clinics/getInfo?clinicId=' + cookies.get('clinicId'))
+    axios.get('http://localhost:8080/api/clinics/getInfo?clinicId=' + cookies.get('clinicId'),  {withCredentials: true})
       .then((res) => {
         setClinicInfo(res.data);
       })
@@ -67,7 +67,7 @@ export default function ClinicInfoComponent() {
     
     changes['clinicId'] = cookies.get('clinicId');
 
-    axios.put('http://localhost:8080/api/clinics/updateInfo', changes)
+    axios.put('http://localhost:8080/api/clinics/updateInfo', changes, {withCredentials: true})
       .then((res) => {
         if (res.data) {
           setClinicInfo(changes);

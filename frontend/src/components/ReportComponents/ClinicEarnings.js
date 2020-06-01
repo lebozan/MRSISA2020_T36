@@ -26,7 +26,7 @@ export default function ClinicEarnings() {
       alert('Start date cannot be higher than end date!');
       return;
     }
-    axios.get('http://localhost:8080/api/clinics/reports?clinicId=1&report=earnings&startDate=' + startDate.toISOString() + '&endDate=' + endDate.toISOString())
+    axios.get('http://localhost:8080/api/clinics/reports?clinicId=1&report=earnings&startDate=' + startDate.toISOString() + '&endDate=' + endDate.toISOString(), {withCredentials: true})
       .then(res => {
         setData(res.data[0]);
       })

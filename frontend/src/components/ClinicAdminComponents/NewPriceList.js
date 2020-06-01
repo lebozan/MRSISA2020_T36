@@ -42,7 +42,7 @@ export default function NewPriceList(props) {
 
   React.useEffect(() => {
     if (appointmentTypes.length === 0) {
-      axios.get("http://localhost:8080/api/clinics/appTypes?clinicId=" + cookies.get('clinicId'))
+      axios.get("http://localhost:8080/api/clinics/appTypes?clinicId=" + cookies.get('clinicId'), {withCredentials: true})
       .then(res => {
         setAppointmentTypes(res.data);
       })

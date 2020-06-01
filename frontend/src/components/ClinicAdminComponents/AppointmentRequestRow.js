@@ -63,7 +63,7 @@ export default function AppointmentRequestRow(props) {
     }
 
 
-    axios.post('http://localhost:8080/api/clinics/confirmUA', newAppointment)
+    axios.post('http://localhost:8080/api/clinics/confirmUA', newAppointment, {withCredentials: true})
       .then((res) => {
         if (res.data) {
           cancelRequest(true);
@@ -75,7 +75,7 @@ export default function AppointmentRequestRow(props) {
   
 
   const cancelRequest = (submited) => {
-    axios.delete('http://localhost:8080/api/clinicAdmins/deleteUA?clinicAdminId=ca1&id=' + appointment.id)
+    axios.delete('http://localhost:8080/api/clinicAdmins/deleteUA?clinicAdminId=ca1&id=' + appointment.id, {withCredentials: true})
       .then((res) => {
         if(res.data) {
           removeRequest();

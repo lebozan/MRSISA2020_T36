@@ -21,19 +21,19 @@ export default function OneClickAppointmentComponent() {
   const cookies = new Cookies();
   
   React.useEffect(() => {
-    axios.get('http://localhost:8080/api/clinics/doctors?clinicId=' + cookies.get('clinicId'))
+    axios.get('http://localhost:8080/api/clinics/doctors?clinicId=' + cookies.get('clinicId'), {withCredentials: true})
       .then(res => {
         setDoctors(res.data);
       })
       .catch(error => console.log(error));
 
-    axios.get('http://localhost:8080/api/clinics/appTypes?clinicId=' + cookies.get('clinicId'))
+    axios.get('http://localhost:8080/api/clinics/appTypes?clinicId=' + cookies.get('clinicId'), {withCredentials: true})
       .then(res => {
         setTypes(res.data);
       })
       .catch(error => console.log(error));
 
-      axios.get('http://localhost:8080/api/clinics/rooms?clinicId=' + cookies.get('clinicId'))
+      axios.get('http://localhost:8080/api/clinics/rooms?clinicId=' + cookies.get('clinicId'), {withCredentials: true})
       .then(res => {
         setRooms(res.data);
       })
@@ -52,7 +52,7 @@ export default function OneClickAppointmentComponent() {
     if ( type === "" || doctorId ==="" || room ==="" || isNaN(selectedDate.getTime())) {
       alert("All fields are required!");
     } else {
-      axios.post('http://localhost:8080/api/clinics/addFastApt', newAppointment)
+      axios.post('http://localhost:8080/api/clinics/addFastApt', newAppointment, {withCredentials: true})
         .then((res) => {
           if (res.data) {
             alert('One click appointment successfully submited!');
