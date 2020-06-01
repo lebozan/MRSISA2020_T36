@@ -13,13 +13,13 @@ export class ClinicStaffList extends Component {
     this.state = {doctors: [], nurses: []};
   }
   componentDidMount() {
-    axios.get("http://localhost:8080/api/doctors/all")
+    axios.get("http://localhost:8080/api/doctors/all", {withCredentials: true})
       .then(res => {
         let nurses = this.state.nurses;
         this.setState({doctors: res.data, nurses})})
       .catch(res => {alert(res.status)});
 
-    axios.get("http://localhost:8080/api/nurses/all")
+    axios.get("http://localhost:8080/api/nurses/all", {withCredentials: true})
     .then(res => {
       let doctors = this.state.doctors;
       this.setState({doctors, nurses: res.data})})
@@ -27,7 +27,7 @@ export class ClinicStaffList extends Component {
   }
 
   deleteDoctor(id) {
-    axios.delete('http://localhost:8080/api/doctors/delete?doctorId=' + id)
+    axios.delete('http://localhost:8080/api/doctors/delete?doctorId=' + id, {withCredentials: true})
       .then(res => {
         if(res.data) {
           let doctors = this.state.doctors.filter(user => user.id !== id);
@@ -40,7 +40,7 @@ export class ClinicStaffList extends Component {
   }
 
   deleteNurse(id) {
-    axios.delete('http://localhost:8080/api/nurses/delete?nurseId=' + id)
+    axios.delete('http://localhost:8080/api/nurses/delete?nurseId=' + id, {withCredentials: true})
     .then(res => {
       if (res.data) {
         let doctors = this.state.doctors;
@@ -53,7 +53,7 @@ export class ClinicStaffList extends Component {
   }
 
   addDoctor(newDoctor) {
-    axios.post('http://localhost:8080/api/doctors/add', newDoctor)
+    axios.post('http://localhost:8080/api/doctors/add', newDoctor, {withCredentials: true})
     .then(res => {
       let doctors = this.state.doctors;
       let nurses = this.state.nurses;
@@ -66,7 +66,7 @@ export class ClinicStaffList extends Component {
   addNurse(newNurse) {
     let doctors = this.state.doctors;
     let nurses = this.state.nurses;
-    axios.post('http://localhost:8080/api/nurses/add', newNurse)
+    axios.post('http://localhost:8080/api/nurses/add', newNurse, {withCredentials: true})
     .then(res => {
       nurses.push(res.data);
       this.setState({doctors, nurses});

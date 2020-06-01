@@ -20,7 +20,7 @@ export default function LeaveRequest() {
   cookies.set('doctorId', 'd1', {path:'/'});
 
   React.useEffect(() => {
-    axios.get('http://localhost:8080/api/doctors/leaveDaysLeft?doctorId=' + cookies.get('doctorId'))
+    axios.get('http://localhost:8080/api/doctors/leaveDaysLeft?doctorId=' + cookies.get('doctorId'), {withCredentials: true})
       .then(res => {
         if (res.data !== -1) {
           setLeaveDaysLeft(res.data);
@@ -88,12 +88,12 @@ export default function LeaveRequest() {
       doctorId:cookies.get('doctorId'),
     }
 
-    axios.post('http://localhost:8080/api/clinicAdmins/newLeaveRequest', data)
+    axios.post('http://localhost:8080/api/clinicAdmins/newLeaveRequest', data, {withCredentials: true})
       .then(res => {
         if (res.data) {
           alert('Leave request submited!');
 
-          axios.put('http://localhost:8080/api/doctors/updateLeaveDays', updateLeaveDays)
+          axios.put('http://localhost:8080/api/doctors/updateLeaveDays', updateLeaveDays, {withCredentials: true})
             .then(res => {
               setLeaveDaysLeft(res.data);
               setLeaveDaysRequested(0);

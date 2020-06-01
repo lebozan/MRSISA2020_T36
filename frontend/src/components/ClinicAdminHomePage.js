@@ -26,6 +26,7 @@ import ClinicPriceListComponent from './ClinicAdminComponents/ClinicPriceListCom
 import Cookies from 'universal-cookie';
 import ManageLeaveRequests from './ClinicAdminComponents/ManageLeaveRequests';
 import Reports from './ReportComponents/Reports';
+import axios from 'axios';
 
 
 const drawerWidth = 240;
@@ -80,6 +81,12 @@ export default function ClinicAdminHomePage() {
   };
 
   const logout = () => {
+
+    // axios.post('http://localhost:8080/logout')
+    //   .then(res => {
+
+    //   })
+    //   .catch(error => console.log(error));
     cookies.remove('role');
     cookies.remove('clinicAdminId');
     cookies.remove('clinicId');

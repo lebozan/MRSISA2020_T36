@@ -27,7 +27,7 @@ export default function AppointmentTypesComponent() {
   const id = open ? 'simple-popover' : undefined;
   
   React.useEffect(() => {
-    axios.get("http://localhost:8080/api/clinics/appTypes?clinicId=" + cookies.get('clinicId'))
+    axios.get("http://localhost:8080/api/clinics/appTypes?clinicId=" + cookies.get('clinicId'), {withCredentials: true})
     .then(res => {
       setAppTypes(res.data);
     })
@@ -59,7 +59,7 @@ export default function AppointmentTypesComponent() {
   
   const deleteAppType = (name) => {
     let clinicId = 1;
-    axios.delete('http://localhost:8080/api/clinics/deleteAppType?clinicId=' + clinicId + "&appType=" + name)
+    axios.delete('http://localhost:8080/api/clinics/deleteAppType?clinicId=' + clinicId + "&appType=" + name, {withCredentials: true})
       .then(res => {
         if(res.data) {
           let types = appTypes.filter(appType => appType !== name);
@@ -70,7 +70,7 @@ export default function AppointmentTypesComponent() {
   }
   
   const addAppType = (newAppType) => {
-    axios.post('http://localhost:8080/api/clinics/addAppType', newAppType)
+    axios.post('http://localhost:8080/api/clinics/addAppType', newAppType, {withCredentials: true})
     .then(res => {
       if (res.data) {
         setAppTypes(appTypes => [...appTypes, newAppType.appTypeName]);

@@ -23,7 +23,7 @@ export default function DailyReport() {
     endDate.setMinutes(59);
     endDate.setSeconds(59);
 
-    axios.get('http://localhost:8080/api/clinics/reports?clinicId=1&report=daily&startDate=' + selectedDate.toISOString() + '&endDate=' + endDate.toISOString())
+    axios.get('http://localhost:8080/api/clinics/reports?clinicId=1&report=daily&startDate=' + selectedDate.toISOString() + '&endDate=' + endDate.toISOString(), {withCredentials: true})
       .then(res => {
         setData(res.data);
       })

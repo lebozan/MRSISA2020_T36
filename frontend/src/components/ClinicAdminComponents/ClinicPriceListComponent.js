@@ -30,7 +30,7 @@ export class ClinicPriceListComponent extends Component {
 
   // Get all price lists for current clinic
   componentDidMount() {
-    axios.get("http://localhost:8080/api/clinics/clinicPriceLists?clinicId=" + this.state.cookies.get('clinicId'))
+    axios.get("http://localhost:8080/api/clinics/clinicPriceLists?clinicId=" + this.state.cookies.get('clinicId'), {withCredentials: true})
     .then(res => {
       if (this.state.priceLists.length === 0) {
         this.setState({priceLists:res.data, cookies: this.state.cookies});
@@ -40,7 +40,7 @@ export class ClinicPriceListComponent extends Component {
   }
 
   deletePriceList(plId) {
-    axios.delete('http://localhost:8080/api/clinics/deletePriceList?priceListId=' + plId)
+    axios.delete('http://localhost:8080/api/clinics/deletePriceList?priceListId=' + plId, {withCredentials: true})
     .then(res => {
       if(res.data) {
         let pls = this.state.priceLists.filter(pl => pl.id !== plId);
@@ -52,7 +52,7 @@ export class ClinicPriceListComponent extends Component {
   }
 
   addNewPriceList(data) {
-    axios.post('http://localhost:8080/api/clinics/newPriceList', data)
+    axios.post('http://localhost:8080/api/clinics/newPriceList', data, {withCredentials: true})
       .then(res => {
         // console.log(res.data);
         var pls = this.state.priceLists;
@@ -73,7 +73,7 @@ export class ClinicPriceListComponent extends Component {
       return;
     }
 
-    axios.put('http://localhost:8080/api/clinics/changeActivePriceList', data)
+    axios.put('http://localhost:8080/api/clinics/changeActivePriceList', data, {withCredentials: true})
     .then(res => {
       if(res.data !== '') {
         this.setState({priceLists:res.data, cookies: this.state.cookies});

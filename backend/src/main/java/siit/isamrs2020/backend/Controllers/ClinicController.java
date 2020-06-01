@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
@@ -88,6 +89,11 @@ public class ClinicController {
       clinicInfo.addProperty("name", c.getClinicName());
       clinicInfo.addProperty("description", c.getClinicDescription());
       clinicInfo.addProperty("address", c.getClinicAddress());
+      String[] longLat = c.getLocationCoordinates().split("-");
+      float latitude = Float.parseFloat(longLat[1]);
+      float longitude = Float.parseFloat(longLat[0]);
+      clinicInfo.addProperty("long", longitude);
+      clinicInfo.addProperty("lat", latitude);
       return clinicInfo.toString();
     }
     return null;

@@ -20,7 +20,7 @@ export default function MakeAppointmentDoctorComponent() {
 
   React.useEffect(() => {
     let clinicId = 1;
-    axios.get('http://localhost:8080/api/clinics/appTypes?clinicId=' + clinicId)
+    axios.get('http://localhost:8080/api/clinics/appTypes?clinicId=' + clinicId, {withCredentials: true})
     .then(res => {
       setTypes(res.data);
     })
@@ -43,7 +43,7 @@ export default function MakeAppointmentDoctorComponent() {
     if (isNaN(patientId) === "" || type === "" || isNaN(selectedDate.getTime())) {
       alert("All fields are required!");
     } else {
-      axios.post('http://localhost:8080/api/clinicAdmins/submitUA', newAppointment)
+      axios.post('http://localhost:8080/api/clinicAdmins/submitUA', newAppointment, {withCredentials: true})
         .then((res) => {
           if (res.data) {
             alert("Appointment succesfully submited");

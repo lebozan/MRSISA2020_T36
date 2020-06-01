@@ -10,7 +10,7 @@ export default function ManageLeaveRequests() {
 
   React.useEffect(() => {
     if (leaveRequests.length === 0) {
-      axios.get('http://localhost:8080/api/clinicAdmins/allLeaveRequests?clinicAdminId=' + cookies.get('clinicAdminId'))
+      axios.get('http://localhost:8080/api/clinicAdmins/allLeaveRequests?clinicAdminId=' + cookies.get('clinicAdminId'), {withCredentials: true})
         .then(res => {
           setLeaveRequests(res.data);
         })
@@ -27,10 +27,10 @@ export default function ManageLeaveRequests() {
 
   const acceptLeaveRequest = (newLeave, id) => {
     newLeave['clinicId'] = cookies.get('clinicId');
-    axios.post('http://localhost:8080/api/clinics/confirmLeaveRequest', newLeave)
+    axios.post('http://localhost:8080/api/clinics/confirmLeaveRequest', newLeave, {withCredentials: true})
       .then(res => {
         if (res.data) {
-          axios.delete('http://localhost:8080/api/clinicAdmins/deleteLeaveRequest?leaveId=' + id + '&clinicAdminId=' + cookies.get('clinicAdminId'))
+          axios.delete('http://localhost:8080/api/clinicAdmins/deleteLeaveRequest?leaveId=' + id + '&clinicAdminId=' + cookies.get('clinicAdminId'), {withCredentials: true})
             .then(res => {
               if (res.data) {
                 removeRequest(id);
@@ -43,10 +43,10 @@ export default function ManageLeaveRequests() {
   }
 
   const rejectLeaveRequest = (data, id) => {
-    axios.post('http://localhost:8080/api/clinics/rejectLeaveRequest', data)
+    axios.post('http://localhost:8080/api/clinics/rejectLeaveRequest', data, {withCredentials: true})
       .then(res => {
         if (res.data) {
-          axios.delete('http://localhost:8080/api/clinicAdmins/deleteLeaveRequest?leaveId=' + id + '&clinicAdminId=' + cookies.get('clinicAdminId'))
+          axios.delete('http://localhost:8080/api/clinicAdmins/deleteLeaveRequest?leaveId=' + id + '&clinicAdminId=' + cookies.get('clinicAdminId'), {withCredentials: true})
             .then(res => {
               if (res.data) {
                 removeRequest(id);
