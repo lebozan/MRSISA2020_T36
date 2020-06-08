@@ -89,7 +89,7 @@ public class ClinicController {
       clinicInfo.addProperty("name", c.getClinicName());
       clinicInfo.addProperty("description", c.getClinicDescription());
       clinicInfo.addProperty("address", c.getClinicAddress());
-      String[] longLat = c.getLocationCoordinates().split("-");
+      String[] longLat = c.getLocationCoordinates().split(",");
       float latitude = Float.parseFloat(longLat[1]);
       float longitude = Float.parseFloat(longLat[0]);
       clinicInfo.addProperty("long", longitude);
