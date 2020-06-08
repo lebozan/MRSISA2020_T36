@@ -1,6 +1,5 @@
 package siit.isamrs2020.backend.Security;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
