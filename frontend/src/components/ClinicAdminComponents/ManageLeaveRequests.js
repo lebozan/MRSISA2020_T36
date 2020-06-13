@@ -60,6 +60,7 @@ export default function ManageLeaveRequests() {
 
   return (
     <div>
+      {leaveRequests.length === 0 ? <h1>No leave requests</h1> : null}
       {leaveRequests.map(request => (
         <LeaveRequestRow key={request.id} request={request} sendAccept={acceptLeaveRequest} sendReject={rejectLeaveRequest}/>
       ))}

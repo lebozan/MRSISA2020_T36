@@ -60,7 +60,15 @@ public class DoctorController {
   @ResponseBody
   public Doctor addNewDoctor(@RequestBody String requestData) {
     Doctor newDoctor = gson.fromJson(requestData, Doctor.class);
-    newDoctor.setId("d" + (doctorRepository.findAll().size() + 1));
+    String doctorId = "d" + (doctorRepository.findAll().size() + 1);
+    newDoctor.setId(doctorId);
+    newDoctor.setEmail("dr" + doctorId + "@mail.com");
+    newDoctor.setPassword("sifra" + doctorId);
+    int leaveDays = 20 + newDoctor.getYearsOfExperience()/3;
+    if (leaveDays > 35) {
+      leaveDays = 35;
+    }
+    newDoctor.setLeaveDays(leaveDays);
     doctorRepository.save(newDoctor);
     return newDoctor;
   }

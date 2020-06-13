@@ -20,6 +20,7 @@ import siit.isamrs2020.backend.Classes.Doctor;
 import siit.isamrs2020.backend.Classes.MedicalRecord;
 import siit.isamrs2020.backend.Classes.MedicalSpecialty;
 import siit.isamrs2020.backend.Classes.Nurse;
+import siit.isamrs2020.backend.Classes.OneClickAppointment;
 import siit.isamrs2020.backend.Classes.Patient;
 import siit.isamrs2020.backend.Classes.PriceList;
 import siit.isamrs2020.backend.Classes.Room;
@@ -44,25 +45,59 @@ public class MongoDBConfig {
     return strings -> {
 
       doctorRepository.deleteAll();
-      doctorRepository.save(new Doctor("d1", "drd1@mail.com", "Bojan", "Cakic", 40, "Izvorska 2", "8-15", MedicalSpecialty.Oncology, 10, "sifrad1"));
-      doctorRepository.save(new Doctor("d2", "drd2@mail.com", "Milan", "Milic", 35, "Dalmatinska 20", "14-21", MedicalSpecialty.Radiology, 5, "sifrad2"));
-      doctorRepository.save(new Doctor("d3", "drd3@mail.com", "Nikola", "Nikolic", 41, "Nemanjina 30", "7-15", MedicalSpecialty.Dermatology, 9, "sifrad3"));
+      Doctor d1 = new Doctor("d1", "drd1@mail.com", "Bojan", "Cakic", 40, "Izvorska 2", "8-15", MedicalSpecialty.Oncology, 10, "sifrad1", 1);
+      Doctor d2 = new Doctor("d2", "drd2@mail.com", "Milan", "Milic", 35, "Dalmatinska 20", "14-21", MedicalSpecialty.Radiology, 5, "sifrad2", 1);
+      Doctor d3 = new Doctor("d3", "drd3@mail.com", "Nikola", "Nikolic", 41, "Nemanjina 30", "7-15", MedicalSpecialty.Dermatology, 9, "sifrad3", 2);
+
+      doctorRepository.save(d1);
+      doctorRepository.save(d2);
+      doctorRepository.save(d3);
       
       nurseRepository.deleteAll();
       nurseRepository.save(new Nurse("n1", "nurse1@mail.com", "Marija", "Maric", 39, "Lole Ribara 50", 12, "sifran1"));
       nurseRepository.save(new Nurse("n2", "nurse2@mail.com", "Ana", "Nikolic", 25, "Branicevska 11", 2, "sifran2"));
 
       ArrayList<Doctor> c1Doctors = new ArrayList<Doctor>();
-      c1Doctors.add(new Doctor("d1", "drd1@mail.com", "Bojan", "Cakic", 40, "Izvorska 2", "8-15", MedicalSpecialty.Oncology, 10, "sifrad1"));
-      c1Doctors.add(new Doctor("d2", "drd2@mail.com", "Milan", "Milic", 35, "Dalmatinska 20", "14-21", MedicalSpecialty.Radiology, 5, "sifrad2"));
+      c1Doctors.add(d1);
+      c1Doctors.add(d2);
       
-      Clinic c1 = new Clinic(1, "clinic 1", "clinic address 1", "clinic 1 description", "21.1853562,44.63285", c1Doctors, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "pl1");
+      ArrayList<Nurse> c1Nurses = new ArrayList<Nurse>();
+      c1Nurses.add(new Nurse("n1", "nurse1@mail.com", "Marija", "Maric", 39, "Lole Ribara 50", 12, "sifran1"));
+      c1Nurses.add(new Nurse("n2", "nurse2@mail.com", "Ana", "Nikolic", 25, "Branicevska 11", 2, "sifran2"));
+
+      Clinic c1 = new Clinic(1, "clinic 1", "clinic address 1", "clinic 1 description", "21.1853562,44.63285", c1Doctors, c1Nurses, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "pl1");
       c1.getRooms().add(new Room("Sala 1", new ArrayList<>()));
       c1.getRooms().add(new Room("Sala 2", new ArrayList<>()));
       c1.getRooms().add(new Room("Sala 3", new ArrayList<>()));
       c1.getRooms().add(new Room("Sala 4", new ArrayList<>()));
 
-      Clinic c2 = new Clinic(2, "clinic 2", "clinic address 2", "clinic 2 description", "21.193215,44.624715", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "pl111");
+      c1.getAppointmentTypes().add("Pregled");
+      c1.getAppointmentTypes().add("Operacija");
+
+      c1.getOneClickAppointments().add(new OneClickAppointment(new Date(1589090400000l), 30, "Pregled", "Sala 1", d1, 1000001, 499.99, false));
+      c1.getOneClickAppointments().add(new OneClickAppointment(new Date(1589522400000l), 30, "Pregled", "Sala 1", d1, 1000001, 499.99, false));
+      c1.getOneClickAppointments().add(new OneClickAppointment(new Date(1589954400000l), 30, "Pregled", "Sala 1", d1, 1000001, 499.99, false));
+      c1.getOneClickAppointments().add(new OneClickAppointment(new Date(1590134400000l), 30, "Pregled", "Sala 1", d1, 1000003, 499.99, false));
+      
+      c1.getOneClickAppointments().add(new OneClickAppointment(new Date(1589090400000l), 30, "Pregled", "Sala 2", d2, 1000002, 499.99, false));
+      c1.getOneClickAppointments().add(new OneClickAppointment(new Date(1589522400000l), 30, "Pregled", "Sala 2", d2, 1000002, 499.99, false));
+      c1.getOneClickAppointments().add(new OneClickAppointment(new Date(1589954400000l), 30, "Pregled", "Sala 3", d2, 1000002, 499.99, false));
+      c1.getOneClickAppointments().add(new OneClickAppointment(new Date(1590134400000l), 30, "Pregled", "Sala 2", d2, 1000004, 499.99, false));
+
+
+
+      Clinic c2 = new Clinic(2, "clinic 2", "clinic address 2", "clinic 2 description", "21.193215,44.624715", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "pl111");
+
+      c2.getRooms().add(new Room("Sala 1", new ArrayList<>()));
+      c2.getRooms().add(new Room("Sala 2", new ArrayList<>()));
+
+      c2.getAppointmentTypes().add("Pregled");
+      c2.getAppointmentTypes().add("Operacija");
+
+      c2.getOneClickAppointments().add(new OneClickAppointment(new Date(1590134400000l), 30, "Pregled", "Sala 1", d3, 1000003, 499.99, false));
+      c2.getOneClickAppointments().add(new OneClickAppointment(new Date(1590134400000l), 30, "Pregled", "Sala 1", d3, 1000004, 499.99, false));
+      c2.getOneClickAppointments().add(new OneClickAppointment(new Date(1590134400000l), 30, "Pregled", "Sala 1", d3, 1000005, 499.99, false));
+
 
       clinicRepository.deleteAll();
       clinicRepository.save(c1);
@@ -77,8 +112,8 @@ public class MongoDBConfig {
       m.put("Operacija", 5999.99);
 
 
-      PriceList pl1 = new PriceList("pl1", "Cenovnik 1", false, m, 1);
-      PriceList pl2 = new PriceList("pl2", "Cenovnik 2", true, m, 1);
+      PriceList pl1 = new PriceList("pl1", "Cenovnik 1", true, m, 1);
+      PriceList pl2 = new PriceList("pl2", "Cenovnik 2", false, m, 1);
       PriceList pl3 = new PriceList("pl3", "Cenovnik 3", false, m, 1);
       PriceList pl4 = new PriceList("pl4", "Cenovnik 4", false, m, 1);
       PriceList pl11 = new PriceList("pl11", "Cenovnik 11", false, m, 2);
@@ -105,7 +140,7 @@ public class MongoDBConfig {
       mr2fAppointments.add(new FinishedAppointment(1, "d2", new Date(1589090400000l)));
       mr2fAppointments.add(new FinishedAppointment(1, "d2", new Date(1589522400000l)));
       mr2fAppointments.add(new FinishedAppointment(1, "d2", new Date(1589954400000l)));
-      mr2fAppointments.add(new FinishedAppointment(2, "d3", new Date(1589702400000l)));
+      mr2fAppointments.add(new FinishedAppointment(2, "d3", new Date(1589706000000l)));
 
       MedicalRecord p2mr = new MedicalRecord("p2mr", mr2fAppointments);
 

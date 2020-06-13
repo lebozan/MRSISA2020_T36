@@ -1,29 +1,35 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import List from '@material-ui/core/List';
 import ListItemCustom from '../ListItemCustom';
-import axios from 'axios'
+import axios from 'axios';
 import AddNurseComponent from './AddNurseComponent';
 import AddDoctorComponent from './AddDoctorComponent';
+import Cookies from 'universal-cookie';
 
 export class ClinicStaffList extends Component {
 
   constructor(props) {
     super(props);
 
-    this.state = {doctors: [], nurses: []};
+    this.state = {
+      doctors: [],
+      nurses: [],
+      cookies: new Cookies()
+    };
   }
+
   componentDidMount() {
-    axios.get("http://localhost:8080/api/doctors/all", {withCredentials: true})
+    axios.get("http://localhost:8080/api/clinics/doctors?clinicId=" + this.state.cookies.get('clinicId'), {withCredentials: true})
       .then(res => {
         let nurses = this.state.nurses;
         this.setState({doctors: res.data, nurses})})
-      .catch(res => {alert(res.status)});
+      .catch(error => {console.log(error)});
 
-    axios.get("http://localhost:8080/api/nurses/all", {withCredentials: true})
+    axios.get("http://localhost:8080/api/clinics/nurses?clinicId=" + this.state.cookies.get('clinicId'), {withCredentials: true})
     .then(res => {
       let doctors = this.state.doctors;
       this.setState({doctors, nurses: res.data})})
-    .catch(res => {alert(res.status)});
+    .catch(error => {console.log(error)});
   }
 
   deleteDoctor(id) {
@@ -35,7 +41,7 @@ export class ClinicStaffList extends Component {
           this.setState({doctors, nurses});
         }
       })
-      .catch(res => console.log(res));
+      .catch(error => {console.log(error)});
     
   }
 
@@ -48,19 +54,19 @@ export class ClinicStaffList extends Component {
         this.setState({doctors, nurses});
       }
     })
-    .catch(res => console.log(res));
+    .catch(error => {console.log(error)});
 
   }
 
   addDoctor(newDoctor) {
-    axios.post('http://localhost:8080/api/doctors/add', newDoctor, {withCredentials: true})
+    axios.post('http://localhost:8080/api/clinics/addDoctor?clinicId=' + this.state.cookies.get('clinicId'), newDoctor, {withCredentials: true})
     .then(res => {
       let doctors = this.state.doctors;
       let nurses = this.state.nurses;
       doctors.push(res.data);
       this.setState({doctors, nurses});
     })
-    .catch(res => console.log(res));
+    .catch(error => {console.log(error)});
   }
 
   addNurse(newNurse) {
@@ -71,7 +77,7 @@ export class ClinicStaffList extends Component {
       nurses.push(res.data);
       this.setState({doctors, nurses});
     })
-    .catch(res => console.log(res));
+    .catch(error => {console.log(error)});
     
   }
       
@@ -82,7 +88,7 @@ export class ClinicStaffList extends Component {
           Doctors:
           {this.state.doctors.map((doctor) => 
           <ListItemCustom key={doctor.id} user={doctor} deleteUser={this.deleteDoctor.bind(this, doctor.id)}/> )}
-          <AddDoctorComponent fields={['First Name', 'Last Name', 'Age', 'Address', 'Years Of Experience']} addDoctor={this.addDoctor.bind(this)} />
+          <AddDoctorComponent fields={['First Name', 'Last Name', 'Age', 'Address', 'Years Of Experience', 'Working Hours']} addDoctor={this.addDoctor.bind(this)} />
 
           Nurses:
           {this.state.nurses.map((nurse) => 

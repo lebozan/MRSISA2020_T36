@@ -70,8 +70,9 @@ export default function DoctorHomePage() {
   };
 
   const logout = () => {
-    cookies.remove('role');
-    cookies.remove('doctorId');
+    cookies.remove('role', {path: '/'});
+    cookies.remove('doctorId', {path: '/'});
+    cookies.remove('JSESSIONID', {path: '/'});
     goTo('/login');
   }
 

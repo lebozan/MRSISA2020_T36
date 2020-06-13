@@ -56,7 +56,7 @@ export default function MonthlyReport() {
             value={endDate}
             onChange={setEndDate}
           />
-          <Button variant='contained' onClick={sendDataRequest}>test</Button>
+          <Button variant='contained' onClick={sendDataRequest}>get chart</Button>
         </Grid>
 
       </MuiPickersUtilsProvider>

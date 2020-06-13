@@ -31,7 +31,11 @@ export default function AppointmentTypesComponent() {
     .then(res => {
       setAppTypes(res.data);
     })
-    .catch(res => {console.log(res)});
+    .catch(error => {
+      if (error.message == 'Network Error') {
+        alert('Invalid session id! Please log in again!');
+      }
+    });
   }, []);
 
   const handleClick = (event) => {
@@ -45,7 +49,7 @@ export default function AppointmentTypesComponent() {
   const closeAndSendData = () => {
     handleClose();
   
-    var newAppType = {clinicId:1,appTypeName, appTypePrice}
+    var newAppType = {clinicId:cookies.get('clinicId'),appTypeName, appTypePrice}
     if (appTypeName === "") {
       alert("Must enter name for new appointment type!");
       return;
@@ -58,8 +62,7 @@ export default function AppointmentTypesComponent() {
   };
   
   const deleteAppType = (name) => {
-    let clinicId = 1;
-    axios.delete('http://localhost:8080/api/clinics/deleteAppType?clinicId=' + clinicId + "&appType=" + name, {withCredentials: true})
+    axios.delete('http://localhost:8080/api/clinics/deleteAppType?clinicId=' + cookies.get('clinicId') + "&appType=" + name, {withCredentials: true})
       .then(res => {
         if(res.data) {
           let types = appTypes.filter(appType => appType !== name);
