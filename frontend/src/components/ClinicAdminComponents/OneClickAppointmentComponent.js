@@ -46,8 +46,13 @@ export default function OneClickAppointmentComponent() {
     var room = document.getElementById('Rooms').value;
     var doctorId = document.getElementById('Doctor').value;
 
-    var newAppointment = {'clinicId':1,type,room,duration:30,doctorId,'startTime':selectedDate.getTime()}
-    console.log(newAppointment);
+    var newAppointment = {'clinicId':cookies.get('clinicId'),
+      type,
+      room,
+      duration:30,
+      doctorId,
+      'startTime':selectedDate.getTime()
+    }
 
     if ( type === "" || doctorId ==="" || room ==="" || isNaN(selectedDate.getTime())) {
       alert("All fields are required!");

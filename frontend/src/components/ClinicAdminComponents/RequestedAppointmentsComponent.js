@@ -1,15 +1,16 @@
 import React from 'react';
 import AppointmentRequestRow from './AppointmentRequestRow';
 import axios from 'axios';
+import Cookies from 'universal-cookie'
 
 // Component for rendering all unconfirmed appointment requests for current clinic
 export default function RequestedAppointmentsComponent() {
   const [requests, setRequests] = React.useState([]);
   const [rooms, setRooms] = React.useState([]);
+  const cookies = new Cookies();
 
   React.useEffect(()=> {
-    let clinicAdminId = "ca1";
-    axios.get('http://localhost:8080/api/clinicAdmins/allUAs?clinicAdminId=' + clinicAdminId, {withCredentials: true})
+    axios.get('http://localhost:8080/api/clinicAdmins/allUAs?clinicAdminId=' + cookies.get('clinicAdminId'), {withCredentials: true})
       .then(res => {
         let r = res.data;
         r.forEach((element, index) => {
@@ -24,7 +25,7 @@ export default function RequestedAppointmentsComponent() {
       })
       .catch(error => console.log(error));
 
-    axios.get("http://localhost:8080/api/clinics/rooms?clinicId=1", {withCredentials: true})
+    axios.get("http://localhost:8080/api/clinics/rooms?clinicId=" + cookies.get('clinicId'), {withCredentials: true})
       .then(res => {
         setRooms(res.data);
       })

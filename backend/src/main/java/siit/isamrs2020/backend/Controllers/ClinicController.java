@@ -282,6 +282,12 @@ public class ClinicController {
             OneClickAppointment newAppointment = new OneClickAppointment(new Date(json.get("startTime").getAsLong()),
               json.get("duration").getAsInt(), json.get("type").getAsString(),
               json.get("room").getAsString(), d, -1, optionalPl.get().getPrices().get(json.get("type").getAsString()), true);
+            
+            for (Room r : c.getRooms()) {
+              if (r.getRoomName().equals(json.get("room").getAsString())) {
+                r.getReservations().add(new Date(json.get("startTime").getAsLong()));
+              }
+            }
             c.getOneClickAppointments().add(newAppointment);
             clinicRepository.save(c);
             return newAppointment;

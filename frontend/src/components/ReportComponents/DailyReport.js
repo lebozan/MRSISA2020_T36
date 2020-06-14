@@ -7,12 +7,12 @@ import {
 import Chart from './Chart';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
-
+import Cookies from 'universal-cookie';
 
 export default function DailyReport() {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
   const [data, setData] = React.useState([]);
-
+  const cookies = new Cookies();
 
   React.useEffect(() => {
     selectedDate.setHours(0);
@@ -23,7 +23,7 @@ export default function DailyReport() {
     endDate.setMinutes(59);
     endDate.setSeconds(59);
 
-    axios.get('http://localhost:8080/api/clinics/reports?clinicId=1&report=daily&startDate=' + selectedDate.toISOString() + '&endDate=' + endDate.toISOString(), {withCredentials: true})
+    axios.get('http://localhost:8080/api/clinics/reports?clinicId=' + cookies.get('clinicId') + '&report=daily&startDate=' + selectedDate.toISOString() + '&endDate=' + endDate.toISOString(), {withCredentials: true})
       .then(res => {
         setData(res.data);
       })

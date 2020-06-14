@@ -66,10 +66,22 @@ public class MongoDBConfig {
       c1Nurses.add(new Nurse("n2", "nurse2@mail.com", "Ana", "Nikolic", 25, "Branicevska 11", 2, "sifran2"));
 
       Clinic c1 = new Clinic(1, "clinic 1", "clinic address 1", "clinic 1 description", "21.1853562,44.63285", c1Doctors, c1Nurses, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "pl1");
-      c1.getRooms().add(new Room("Sala 1", new ArrayList<>()));
-      c1.getRooms().add(new Room("Sala 2", new ArrayList<>()));
-      c1.getRooms().add(new Room("Sala 3", new ArrayList<>()));
-      c1.getRooms().add(new Room("Sala 4", new ArrayList<>()));
+      
+      ArrayList<Date> room1ReservationList = new ArrayList<>();
+      ArrayList<Date> room2ReservationList = new ArrayList<>();
+      ArrayList<Date> room3ReservationList = new ArrayList<>();
+      ArrayList<Date> room4ReservationList = new ArrayList<>();
+
+      room1ReservationList.add(new Date(1596708000000l));
+      room2ReservationList.add(new Date(1596715200000l));
+      room3ReservationList.add(new Date(1596708000000l));
+      room4ReservationList.add(new Date(1596715200000l));
+
+      c1.getRooms().add(new Room("Sala 1", room1ReservationList));
+      c1.getRooms().add(new Room("Sala 2", room2ReservationList));
+      c1.getRooms().add(new Room("Sala 3", room3ReservationList));
+      c1.getRooms().add(new Room("Sala 4", room4ReservationList));
+
 
       c1.getAppointmentTypes().add("Pregled");
       c1.getAppointmentTypes().add("Operacija");
@@ -84,6 +96,10 @@ public class MongoDBConfig {
       c1.getOneClickAppointments().add(new OneClickAppointment(new Date(1589954400000l), 30, "Pregled", "Sala 3", d2, 1000002, 499.99, false));
       c1.getOneClickAppointments().add(new OneClickAppointment(new Date(1590134400000l), 30, "Pregled", "Sala 2", d2, 1000004, 499.99, false));
 
+      c1.getOneClickAppointments().add(new OneClickAppointment(new Date(1596708000000l), 30, "Pregled", "Sala 1", d1, -1, 499.99, true));
+      c1.getOneClickAppointments().add(new OneClickAppointment(new Date(1596715200000l), 30, "Pregled", "Sala 2", d1, -1, 499.99, true));
+      c1.getOneClickAppointments().add(new OneClickAppointment(new Date(1596708000000l), 30, "Pregled", "Sala 3", d2, -1, 499.99, true));
+      c1.getOneClickAppointments().add(new OneClickAppointment(new Date(1596715200000l), 30, "Pregled", "Sala 4", d2, -1, 499.99, true));
 
 
       Clinic c2 = new Clinic(2, "clinic 2", "clinic address 2", "clinic 2 description", "21.193215,44.624715", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), "pl111");

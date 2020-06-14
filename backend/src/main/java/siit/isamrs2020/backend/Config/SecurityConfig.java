@@ -55,9 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .and()
       .csrf().disable()
       .cors();
-      // .logout().invalidateHttpSession(true).deleteCookies("JSESSIONID")
-      // .and() 
-      // .csrf().disable();
+      
   }
   
   @Override

@@ -7,12 +7,14 @@ import {
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
+import Cookies from 'universal-cookie';
 
 
 export default function ClinicEarnings() {
   const [data,setData] = React.useState({});
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
+  const cookies = new Cookies();
 
 
   const sendDataRequest = () => {
@@ -26,7 +28,7 @@ export default function ClinicEarnings() {
       alert('Start date cannot be higher than end date!');
       return;
     }
-    axios.get('http://localhost:8080/api/clinics/reports?clinicId=1&report=earnings&startDate=' + startDate.toISOString() + '&endDate=' + endDate.toISOString(), {withCredentials: true})
+    axios.get('http://localhost:8080/api/clinics/reports?clinicId=' + cookies.get('clinicId') + '&report=earnings&startDate=' + startDate.toISOString() + '&endDate=' + endDate.toISOString(), {withCredentials: true})
       .then(res => {
         setData(res.data[0]);
       })

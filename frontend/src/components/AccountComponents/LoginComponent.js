@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
             }
             cookies.set('role', user.role, {path: '/'});
             cookies.set(user.role + 'Id', user.id, {path: '/'});
-            // cookies.set('JSESSIONID', user.session, {path: '/', httpOnly: true});
+            
             if (user.role === 'doctor') {
               history.push('/doctor/home');
             } else if (user.role === 'clinicAdmin') {
