@@ -144,6 +144,7 @@ export class ClinicPriceListComponent extends Component {
               <Button 
                   variant="contained"
                   color="primary"
+                  style={{maxHeight:'100px', maxWidth: '100px'}}
                   onClick={() => {this.makePriceListActive(pl.id, pl.active)}}
                 >
                   Make active
@@ -151,6 +152,7 @@ export class ClinicPriceListComponent extends Component {
                 <Button 
                   variant="contained"
                   color="primary"
+                  style={{maxHeight:'100px', maxWidth: '100px'}}
                   onClick={() => {this.deletePriceList(pl.id)}}
                 >
                   Delete

@@ -74,18 +74,17 @@ const useStyles = makeStyles((theme) => ({
         password: passwordInput,
         remember: rememberCheck
       }
-      console.log(credentials);
 
       axios.post('http://localhost:8080/public/login', credentials, {withCredentials: 'true'})
         .then(res => {
           if (res.data) {
             var user = res.data;
-            if (user.role === 'clinicAdmin') {
+            if (user.role === 'clinicAdmin' || user.role === 'doctor') {
               cookies.set('clinicId', user.clinicId, {path: '/'});
             }
             cookies.set('role', user.role, {path: '/'});
             cookies.set(user.role + 'Id', user.id, {path: '/'});
-            // cookies.set('JSESSIONID', user.session, {path: '/', httpOnly: true});
+            
             if (user.role === 'doctor') {
               history.push('/doctor/home');
             } else if (user.role === 'clinicAdmin') {

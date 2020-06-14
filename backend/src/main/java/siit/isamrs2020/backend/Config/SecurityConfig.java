@@ -47,17 +47,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    // TODO Auto-generated method stub
 
     http.authorizeRequests()
       .antMatchers("/api/**").hasAnyRole("DOCTOR", "CLINIC_ADMIN", "PATIENT")
       .and()
       .formLogin().loginPage("http://localhost:3000/login").loginProcessingUrl("/public/login")
       .and()
+      .csrf().disable()
       .cors();
-      // .logout().invalidateHttpSession(true).deleteCookies("JSESSIONID")
-      // .and()
-      // .csrf().disable();
+      
   }
   
   @Override

@@ -14,6 +14,7 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import Cookies from 'universal-cookie'
 
 // Component for displaying single appointment request
 export default function AppointmentRequestRow(props) {
@@ -21,6 +22,7 @@ export default function AppointmentRequestRow(props) {
   const [open, setOpen] = React.useState(false);
   const [selectedRoom, setSelectedRoom] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(new Date(appointment.changeDate));
+  const cookies = new Cookies()
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -42,12 +44,12 @@ export default function AppointmentRequestRow(props) {
       'duration': 30,
       'type': appointment.type,
       'doctorId':appointment.doctorId,
-      'price':100,
       'room':selectedRoom,
       'patientId':appointment.patientId,
-      'clinicId':1
+      'clinicId':cookies.get('clinicId')
     };
-    console.log(newAppointment);
+
+
     if (appointment.changeDate) {
       let lesser = new Date(appointment.changeDate.getTime() - 1800000);
       let greater = new Date(appointment.changeDate.getTime() + 1800000);

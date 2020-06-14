@@ -37,7 +37,7 @@ export class PatientSearch extends Component {
 
   componentDidMount() {
     if (this.state.patients.length === 0) {
-      axios.get('http://localhost:8080/api/patients/getAllFromClinic?clinicId=1', {withCredentials: true})
+      axios.get('http://localhost:8080/api/patients/getAllFromClinic?clinicId=' + this.state.cookies.get('clinicId'), {withCredentials: true})
       .then((res) => {
         var patients = this.checkWhichMedicalRecordToShow(res.data);
         

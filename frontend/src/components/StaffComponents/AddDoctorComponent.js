@@ -4,10 +4,12 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import AddIcon from '@material-ui/icons/Add';
+import Cookies from 'universal-cookie'
 
 // Component for adding new doctor to the clinic
 export default function AddDoctorComponent(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const cookies = new Cookies();
   const specialties = ["Allergy And Immunology", "Anesthesiology", "Dermatology", "Radiology", "Emergency Medicine", "Internal Medicine",
     "Neurology", "Medical Genetics", "Nuclear Medicine", "Gynecology", "Ophthalmology", "Pathology", "Pediatrics", "Physical Medicine", 
     "Preventive Medicine", "Psychiatry", "Oncology", "Surgery", "Urology"];
@@ -28,12 +30,29 @@ export default function AddDoctorComponent(props) {
     var yearsOfExperience = parseInt(document.getElementById('YearsOfExperience').value);
     var address = document.getElementById('Address').value;
     var specialty = document.getElementById('Specialty').value;
+    var workingHours = document.getElementById('WorkingHours').value;
 
-    var newDoctor = {firstName,lastName,age,address, specialty,yearsOfExperience}
-    console.log(newDoctor);
+    var newDoctor = {
+      firstName,
+      lastName,
+      age,
+      address,
+      specialty,
+      yearsOfExperience,
+      workingHours,
+      clinicId: cookies.get('clinicId'),
 
-    if (firstName === "" || lastName === "" || isNaN(age) || isNaN(yearsOfExperience) || address === "" || specialty === "") {
+    }
+    
+    
+    var hours = workingHours.split('-');
+
+    if (firstName === "" || lastName === "" || isNaN(age) || isNaN(yearsOfExperience) || address === "" || specialty === "" || workingHours === "") {
       alert("All fields are required!");
+      return;
+    } else if ( !workingHours.includes('-') && isNaN(hours[0]) && isNaN(hours[1])) {
+      alert('Working hours must be formatted like this ' + '\"8-15\"');
+      return;
     } else {
       props.addDoctor(newDoctor);
     }

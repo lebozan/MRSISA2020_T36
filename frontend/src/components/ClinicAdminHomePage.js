@@ -87,9 +87,10 @@ export default function ClinicAdminHomePage() {
 
     //   })
     //   .catch(error => console.log(error));
-    cookies.remove('role');
-    cookies.remove('clinicAdminId');
-    cookies.remove('clinicId');
+    cookies.remove('role', {path: '/'});
+    cookies.remove('clinicAdminId', {path: '/'});
+    cookies.remove('clinicId', {path: '/'});
+    cookies.remove('JSESSIONID', {path: '/'});
     goTo('/login');
   }
 

@@ -62,13 +62,13 @@ public class CustomUserDetailService implements UserDetailsService {
       users.put(ca.getEmail(), new CustomUserDetails(ca, getAuthority("ROLE_CLINIC_ADMIN")));
     }
 
-    // for (Nurse n : nurses) {
-      
-    // }
+    for (Nurse n : nurses) {
+      users.put(n.getEmail(), new CustomUserDetails(n, getAuthority("ROLE_NURSE")));
+    }
 
-    // for (ClinicCenterAdmin cca : clinicCenterAdmins) {
-      
-    // }
+    for (ClinicCenterAdmin cca : clinicCenterAdmins) {
+      users.put(cca.getEmail(), new CustomUserDetails(cca, getAuthority("ROLE_CLINIC_CENTER_ADMIN")));
+    }
 
   }
 

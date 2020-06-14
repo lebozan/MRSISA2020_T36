@@ -8,16 +8,14 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
 import Chart from './Chart';
+import Cookies from 'universal-cookie';
 
 
 export default function MonthlyReport() {
   const [data,setData] = React.useState([]);
   const [startDate, setStartDate] = React.useState(new Date());
   const [endDate, setEndDate] = React.useState(new Date());
-
-  // React.useEffect(() => {
-
-  // }, []);
+  const cookies = new Cookies();
 
   const sendDataRequest = () => {
     startDate.setHours(0);
@@ -26,7 +24,7 @@ export default function MonthlyReport() {
     endDate.setHours(23);
     endDate.setMinutes(59);
     endDate.setSeconds(59);
-    axios.get('http://localhost:8080/api/clinics/reports?clinicId=1&report=monthly&startDate=' + startDate.toISOString() + '&endDate=' + endDate.toISOString(), {withCredentials: true})
+    axios.get('http://localhost:8080/api/clinics/reports?clinicId='+ cookies.get('clinicId') +'&report=monthly&startDate=' + startDate.toISOString() + '&endDate=' + endDate.toISOString(), {withCredentials: true})
       .then(res => {
         setData(res.data);
       })
@@ -56,7 +54,7 @@ export default function MonthlyReport() {
             value={endDate}
             onChange={setEndDate}
           />
-          <Button variant='contained' onClick={sendDataRequest}>test</Button>
+          <Button variant='contained' onClick={sendDataRequest}>get chart</Button>
         </Grid>
 
       </MuiPickersUtilsProvider>

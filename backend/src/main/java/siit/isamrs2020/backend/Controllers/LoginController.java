@@ -71,12 +71,6 @@ public class LoginController {
     session.setAttribute("SPRING_SECURITY_CONTEXT", sc);
     
     
-
-    // Optional<Doctor> optionalDoctor = doctorRepository.findByEmail(json.get("email").getAsString());
-    // Optional<Patient> optionalPatient = patientRepository.findByEmail(json.get("email").getAsString());
-    // Optional<ClinicAdmin> optionalClinicAdmin = clinicAdminRepository.findByEmail(json.get("email").getAsString());
-    // Optional<ClinicCenterAdmin> optionalClinicCenterAdmin = clinicCenterAdminRepository.findByEmail(json.get("email").getAsString());
-    // Optional<Nurse> optionalNurse = nurseRepository.findByEmail(json.get("email").getAsString());
     CustomUserDetails authenticatedUser = (CustomUserDetails) sc.getAuthentication().getPrincipal();
     User u = authenticatedUser.getUser();
     
@@ -85,7 +79,9 @@ public class LoginController {
     responseData.addProperty("session", session.getId());
 
     if (u instanceof Doctor) {
+      Doctor d = (Doctor) u;
       responseData.addProperty("role", "doctor");
+      responseData.addProperty("clinicId", d.getClinicId());
     } else if (u instanceof Nurse) {
       responseData.addProperty("role", "nurse");
     } else if (u instanceof ClinicAdmin) {
@@ -102,41 +98,5 @@ public class LoginController {
 
     return responseData.toString();
 
-    // if (optionalDoctor.isPresent()) {
-    //   u = optionalDoctor.get();
-    //   if (u.getPassword().equals(json.get("password").getAsString())) {
-    //     return u;
-    //   }
-    // }
-
-    // if (optionalPatient.isPresent()) {
-    //   u = optionalPatient.get();
-    //   if (u.getPassword().equals(json.get("password").getAsString())) {
-    //     return u;
-    //   }
-    // }
-
-    // if (optionalClinicAdmin.isPresent()) {
-    //   u = optionalClinicAdmin.get();
-    //   if (u.getPassword().equals(json.get("password").getAsString())) {
-    //     return u;
-    //   }
-    // }
-
-    // if (optionalClinicCenterAdmin.isPresent()) {
-    //   u = optionalClinicCenterAdmin.get();
-    //   if (u.getPassword().equals(json.get("password").getAsString())) {
-    //     return u;
-    //   }
-    // }
-
-    // if (optionalNurse.isPresent()) {
-    //   u = optionalNurse.get();
-    //   if (u.getPassword().equals(json.get("password").getAsString())) {
-    //     return u;
-    //   }
-    // }
-
-    // return null;
   }
 }

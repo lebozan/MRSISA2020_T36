@@ -9,7 +9,7 @@ import matchSorter from 'match-sorter';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import FilterIcon from '@material-ui/icons/FilterList'
-import Scheduler from '../test/Scheduler';
+import Scheduler from '../RoomScheduleComponents/Scheduler';
 import { makeStyles } from '@material-ui/core/styles';
 // import ScrollContainer from 'react-indiana-drag-scroll'
 import NoAvailableRooms from './NoAvailableRooms';

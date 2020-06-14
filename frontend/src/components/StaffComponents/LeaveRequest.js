@@ -17,7 +17,6 @@ export default function LeaveRequest() {
   const [selectedDate, setSelectedDate] = React.useState(new Date());
   const [leaveDaysRequested, setLeaveDaysRequested] = React.useState(0);
   const cookies = new Cookies();
-  cookies.set('doctorId', 'd1', {path:'/'});
 
   React.useEffect(() => {
     axios.get('http://localhost:8080/api/doctors/leaveDaysLeft?doctorId=' + cookies.get('doctorId'), {withCredentials: true})

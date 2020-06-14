@@ -25,7 +25,6 @@ export default function ClinicRoomComponent() {
     let clinicId = 1;
     axios.get("http://localhost:8080/api/clinics/rooms?clinicId=" + clinicId, {withCredentials: true})
     .then(res => {
-      cookies.set('clinicId', 1, {path:'/'});
       setRooms(res.data);
     })
     .catch(error => {console.log(error)});
@@ -44,19 +43,18 @@ export default function ClinicRoomComponent() {
     handleClose();
     var room = document.getElementById('roomName').value;
   
-    var newRoom = {clinicId:1,room}
+    var newRoom = {clinicId:cookies.get('clinicId'),room}
     if (room === "") {
       alert("Must enter name for new name!");
     } else if (room.substring(0,4) !== 'Sala') {
       alert('Room name must start with \'Sala\' and follow with a number!');
-      console.log(room);
     } else {
       axios.post('http://localhost:8080/api/clinics/newRoom', newRoom, {withCredentials: true})
         .then((res) => {
-          console.log(res.data);
           if (res.data !== '') {
             let newRooms = rooms;
             newRooms.push(res.data);
+            console.log(res.data)
             setRooms(newRooms);
           } else {
             alert('Room with name \'' + room + '\' already exists!');
@@ -74,6 +72,8 @@ export default function ClinicRoomComponent() {
           let types = rooms.filter(room => room.roomName !== name);
           setRooms(types);
           alert('Room ' + name + ' successfully deleted!');
+        } else {
+          alert('Room can\'t be deleted!');
         }
       })
       .catch(error => console.log(error));

@@ -4,7 +4,6 @@ import java.lang.reflect.Type;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,7 +12,6 @@ import java.util.Optional;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
@@ -33,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import siit.isamrs2020.backend.Classes.Clinic;
 import siit.isamrs2020.backend.Classes.ConfirmedLeave;
 import siit.isamrs2020.backend.Classes.Doctor;
+import siit.isamrs2020.backend.Classes.Nurse;
 import siit.isamrs2020.backend.Classes.OneClickAppointment;
 import siit.isamrs2020.backend.Classes.PriceList;
 import siit.isamrs2020.backend.Classes.Room;
@@ -147,6 +146,17 @@ public class ClinicController {
     return null;
   }
 
+  @GetMapping("/nurses")
+  @ResponseBody
+  public List<Nurse> getClinicNurses(@RequestParam int clinicId) {
+    Optional<Clinic> cOptional = clinicRepository.findById(clinicId);
+    if (cOptional.isPresent()) {
+      Clinic c = cOptional.get();
+      return c.getNurses();
+    }
+    return null;
+  }
+
   @GetMapping("/rooms")
   @ResponseBody
   public List<Room> getClinicRooms(@RequestParam int clinicId) {
@@ -157,6 +167,31 @@ public class ClinicController {
     }
     return null;
   }
+
+  @PostMapping("/addDoctor")
+  @ResponseBody
+  public Doctor addNewDoctor(@RequestBody String requestData, @RequestParam int clinicId) {
+    Doctor newDoctor = gson.fromJson(requestData, Doctor.class);
+    String doctorId = "d" + (doctorRepository.findAll().size() + 1);
+    newDoctor.setId(doctorId);
+    newDoctor.setEmail("dr" + doctorId + "@mail.com");
+    newDoctor.setPassword("sifra" + doctorId);
+    int leaveDays = 20 + newDoctor.getYearsOfExperience()/3;
+    if (leaveDays > 35) {
+      leaveDays = 35;
+    }
+    newDoctor.setLeaveDays(leaveDays);
+    
+    Optional<Clinic> optionalClinic = clinicRepository.findById(clinicId);
+    if (optionalClinic.isPresent()) {
+      Clinic c = optionalClinic.get();
+      c.getDoctors().add(newDoctor);
+      clinicRepository.save(c);
+      doctorRepository.save(newDoctor);
+    }
+    return newDoctor;
+  }
+  
 
   @PostMapping("/newRoom")
   @ResponseBody
@@ -247,6 +282,12 @@ public class ClinicController {
             OneClickAppointment newAppointment = new OneClickAppointment(new Date(json.get("startTime").getAsLong()),
               json.get("duration").getAsInt(), json.get("type").getAsString(),
               json.get("room").getAsString(), d, -1, optionalPl.get().getPrices().get(json.get("type").getAsString()), true);
+            
+            for (Room r : c.getRooms()) {
+              if (r.getRoomName().equals(json.get("room").getAsString())) {
+                r.getReservations().add(new Date(json.get("startTime").getAsLong()));
+              }
+            }
             c.getOneClickAppointments().add(newAppointment);
             clinicRepository.save(c);
             return newAppointment;

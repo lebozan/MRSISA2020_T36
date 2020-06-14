@@ -19,8 +19,7 @@ export default function MakeAppointmentDoctorComponent() {
   const cookies = new Cookies();
 
   React.useEffect(() => {
-    let clinicId = 1;
-    axios.get('http://localhost:8080/api/clinics/appTypes?clinicId=' + clinicId, {withCredentials: true})
+    axios.get('http://localhost:8080/api/clinics/appTypes?clinicId=' + cookies.get('clinicId'), {withCredentials: true})
     .then(res => {
       setTypes(res.data);
     })
